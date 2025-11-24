@@ -4,7 +4,7 @@ import AboutCard from "./aboutCard";
 export default function About() {
     return (
         <motion.div
-            className="min-h-screen flex items-center container mx-auto"
+            className="min-h-screen flex  container mx-auto mb-10"
             id="about"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -12,7 +12,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
         >
                 {/* context */}
-                <div className="w-11/12 shadow-lg bg-white rounded mx-auto p-3 sm:p-8 md:p-16">
+                <div className="w-11/12 shadow-lg bg-white rounded mx-auto p-3 sm:p-8 md:p-14">
                     <h2 className=" sm:w-7/12 mb-10  font-bold text-xl">
                         با چند کلیک فاکتور بساز، و لینک فاکتور رو با لینک پرداخت
                         به مشتری بفرست . بدون دردسر، بدون پیچیدگی.
@@ -60,6 +60,7 @@ export default function About() {
                             url="/about-icons/chart.svg"
                         />
                     </div>
+                    
                 </div>
         </motion.div>
     );
