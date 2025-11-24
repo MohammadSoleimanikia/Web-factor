@@ -1,6 +1,11 @@
+import { Link } from "react-router";
 import { Button } from "./ui/button";
 import { motion } from "motion/react";
 export default function Hero() {
+    const scrollToAbout = () => {
+        const aboutSection = document.getElementById("about");
+        aboutSection?.scrollIntoView({ behavior: "smooth" });
+    };
     return (
         <motion.div
             initial={{
@@ -8,13 +13,13 @@ export default function Hero() {
                 y: 40,
             }}
             animate={{
-                opacity:1,
-                y:0
+                opacity: 1,
+                y: 0,
             }}
             transition={{
-                duration:0.6
+                duration: 0.6,
             }}
-            className="container mx-auto relative h-[calc(100vh-64px)] flex flex-col sm:flex-row justify-center sm:justify-between  items-center"
+            className="container mx-auto min-h-[calc(100vh-80px)] flex flex-col sm:flex-row  sm:justify-between  items-center"
         >
             <img
                 className="sm:w-4/6 w-full sm:block"
@@ -33,9 +38,9 @@ export default function Hero() {
                     اضافه کن، فاکتور بساز، آنلاین برای مشتری بفرست و با QR Code
                     همیشه قابل دسترس نگهش دار. همه‌چی ساده، تمیز و بدون دردسر.
                 </p>
-                <div className="flex gap-3">
-                    <Button className="mt-1">شروع کنید</Button>
-                    <Button variant={"outline"} className="mt-1">
+                <div className="flex gap-3 mt-2">
+                    <Button >شروع کنید</Button>
+                    <Button variant={"outline"} onClick={scrollToAbout}>
                         درباره ما
                     </Button>
                 </div>
