@@ -6,7 +6,5 @@ export default function Footer(){
             <h2>فاکتور ساز بی نام و نشان</h2>
             <p > 2025 </p>
         </div>
-
-        
     </footer>
 }
