@@ -22,11 +22,11 @@ export default function Hero() {
             className="container mx-auto min-h-[calc(100vh-80px)] flex flex-col sm:flex-row  sm:justify-between  items-center"
         >
             <img
-                className="sm:w-4/6 w-full sm:block"
-                src="/hero-section.png"
+                className="sm:w-3/6 md:w-4/6 w-full sm:block"
+                src="/hero-section.svg"
                 alt=""
             />
-            <div className="w-full sm:w-2/6">
+            <div className="w-full sm:w-3/6 md:w-2/6">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
                     سریع، دقیق، آماده چاپ
                 </h1>

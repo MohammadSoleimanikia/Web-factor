@@ -3,7 +3,7 @@ export default function Footer(){
         
         <div className="flex gap-2 items-center">
             <img src="/logo.png" className="size-15" alt="logo of page" />
-            <h2>فاکتور ساز بی نام و نشان</h2>
+            <h2>فاکتور ساز حرفه ای</h2>
             <p > 2025 </p>
         </div>
     </footer>

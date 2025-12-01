@@ -3,6 +3,7 @@ import type { Route } from "./+types/home";
 import Hero from "~/components/hero";
 import About from "~/components/about";
 import Footer from "@/components/footer";
+import Header from "@/components/header";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -14,9 +15,10 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
     return (
         <>
+            <Header />
             <Hero />
-            <About/>
-            <Footer/>
+            <About />
+            <Footer />
         </>
     );
 }

@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { Button } from "./ui/button";
 
 export default function Header() {
@@ -12,8 +12,14 @@ export default function Header() {
                 <img className="size-16" src="logo.png" alt="invoice logo" />
             </Link>
             <div>
-                <Button className=" ">ورود/عضویت</Button>
-                <Button onClick={scrollToAbout} className="  mr-2" variant={"outline"}>
+                <NavLink to={"/dashboard"} >
+                    <Button >ورود/عضویت</Button>
+                </NavLink>
+                <Button
+                    onClick={scrollToAbout}
+                    className="  mr-2"
+                    variant={"outline"}
+                >
                     درباره فاکتور ساز
                 </Button>
             </div>

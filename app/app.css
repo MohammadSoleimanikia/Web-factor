@@ -5,22 +5,29 @@
 
 @font-face {
     font-family: "vazir";
-    src: url("/font/Vazir.woff2") format("truetype");
+    src: url("/fonts/Vazir.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
 }
+
 @font-face {
-    font-family: "vazir-light";
-    src: url("/font/Vazir-Light.woff2") format("truetype");
-    font-weight: 100;
-    font-style: light;
+    font-family: "vazir";
+    src: url("/fonts/Vazir-Light.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
 }
+/* farsi digits font */
+@font-face {
+    font-family: "vazir";
+    src: url("/fonts/Vazir-FD-WOL.woff2") format("woff2");
+    font-weight: 400;
+    unicode-range: U+0030-0039;
+}
+
 .font-vazir {
     font-family: "vazir", sans-serif;
 }
-.font-vazir-light{
-    font-family: "vazir-light", sans-serif;
-}
+
 
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
@@ -85,6 +92,19 @@
     --shadow-opacity: var(--shadow-opacity);
     --color-shadow-color: var(--shadow-color);
     --color-destructive-foreground: var(--destructive-foreground);
+}
+@font-face {
+    font-family: "VazirText";
+    src: url("/fonts/Vazir.ttf") format("truetype");
+    font-weight: 400;
+    unicode-range: U+0600-06FF; /* حروف فارسی */
+}
+
+@font-face {
+    font-family: "VazirDigits";
+    src: url("/fonts/VazirNumbers.ttf") format("truetype");
+    font-weight: 400;
+    unicode-range: U+0030-0039; /* 0 تا 9 */
 }
 
 :root {
