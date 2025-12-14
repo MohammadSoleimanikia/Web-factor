@@ -50,7 +50,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
     return (
         <AuthProvider>
-            <div className=" font-vazir container px-4 text-right">
+            <div className=" font-vazir mx-auto px-4 sm:px-10 md:px-20 lg:px-32 text-right">
                 <Outlet />
             </div>  
         </AuthProvider>
