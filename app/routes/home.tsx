@@ -1,9 +1,8 @@
-import { Button } from "~/components/ui/button";
 import type { Route } from "./+types/home";
-import Hero from "~/components/hero";
-import About from "~/components/about";
-import Footer from "@/components/footer";
-import Header from "@/components/header";
+import Hero from "~/components/home/hero";
+import About from "@/components/home/about";
+import Footer from "@/components/home/footer";
+import Header from "@/components/home/header";
 
 export function meta({}: Route.MetaArgs) {
     return [

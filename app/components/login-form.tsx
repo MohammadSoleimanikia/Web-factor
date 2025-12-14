@@ -33,7 +33,7 @@ export function LoginForm({
         useForm<PhoneForm>();
     const { errors, isSubmitting } = formState as any;
 
-    const { logIn } = useAuth();
+    const { logIn } = useAuth();[]
     const navigate = useNavigate();
 
     const [step, setStep] = React.useState<"phone" | "otp">("phone");
@@ -162,7 +162,7 @@ export function LoginForm({
 
                                 <FieldDescription className="text-center">
                                     حساب کاربری ندارید؟{" "}
-                                    <Link to={"/login"}>ورود</Link>
+                                    <Link to={"/signup"}>ساخت حساب</Link>
                                 </FieldDescription>
                             </FieldGroup>
                         </form>

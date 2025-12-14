@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Package, Search, Settings } from "lucide-react";
+import { Users, Home, Package, Settings, ScrollText } from "lucide-react";
 
 import {
     Sidebar,
@@ -11,7 +11,7 @@ import {
     SidebarMenuItem,
     SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 
 // Menu items.
 const productItems = [
@@ -21,22 +21,23 @@ const productItems = [
         icon: Home,
     },
     {
+        title: "فاکتور ها",
+        url: "/invoices",
+        icon: ScrollText,
+    },
+    {
         title: "کالا ها",
-        url: "products",
+        url: "/products",
         icon: Package,
     },
     {
-        title: "Calendar",
+        title: "مشتریان",
         url: "#",
-        icon: Calendar,
+        icon: Users,
     },
+
     {
-        title: "Search",
-        url: "#",
-        icon: Search,
-    },
-    {
-        title: "Settings",
+        title: "تنظیمات",
         url: "#",
         icon: Settings,
     },
@@ -53,10 +54,10 @@ export function AppSidebar() {
                             {productItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <Link to={item.url}>
+                                        <NavLink to={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
-                                        </Link>
+                                        </NavLink>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}

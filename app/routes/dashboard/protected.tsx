@@ -10,9 +10,11 @@ export default function Protected() {
     if (!token) {
       navigate("/login", { replace: true });
     }
+    else{
+      navigate('/dashboard', { replace: true });
+    }
   }, [token]);
 
-  if (!token) return null;
 
   return <Outlet />;
 }
