@@ -67,6 +67,7 @@ export default function ProductTable({ reload }: { reload: number }) {
                                 <TableHead>توضیحات</TableHead>
                                 <TableHead>قیمت</TableHead>
                                 <TableHead>عملیات</TableHead>
+                                
                             </TableRow>
                         </TableHeader>
 

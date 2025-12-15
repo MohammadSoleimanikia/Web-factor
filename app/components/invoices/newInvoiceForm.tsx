@@ -34,7 +34,7 @@ export default function NewInvoiceForm() {
         handleSubmit,
         formState: { errors, isSubmitting },
         watch,
-    } = useForm<InvoiceFormType>({
+    } = useForm({
         resolver: zodResolver(InvoiceSchema),
         defaultValues: {
             items: [],
@@ -177,7 +177,6 @@ export default function NewInvoiceForm() {
                                                 {...register(
                                                     `items.${index}.quantity` as const
                                                 )}
-                                                defaultValue={item.quantity}
                                             />
                                             {errors.items?.[index]
                                                 ?.quantity && (

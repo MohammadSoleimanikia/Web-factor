@@ -53,11 +53,10 @@ export default function InvoiceTable() {
             {loading ? (
                 <ProductsSkeleton />
             ) : (
-                <>
+                <div className="my-5 ">
                     <Table className="my-5">
                         <TableHeader className="bg-muted rounded-sm">
                             <TableRow>
-                                <TableHead>شماره فاکتور</TableHead>
                                 <TableHead>نام مشتری</TableHead>
                                 <TableHead>ایمیل مشتری</TableHead>
                                 <TableHead>شماره تلفن</TableHead>
@@ -74,9 +73,6 @@ export default function InvoiceTable() {
                         <TableBody>
                             {invoices?.map((invoice: Invoice) => (
                                 <TableRow key={invoice.id}>
-                                    <TableCell className="text-right">
-                                        {invoice.id}
-                                    </TableCell>
                                     <TableCell>
                                         {invoice.customer_name || "-"}
                                     </TableCell>
@@ -125,6 +121,7 @@ export default function InvoiceTable() {
                             ))}
                         </TableBody>
                     </Table>
+                    
 
                     {totalPages > 1 && (
                         <Pagination className="mt-4">
@@ -182,7 +179,7 @@ export default function InvoiceTable() {
                             </PaginationContent>
                         </Pagination>
                     )}
-                </>
+                </div>
             )}
         </>
     );
