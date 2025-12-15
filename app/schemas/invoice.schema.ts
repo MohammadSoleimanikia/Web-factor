@@ -4,7 +4,7 @@ import { z } from "zod";
 const InvoiceItemSchema = z.object({
   product: z.number().int().positive({ message: "محصول معتبر انتخاب شود" }),
   quantity: z
-    .number()
+    .coerce.number()
     .int()
     .min(1, "تعداد باید حداقل 1 باشد")
     .max(9223372036854776000, "تعداد بسیار زیاد است"),
