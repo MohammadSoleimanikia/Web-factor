@@ -9,15 +9,20 @@ export default [
     index("routes/home.tsx"),
     route("invoice/:invoiceId", "routes/invoices/invoice.tsx"),
 
+    layout("routes/guestOnly.tsx", [
+        route("login", "routes/logIn.tsx"),
+        route("signup", "routes/signUp.tsx"),
+    ]),
     // layout
     layout("routes/dashboard/protected.tsx", [
         layout("routes/dashboard/dashboardLayout.tsx", [
             route("dashboard", "routes/dashboard/dashboard.tsx"),
             route("products", "routes/products.tsx"),
+            
             route("invoices", "routes/invoices/invoices.tsx"),
             route("invoices/new", "routes/invoices/newInvoice.tsx"),
+
+            route("profile", "routes/profile.tsx")
         ]),
-        route("login", "routes/logIn.tsx"),
-        route("signup", "routes/signUp.tsx"),
     ]),
 ] satisfies RouteConfig;
