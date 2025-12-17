@@ -13,9 +13,11 @@ export default function ProductsSkeleton() {
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Price</TableHead>
+                    <TableHead>نام</TableHead>
+                    <TableHead>توضیحات</TableHead>
+                    <TableHead>قیمت</TableHead>
+                    <TableHead>عملیات</TableHead>
+                    
                 </TableRow>
             </TableHeader>
 
@@ -27,6 +29,9 @@ export default function ProductsSkeleton() {
                         </TableCell>
                         <TableCell>
                             <Skeleton className="h-5 w-48" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton className="h-5 w-20" />
                         </TableCell>
                         <TableCell>
                             <Skeleton className="h-5 w-20" />
