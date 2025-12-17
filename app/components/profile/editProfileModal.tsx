@@ -204,14 +204,7 @@ export default function EditProfileModal({
                                 type="text"
                                 id="insta_link"
                                 placeholder="لینک اینستاگرام"
-                                {...register("insta_link", {
-                                    validate: (value) => {
-                                        if (value === "") return true;
-                                        if (value.includes(" "))
-                                            return "نباید فاصله داشته باشد";
-                                        return true;
-                                    },
-                                })}
+                                {...register("insta_link")}
                             />
                             <p className="text-red-500 text-sm">
                                 {errors.insta_link?.message}

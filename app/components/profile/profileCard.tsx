@@ -40,7 +40,7 @@ export default function ProfileCard() {
                         نام
                     </label>
                     <p className="bg-muted rounded-sm p-2">
-                        {profile.first_name} {profile.last_name}
+                        {profile.first_name } {profile.last_name}  
                     </p>
                 </div>
 
