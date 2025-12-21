@@ -9,6 +9,7 @@ import {
     LogOut,
     CircleUserRound,
     ChevronDown,
+    Palette
 } from "lucide-react";
 
 import {
@@ -31,9 +32,10 @@ import {
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-import { useAuth } from "@/store/auth";
+
 import { Button } from "./ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import useAuth from "@/store/auth";
 // Menu items.
 const productItems = [
     {
@@ -69,10 +71,15 @@ const userItems = [
         url: "#",
         icon: Settings,
     },
+    {
+        title: "شخصی سازی",
+        url: "/branding",
+        icon: Palette,
+    },
 ];
 
 export function AppSidebar() {
-    const { logOut } = useAuth();
+    const logOut = useAuth((state) => state.logOut);
     return (
         <Sidebar side="right">
             <SidebarContent>

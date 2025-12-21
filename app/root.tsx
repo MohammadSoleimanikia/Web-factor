@@ -2,7 +2,6 @@ import {
     isRouteErrorResponse,
     Links,
     Meta,
-    NavLink,
     Outlet,
     Scripts,
     ScrollRestoration,
@@ -10,7 +9,6 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { AuthProvider } from "./store/auth";
 
 export const links: Route.LinksFunction = () => [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -49,11 +47,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
     return (
-        <AuthProvider>
             <div className=" font-vazir">
                 <Outlet />
             </div>  
-        </AuthProvider>
     );
 }
 

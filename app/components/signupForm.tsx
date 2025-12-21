@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import * as React from "react";
 
 import { apiFetch } from "@/lib/api";
-import { useAuth } from "@/store/auth";
 import { useNavigate } from "react-router";
 import {
     InputOTP,
@@ -22,6 +21,7 @@ import {
     InputOTPSeparator,
     InputOTPSlot,
 } from "@/components/ui/input-otp";
+import useAuth from "@/store/auth";
 
 type PhoneForm = { phone_number: string };
 
@@ -33,7 +33,7 @@ export function SignupForm({
         useForm<PhoneForm>();
     const { errors, isSubmitting } = formState as any;
 
-    const { logIn } = useAuth();
+    const logIn = useAuth((state) => state.logIn);
     const navigate = useNavigate();
 
     const [step, setStep] = React.useState<"phone" | "otp">("phone");
