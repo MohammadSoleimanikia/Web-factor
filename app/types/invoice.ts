@@ -1,5 +1,6 @@
 export type Invoice = {
     id: string;
+    invoice_number:number;
     creator: string | null;
     items: InvoiceItem[];
     total_amount: number;
