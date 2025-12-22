@@ -8,8 +8,7 @@ const InvoiceItemSchema = z.object({
         .int()
         .min(1, "تعداد باید حداقل 1 باشد")
         .max(9223372036854776000, "تعداد بسیار زیاد است"),
-    price: z
-        .string()
+    price: z.string(),
 });
 
 // Main Invoice schema
@@ -36,7 +35,10 @@ export const InvoiceSchema = z.object({
         .min(5, "آدرس باید حداقل 5 کاراکتر باشد")
         .max(1024, "آدرس طولانی است"),
     status: z.enum(["pending", "paid", "cancelled"], "وضعیت نامعتبر است"),
-    payment_mode: z.enum(["cash", "card", "online"], "روش پرداخت نامعتبر است"),
+    payment_mode: z.enum(
+        ["cash", "card", "bank", "others"],
+        "روش پرداخت نامعتبر است"
+    ),
 });
 
 export type InvoiceFormType = z.infer<typeof InvoiceSchema>;

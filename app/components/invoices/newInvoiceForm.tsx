@@ -17,6 +17,13 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
     MultiSelect,
     MultiSelectContent,
     MultiSelectGroup,
@@ -73,7 +80,6 @@ export default function NewInvoiceForm() {
                 })),
             };
 
-
             const response = await apiFetch("/user/invoices/", {
                 method: "POST",
                 body: JSON.stringify(payload),
@@ -81,7 +87,7 @@ export default function NewInvoiceForm() {
             console.log(response);
             alert("Invoice created successfully!");
         } catch (error) {
-            console.error(error);
+            console.error("error:", error);
             alert("Error creating invoice");
         }
     };
@@ -262,6 +268,82 @@ export default function NewInvoiceForm() {
                             {errors.customer_address.message}
                         </span>
                     )}
+                </div>
+
+                <div className="flex gap-5">
+                    <div>
+                        {/* Status */}
+                        <div className="space-y-3">
+                            <Label htmlFor="status">وضعیت پرداخت</Label>
+                            <Controller
+                                control={control}
+                                name="status"
+                                render={({ field }) => (
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                    >
+                                        <SelectTrigger className=" text-right px-3 py-2 border rounded-md">
+                                            <SelectValue placeholder="وضعیت پرداخت" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="pending">
+                                                در انتظار
+                                            </SelectItem>
+                                            <SelectItem value="paid">
+                                                پرداخت شده
+                                            </SelectItem>
+                                            <SelectItem value="cancelled">
+                                                لغو شده
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
+                            {errors.status && (
+                                <span className="text-red-500">
+                                    {errors.status.message}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                    {/* Payment Method */}
+                    <div className="space-y-3">
+                        <Label htmlFor="payment_mode">روش پرداخت</Label>
+                        <Controller
+                            control={control}
+                            name="payment_mode"
+                            render={({ field }) => (
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger className="text-right px-3 py-2 border rounded-md">
+                                        <SelectValue placeholder="روش پرداخت" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="cash">
+                                            نقد
+                                        </SelectItem>
+                                        <SelectItem value="card">
+                                            کارت
+                                        </SelectItem>
+                                        <SelectItem value="bank">
+                                            بانک
+                                        </SelectItem>
+                                        <SelectItem value="others">
+                                            سایر
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
+                        {errors.payment_mode && (
+                            <span className="text-red-500">
+                                {errors.payment_mode.message}
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
 
