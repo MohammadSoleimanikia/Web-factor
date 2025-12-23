@@ -9,7 +9,7 @@ export function generateBrandingColors(hex: string) {
     return {
         base: base.hex(),
         text,
-        muted: base.alpha(0.1).css(),
+        muted: base.alpha(0.08).css(),
         border: base.darken(1).hex(),
         hover: base.brighten(0.5).hex(),
     };

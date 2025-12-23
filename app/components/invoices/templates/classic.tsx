@@ -1,22 +1,15 @@
-import type { Invoice } from "@/types/invoice";
 import useBranding from "@/store/branding";
 import type { User } from "@/types/user";
-import { toJalali } from "@/lib/jalali";
 import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
-import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
-import type { Product } from "@/types/product";
-import num2persian from "num2persian";
 import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
+import type { InvoiceViewModel } from "@/types/invoice";
 type invoiceProps = {
-    invoice: Invoice;
+    invoice: InvoiceViewModel;  
     user: User | null;
-    products: Product[];
 };
-export default function Classic({ invoice, user, products }: invoiceProps) {
+export default function Classic({ invoice, user }: invoiceProps) {
     const brandingLogo = useBranding((state) => state.logo);
     const { colors } = useBranding();
-    console.log("Invoice:", invoice);
-    console.log("User:", user);
     return (
         <div className="w-[794px] min-h-[1123px] mx-auto bg-white p-10 flex flex-col">
             <header className="pb-8">
@@ -46,42 +39,38 @@ export default function Classic({ invoice, user, products }: invoiceProps) {
                 <div>
                     <p>
                         <span className="font-semibold">شماره فاکتور:</span>
-                        <span>{invoice.invoice_number}</span>
+                        <span>{invoice.invoiceNumber}</span>
                     </p>
                     <p>
                         <span className="font-semibold">تاریخ ایجاد: </span>
-                        <span>{toJalali(invoice.created)}</span>
+                        <span>{invoice.createdAt}</span>
                     </p>
                 </div>
 
                 <div className="text-left">
-                    <h2
-                        className="font-semibold text-lg"
-                    >
-                        اطلاعات مشتری
-                    </h2>
+                    <h2 className="font-semibold text-lg">اطلاعات مشتری</h2>
                     <p>
                         <span className="font-semibold">نام : </span>
-                        <span>{invoice.customer_name}</span>
+                        <span>{invoice.customer.name}</span>
                     </p>
                     <p>
                         <span className="font-semibold">آدرس: </span>
-                        <span>{invoice.customer_address}</span>
+                        <span>{invoice.customer.address}</span>
                     </p>
                     <p>
                         <span className="font-semibold">ایمیل: </span>
-                        <span>{invoice.customer_email}</span>
+                        <span>{invoice.customer.email}</span>
                     </p>
                     <p>
                         <span className="font-semibold">تلفن: </span>
-                        <span>{invoice.customer_phone_number}</span>
+                        <span>{invoice.customer.phone}</span>
                     </p>
                 </div>
             </section>
             <section>
                 <div className="mt-10">
                     <Table className="w-full border-collapse border border-gray-300">
-                        <TableHeader>
+                        <TableHeader >
                             <TableRow
                                 style={{
                                     backgroundColor: colors?.base,
@@ -107,18 +96,16 @@ export default function Classic({ invoice, user, products }: invoiceProps) {
                             {invoice.items.map((item, index) => (
                                 <TableRow key={index}>
                                     <td className="border border-gray-300 p-2 text-right">
-                                        {products.find(
-                                            (p) => p.id === item.product
-                                        )?.name || "نام محصول نامشخص"}
+                                        {item.name}
                                     </td>
                                     <td className="border border-gray-300 p-2 text-right">
                                         {item.quantity}
                                     </td>
                                     <td className="border border-gray-300 p-2 text-right">
-                                        {item.price}
+                                        {item.unitPrice}
                                     </td>
                                     <td className="border border-gray-300 p-2 text-right">
-                                        {Number(item.price) * item.quantity}
+                                        {item.total}
                                     </td>
                                 </TableRow>
                             ))}
@@ -128,31 +115,23 @@ export default function Classic({ invoice, user, products }: invoiceProps) {
                 <div className="mt-10 space-y-2">
                     <p>
                         <span className="font-semibold pl-2">مجموع:</span>
-                        <span>{invoice.total_amount}</span>
+                        <span>{invoice.total}</span>
                     </p>
                     <p>
                         <span className="font-semibold pl-2">
                             {" "}
                             مجموع به حروف:
                         </span>
-                        <span>{num2persian(invoice.total_amount)} تومان</span>
+                        <span>{invoice.totalText}</span>
                     </p>
                     <p>
                         <span className="font-semibold">وضعیت: </span>
-                        <span>
-                            {invoice.status
-                                ? invoiceStatusFa[invoice.status]
-                                : "نامشخص"}
-                        </span>
+                        <span>{invoice.statusText}</span>
                     </p>
 
                     <p>
                         <span className="font-semibold">روش پرداخت: </span>
-                        <span>
-                            {invoice.payment_mode
-                                ? paymentModeFa[invoice.payment_mode]
-                                : "نامشخص"}
-                        </span>
+                        <span>{invoice.paymentText}</span>
                     </p>
                 </div>
             </section>

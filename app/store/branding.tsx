@@ -7,7 +7,13 @@ const useBranding = create<BrandingContextType>()(
     persist(
         (set) => ({
             color: null,
-            colors: null,
+            colors: {
+                base: "#257f8d",
+                text:"#ffffff",
+                muted: "#d9e6e9",
+                border: "#c2d1d4",
+                hover: "#b0dae0",
+            },
             logo: null,
 
             setColor: (color: string) => {

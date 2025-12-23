@@ -1,6 +1,6 @@
 export type Invoice = {
     id: string;
-    invoice_number:number;
+    invoice_number: number;
     creator: string | null;
     items: InvoiceItem[];
     total_amount: number;
@@ -26,4 +26,25 @@ export type PaginatedInvoiceList = {
     next?: string | null;
     previous?: string | null;
     results: Invoice[];
+};
+
+export type InvoiceViewModel = {
+    invoiceNumber: number;
+    createdAt: string;
+    customer: {
+        name: string | null | undefined;
+        address: string | null | undefined;
+        phone: string | null | undefined;
+        email: string;
+    };
+    items: {
+        name: string;
+        quantity: number;
+        unitPrice: string;
+        total: number;
+    }[];
+    total: number;
+    totalText: string;
+    statusText: string;
+    paymentText: string;
 };
