@@ -91,7 +91,6 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
                     <Textarea
                         placeholder="توضیحات"
                         {...register("description", {
-                            required: "توضیحات الزامی است",
                             minLength: { value: 2, message: "حداقل ۲ کاراکتر" },
                             maxLength: {
                                 value: 300,
