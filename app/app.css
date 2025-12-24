@@ -221,6 +221,17 @@
 @layer base {
     * {
         @apply border-border outline-ring/50;
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: var(--muted);
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
     }
     body {
         @apply bg-background text-foreground;
@@ -232,3 +243,4 @@
         @apply text-3xl font-semibold tracking-tight my-5;
     }
 }
+
