@@ -9,7 +9,7 @@ import {
     LogOut,
     CircleUserRound,
     ChevronDown,
-    Palette
+    Palette,
 } from "lucide-react";
 
 import {
@@ -32,9 +32,12 @@ import {
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-
 import { Button } from "./ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "./ui/collapsible";
 import useAuth from "@/store/auth";
 // Menu items.
 const productItems = [
@@ -81,7 +84,7 @@ const userItems = [
 export function AppSidebar() {
     const logOut = useAuth((state) => state.logOut);
     return (
-        <Sidebar side="right">
+        <Sidebar className="print:hidden print:m-0" side="right">
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupContent>
@@ -146,12 +149,13 @@ export function AppSidebar() {
                                 side="top"
                                 className="w-[--radix-popper-anchor-width]"
                             >
-                                <Button variant={"ghost"} onClick={logOut} asChild>
-                                    <DropdownMenuItem className="flex justify-end">
-                                        <span>خروج</span>
-                                        <LogOut />
-                                    </DropdownMenuItem>
-                                </Button>
+                                <DropdownMenuItem
+                                    onClick={logOut}
+                                    className="flex justify-end"
+                                >
+                                    <span>خروج</span>
+                                    <LogOut />
+                                </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>

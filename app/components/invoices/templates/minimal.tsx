@@ -9,7 +9,6 @@ type invoiceProps = {
 };
 export default function Minimal({ invoice, user }: invoiceProps) {
     const brandingLogo = useBranding((state) => state.logo);
-    const { colors } = useBranding();
     return (
         <div className="w-[794px] min-h-[1123px] mx-auto bg-white p-10 flex flex-col">
             <header className="flex justify-between pb-8">

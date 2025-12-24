@@ -68,7 +68,7 @@ export default function Invoice() {
     const viewModel = buildInvoiceViewModel({ invoice, products });
     return (
         <>
-            <div className="mb-4 flex gap-4">
+            <div className="mb-4 flex gap-4 print:hidden">
                 <Select value={template} onValueChange={setTemplate}>
                     <SelectTrigger className="w-fit bg-white">
                         <SelectValue placeholder="Template" />
@@ -79,9 +79,9 @@ export default function Invoice() {
                         <SelectItem value="modern">مدرن</SelectItem>
                     </SelectContent>
                 </Select>
-                <Button>چاپ</Button>
+                <Button onClick={() => window.print()}>چاپ</Button>
             </div>
-            <div className="overflow-x-scroll bg-muted p-5 space-y-3">
+            <div className="overflow-x-scroll bg-muted p-5 space-y-3 print:bg-white print:p-0 print:m-0 print:overflow-visible">
                 <div>
                     {template === "classic" ? (
                         <Classic invoice={viewModel} user={user} />

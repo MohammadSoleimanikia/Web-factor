@@ -5,10 +5,16 @@ import type { AuthContextType } from "@/types/authContext";
 
 const useAuth = create<AuthContextType>()(
     persist(
-        (set) => ({
+        (set, get) => ({
             token: null,
             logIn: (token: Token) => set({ token }),
-            logOut: () => set({ token: null }),
+            logOut: () => {
+                set({ token: null });
+                // Navigate to login if in browser
+                if (typeof window !== "undefined") {
+                    window.location.href = "/login";
+                }
+            },
         }),
         {
             name: "token", // Key for localStorage

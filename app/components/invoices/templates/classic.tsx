@@ -4,7 +4,7 @@ import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
 import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 import type { InvoiceViewModel } from "@/types/invoice";
 type invoiceProps = {
-    invoice: InvoiceViewModel;  
+    invoice: InvoiceViewModel;
     user: User | null;
 };
 export default function Classic({ invoice, user }: invoiceProps) {
@@ -70,13 +70,14 @@ export default function Classic({ invoice, user }: invoiceProps) {
             <section>
                 <div className="mt-10">
                     <Table className="w-full border-collapse border border-gray-300">
-                        <TableHeader >
+                        <TableHeader>
                             <TableRow
                                 style={{
                                     backgroundColor: colors?.base,
                                     color: colors?.text,
                                     borderColor: colors?.border,
                                 }}
+                                className="print:bg-gray-200 print:text-black"
                             >
                                 <th className="border border-gray-300 p-2 text-right">
                                     نام محصول

@@ -12,8 +12,8 @@ export default function DashboardLayout() {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset className="overflow-hidden">
-                    <SidebarTrigger className="md:hidden"/>
-                    <main className="flex flex-1 flex-col p-4">
+                    <SidebarTrigger className="md:hidden print:hidden print:m-0" />
+                    <main className="flex flex-1 flex-col p-4 print:p-0">
                         <Outlet />
                     </main>
                 </SidebarInset>

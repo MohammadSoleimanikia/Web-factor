@@ -18,7 +18,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                     <p className="flex flex-col w-fit mb-20 ">
                         <span className="font-semibold">شماره فاکتور:</span>
                         <span
-                            className="p-1 text-center"
+                            className="p-1 text-center print:bg-gray-200 print:text-black"
                             style={{ backgroundColor: colors?.hover }}
                         >
                             {invoice.invoiceNumber}
@@ -36,6 +36,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                                     color: colors?.text,
                                     borderColor: colors?.border,
                                 }}
+                                className="print:bg-gray-200 print:text-black"
                             >
                                 <th className="border border-gray-300 p-2 text-right">
                                     نام محصول
@@ -114,7 +115,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                     color: colors?.text,
                     borderColor: colors?.border,
                 }}
-                className=" w-3/12 p-2 flex flex-col justify-between"
+                className=" w-3/12 p-2 flex flex-col justify-between print:bg-transparent print:text-black"
             >
                 <div className="mt-4 space-y-20">
                     <div className="flex flex-col items-center">

@@ -28,12 +28,10 @@
     font-family: "vazir", sans-serif;
 }
 
-
 .ltr-input {
     direction: ltr;
     text-align: left;
 }
-
 
 @font-face {
     font-family: "VazirText";
@@ -42,171 +40,183 @@
     unicode-range: U+0600-06FF; /* حروف فارسی */
 }
 
-@font-face {
-    font-family: "VazirDigits";
-    src: url("/fonts/VazirNumbers.ttf") format("truetype");
-    font-weight: 400;
-    unicode-range: U+0030-0039; /* 0 تا 9 */
+@media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
 }
 :root {
-  --background: #ffffff;
-  --foreground: #1d1f20;
-  --card: #ffffff;
-  --card-foreground: #1d1f20;
-  --popover: #ffffff;
-  --popover-foreground: #1d1f20;
-  --primary: #257f8d;
-  --primary-foreground: #ffffff;
-  --secondary: #b0dae0;
-  --secondary-foreground: #1d1f20;
-  --muted: #d9e6e9;
-  --muted-foreground: #5a6d72;
-  --accent: #023347;
-  --accent-foreground: #ffffff;
-  --destructive: #d95c5c;
-  --destructive-foreground: #ffffff;
-  --border: #c2d1d4;
-  --input: #dde9ec;
-  --ring: #2a8e9e;
-  --chart-1: #2a8e9e;
-  --chart-2: #023347;
-  --chart-3: #77b8a1;
-  --chart-4: #f0c88d;
-  --chart-5: #a0bbe3;
-  --sidebar: #d9e6e9;
-  --sidebar-foreground: #1d1f20;
-  --sidebar-primary: #2a8e9e;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #023347;
-  --sidebar-accent-foreground: #e9f2f4;
-  --sidebar-border: #c2d1d4;
-  --sidebar-ring: #2a8e9e;
-  --font-sans: Geist, sans-serif;
-  --font-serif: "Lora", Georgia, serif;
-  --font-mono: "Fira Code", "Courier New", monospace;
-  --radius: 0.5rem;
-  --shadow-x: 1px;
-  --shadow-y: 2px;
-  --shadow-blur: 5px;
-  --shadow-spread: 1px;
-  --shadow-opacity: 0.06;
-  --shadow-color: hsl(0 0% 0%);
-  --shadow-2xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
-  --shadow-xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
-  --shadow-sm: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
-  --shadow: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
-  --shadow-md: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 2px 4px 0px hsl(0 0% 0% / 0.06);
-  --shadow-lg: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 4px 6px 0px hsl(0 0% 0% / 0.06);
-  --shadow-xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 8px 10px 0px hsl(0 0% 0% / 0.06);
-  --shadow-2xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.15);
-  --tracking-normal: 0em;
-  --spacing: 0.25rem;
+    --background: #ffffff;
+    --foreground: #1d1f20;
+    --card: #ffffff;
+    --card-foreground: #1d1f20;
+    --popover: #ffffff;
+    --popover-foreground: #1d1f20;
+    --primary: #257f8d;
+    --primary-foreground: #ffffff;
+    --secondary: #b0dae0;
+    --secondary-foreground: #1d1f20;
+    --muted: #d9e6e9;
+    --muted-foreground: #5a6d72;
+    --accent: #023347;
+    --accent-foreground: #ffffff;
+    --destructive: #d95c5c;
+    --destructive-foreground: #ffffff;
+    --border: #c2d1d4;
+    --input: #dde9ec;
+    --ring: #2a8e9e;
+    --chart-1: #2a8e9e;
+    --chart-2: #023347;
+    --chart-3: #77b8a1;
+    --chart-4: #f0c88d;
+    --chart-5: #a0bbe3;
+    --sidebar: #d9e6e9;
+    --sidebar-foreground: #1d1f20;
+    --sidebar-primary: #2a8e9e;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #023347;
+    --sidebar-accent-foreground: #e9f2f4;
+    --sidebar-border: #c2d1d4;
+    --sidebar-ring: #2a8e9e;
+    --font-sans: Geist, sans-serif;
+    --font-serif: "Lora", Georgia, serif;
+    --font-mono: "Fira Code", "Courier New", monospace;
+    --radius: 0.5rem;
+    --shadow-x: 1px;
+    --shadow-y: 2px;
+    --shadow-blur: 5px;
+    --shadow-spread: 1px;
+    --shadow-opacity: 0.06;
+    --shadow-color: hsl(0 0% 0%);
+    --shadow-2xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+    --shadow-xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+    --shadow-sm:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+    --shadow:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+    --shadow-md:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 2px 4px 0px hsl(0 0% 0% / 0.06);
+    --shadow-lg:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 4px 6px 0px hsl(0 0% 0% / 0.06);
+    --shadow-xl:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06),
+        1px 8px 10px 0px hsl(0 0% 0% / 0.06);
+    --shadow-2xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.15);
+    --tracking-normal: 0em;
+    --spacing: 0.25rem;
 }
 
 .dark {
-  --background: #1b1b1b;
-  --foreground: #e9f2f4;
-  --card: #023347;
-  --card-foreground: #e9f2f4;
-  --popover: #023347;
-  --popover-foreground: #e9f2f4;
-  --primary: #2a8e9e;
-  --primary-foreground: #1d1f20;
-  --secondary: #075d6d;
-  --secondary-foreground: #e9f2f4;
-  --muted: #0f2531;
-  --muted-foreground: #8a9ba0;
-  --accent: #e9f2f4;
-  --accent-foreground: #023347;
-  --destructive: #e57373;
-  --destructive-foreground: #1d1f20;
-  --border: #273e49;
-  --input: #1f333b;
-  --ring: #2a8e9e;
-  --chart-1: #2a8e9e;
-  --chart-2: #e9f2f4;
-  --chart-3: #77b8a1;
-  --chart-4: #f0c88d;
-  --chart-5: #a0bbe3;
-  --sidebar: #0a131a;
-  --sidebar-foreground: #e9f2f4;
-  --sidebar-primary: #2a8e9e;
-  --sidebar-primary-foreground: #1d1f20;
-  --sidebar-accent: #e9f2f4;
-  --sidebar-accent-foreground: #023347;
-  --sidebar-border: #1f333b;
-  --sidebar-ring: #2a8e9e;
-  --font-sans: Geist, sans-serif;
-  --font-serif: "Lora", Georgia, serif;
-  --font-mono: "Fira Code", "Courier New", monospace;
-  --radius: 0.5rem;
-  --shadow-x: 1px;
-  --shadow-y: 2px;
-  --shadow-blur: 5px;
-  --shadow-spread: 1px;
-  --shadow-opacity: 0.06;
-  --shadow-color: hsl(0 0% 0%);
-  --shadow-2xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
-  --shadow-xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
-  --shadow-sm: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
-  --shadow: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
-  --shadow-md: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 2px 4px 0px hsl(0 0% 0% / 0.06);
-  --shadow-lg: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 4px 6px 0px hsl(0 0% 0% / 0.06);
-  --shadow-xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 8px 10px 0px hsl(0 0% 0% / 0.06);
-  --shadow-2xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.15);
+    --background: #1b1b1b;
+    --foreground: #e9f2f4;
+    --card: #023347;
+    --card-foreground: #e9f2f4;
+    --popover: #023347;
+    --popover-foreground: #e9f2f4;
+    --primary: #2a8e9e;
+    --primary-foreground: #1d1f20;
+    --secondary: #075d6d;
+    --secondary-foreground: #e9f2f4;
+    --muted: #0f2531;
+    --muted-foreground: #8a9ba0;
+    --accent: #e9f2f4;
+    --accent-foreground: #023347;
+    --destructive: #e57373;
+    --destructive-foreground: #1d1f20;
+    --border: #273e49;
+    --input: #1f333b;
+    --ring: #2a8e9e;
+    --chart-1: #2a8e9e;
+    --chart-2: #e9f2f4;
+    --chart-3: #77b8a1;
+    --chart-4: #f0c88d;
+    --chart-5: #a0bbe3;
+    --sidebar: #0a131a;
+    --sidebar-foreground: #e9f2f4;
+    --sidebar-primary: #2a8e9e;
+    --sidebar-primary-foreground: #1d1f20;
+    --sidebar-accent: #e9f2f4;
+    --sidebar-accent-foreground: #023347;
+    --sidebar-border: #1f333b;
+    --sidebar-ring: #2a8e9e;
+    --font-sans: Geist, sans-serif;
+    --font-serif: "Lora", Georgia, serif;
+    --font-mono: "Fira Code", "Courier New", monospace;
+    --radius: 0.5rem;
+    --shadow-x: 1px;
+    --shadow-y: 2px;
+    --shadow-blur: 5px;
+    --shadow-spread: 1px;
+    --shadow-opacity: 0.06;
+    --shadow-color: hsl(0 0% 0%);
+    --shadow-2xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+    --shadow-xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+    --shadow-sm:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+    --shadow:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+    --shadow-md:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 2px 4px 0px hsl(0 0% 0% / 0.06);
+    --shadow-lg:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 4px 6px 0px hsl(0 0% 0% / 0.06);
+    --shadow-xl:
+        1px 2px 5px 1px hsl(0 0% 0% / 0.06),
+        1px 8px 10px 0px hsl(0 0% 0% / 0.06);
+    --shadow-2xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.15);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
+    --font-sans: var(--font-sans);
+    --font-mono: var(--font-mono);
+    --font-serif: var(--font-serif);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
 
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
+    --shadow-2xs: var(--shadow-2xs);
+    --shadow-xs: var(--shadow-xs);
+    --shadow-sm: var(--shadow-sm);
+    --shadow: var(--shadow);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
+    --shadow-xl: var(--shadow-xl);
+    --shadow-2xl: var(--shadow-2xl);
 }
 @layer base {
     * {
@@ -216,10 +226,9 @@
         @apply bg-background text-foreground;
         letter-spacing: var(--tracking-normal);
     }
-    
 }
 @layer components {
-    .title{
+    .title {
         @apply text-3xl font-semibold tracking-tight my-5;
     }
 }
