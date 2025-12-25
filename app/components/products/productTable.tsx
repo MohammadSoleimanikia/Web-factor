@@ -67,7 +67,6 @@ export default function ProductTable({ reload }: { reload: number }) {
                                 <TableHead>توضیحات</TableHead>
                                 <TableHead>قیمت</TableHead>
                                 <TableHead>عملیات</TableHead>
-                                
                             </TableRow>
                         </TableHeader>
 
@@ -105,26 +104,28 @@ export default function ProductTable({ reload }: { reload: number }) {
                     </Table>
 
                     {totalPages > 1 && (
-                        <Pagination className="mt-4">
+                        <Pagination className="mt-4" dir="rtl">
                             <PaginationContent>
-                                {/* Previous */}
+                                {/* Next (on right in RTL) */}
                                 <PaginationItem>
-                                    <PaginationPrevious
+                                    <PaginationNext
                                         onClick={() =>
-                                            page > 1 && setPage(page - 1)
+                                            page < totalPages &&
+                                            setPage(page + 1)
                                         }
                                         className={
-                                            page === 1
+                                            page === totalPages
                                                 ? "pointer-events-none opacity-50"
                                                 : ""
                                         }
                                     />
                                 </PaginationItem>
 
-                                {/* Page numbers */}
-                                {Array.from({ length: totalPages }).map(
-                                    (_, i) => {
-                                        const pageNumber = i + 1;
+                                {/* Page numbers reversed for RTL */}
+                                {Array.from({ length: totalPages })
+                                    .reverse()
+                                    .map((_, i) => {
+                                        const pageNumber = totalPages - i;
 
                                         return (
                                             <PaginationItem key={pageNumber}>
@@ -140,18 +141,16 @@ export default function ProductTable({ reload }: { reload: number }) {
                                                 </PaginationLink>
                                             </PaginationItem>
                                         );
-                                    }
-                                )}
+                                    })}
 
-                                {/* Next */}
+                                {/* Previous (on left in RTL) */}
                                 <PaginationItem>
-                                    <PaginationNext
+                                    <PaginationPrevious
                                         onClick={() =>
-                                            page < totalPages &&
-                                            setPage(page + 1)
+                                            page > 1 && setPage(page - 1)
                                         }
                                         className={
-                                            page === totalPages
+                                            page === 1
                                                 ? "pointer-events-none opacity-50"
                                                 : ""
                                         }
