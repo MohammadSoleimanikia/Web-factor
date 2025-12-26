@@ -33,7 +33,7 @@ export function LoginForm({
         useForm<PhoneForm>();
     const { errors, isSubmitting } = formState as any;
 
-    const logIn = useAuth((state) =>state.logIn);
+    const logIn = useAuth((state) => state.logIn);
     const navigate = useNavigate();
 
     const [step, setStep] = React.useState<"phone" | "otp">("phone");
@@ -61,14 +61,25 @@ export function LoginForm({
             setStep("otp");
             setLoadingOtpRequest(false);
         } catch (error) {
-            console.log(error);
             setLoadingOtpRequest(false);
+            if (
+                typeof error === "object" && error !== null &&
+                "phone_number" in error &&
+                Array.isArray((error as any).phone_number) &&
+                (error as any).phone_number[0] ===
+                    "OTP for this phone number is still valid."
+            ) {
+                alert(" هنوز معتبر است برای این شماره تلفنOPT ");
+                setPhone(data.phone_number);
+                setStep("otp");
+                return;
+            }
             const errorMessage =
                 error instanceof Object && "detail" in error
                     ? (error as Record<string, string>).detail
-                    : "پس از یک دقیقه مجددا تلاش کنید.";
+                    : "مشکلی پیش امده است.";
             setError("phone_number", { message: errorMessage });
-            console.log(error);
+            console.log("error message:", error);
         }
     }
 
@@ -118,7 +129,10 @@ export function LoginForm({
                                 </div>
 
                                 <Field>
-                                    <label className="w-full" htmlFor="phone_number">
+                                    <label
+                                        className="w-full"
+                                        htmlFor="phone_number"
+                                    >
                                         تلفن
                                     </label>
                                     <Input
@@ -182,7 +196,9 @@ export function LoginForm({
                                 <Field>
                                     <FieldLabel>کد تایید</FieldLabel>
                                     <p>کد تائید تست:</p>
-                                    <h2 className="text-center text-lg font-semibold">{displayOTP}</h2>
+                                    <h2 className="text-center text-lg font-semibold">
+                                        {displayOTP}
+                                    </h2>
                                     <InputOTP
                                         maxLength={6}
                                         value={otp}
