@@ -2,14 +2,12 @@
 import num2persian from "num2persian";
 import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 import type { Invoice } from "@/types/invoice";
-import type { Product } from "@/types/product";
 import { toJalali } from "./jalali";
 
 type InvoiceViewModelProps ={
     invoice:Invoice;
-    products: Product[];
 }
-export function buildInvoiceViewModel({invoice, products}: InvoiceViewModelProps) {
+export function buildInvoiceViewModel({invoice}: InvoiceViewModelProps) {
     return {
         invoiceNumber: invoice.invoice_number,
         createdAt: toJalali(invoice.created),
@@ -20,9 +18,8 @@ export function buildInvoiceViewModel({invoice, products}: InvoiceViewModelProps
             email:invoice.customer_email ??'',
         },
         items: invoice.items.map((item) => {
-            const product = products.find((p) => p.id === item.product);
             return {
-                name: product?.name ?? "نامشخص",
+                name: item.product.name,
                 quantity: item.quantity,
                 unitPrice: item.price,
                 total:Number(item.price) * item.quantity,

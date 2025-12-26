@@ -65,7 +65,7 @@ export default function Invoice() {
     if (error) return <div>Error: {error}</div>;
     if (!invoice) return <div>Invoice not found</div>;
 
-    const viewModel = buildInvoiceViewModel({ invoice, products });
+    const viewModel = buildInvoiceViewModel({ invoice });
     return (
         <>
             <div className="mb-4 flex gap-4 print:hidden">

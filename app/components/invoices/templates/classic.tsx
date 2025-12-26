@@ -11,7 +11,7 @@ type invoiceProps = {
 };
 export default function Classic({ invoice, user }: invoiceProps) {
     const { profile } = useAuth();
-
+    
     const colors = profile
         ? generateBrandingColors(profile.profile.hexcolor)
         : null;

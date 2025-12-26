@@ -1,6 +1,8 @@
+import type { Product } from "./product";
+
 export type Invoice = {
     id: string;
-    invoice_number: number;
+    invoice_number: string; 
     creator: string | null;
     items: InvoiceItem[];
     total_amount: number;
@@ -16,9 +18,9 @@ export type Invoice = {
 
 export type InvoiceItem = {
     id: number;
-    product: number;
+    product: Product;
+    price: number;
     quantity: number;
-    price: string;
 };
 
 export type PaginatedInvoiceList = {
@@ -29,7 +31,7 @@ export type PaginatedInvoiceList = {
 };
 
 export type InvoiceViewModel = {
-    invoiceNumber: number;
+    invoiceNumber: string;
     createdAt: string;
     customer: {
         name: string | null | undefined;
@@ -40,7 +42,7 @@ export type InvoiceViewModel = {
     items: {
         name: string;
         quantity: number;
-        unitPrice: string;
+        unitPrice: number;
         total: number;
     }[];
     total: number;
