@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // InvoiceItem schema
 const InvoiceItemSchema = z.object({
-    product: z.number().int().positive({ message: "محصول معتبر انتخاب شود" }),
+    product_id: z.number().int().positive({ message: "محصول معتبر انتخاب شود" }),
     quantity: z.coerce
         .number()
         .int()

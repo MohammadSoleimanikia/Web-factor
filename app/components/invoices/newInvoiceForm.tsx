@@ -75,6 +75,7 @@ export default function NewInvoiceForm() {
                 ...data,
                 items: data.items.map((item) => ({
                     ...item,
+                    product_id: Number(item.product_id),
                     quantity: Number(item.quantity),
                     price: Number(item.price),
                 })),
@@ -103,19 +104,19 @@ export default function NewInvoiceForm() {
                         <Label>انتخاب کالاها</Label>
                         <MultiSelect
                             values={field.value.map((item) =>
-                                String(item.product)
+                                String(item.product_id)
                             )}
                             onValuesChange={(vals) => {
                                 const newItems = vals.map((val) => {
                                     const existing = field.value.find(
-                                        (i) => i.product === Number(val)
+                                        (i) => i.product_id === Number(val)
                                     );
                                     if (existing) return existing;
                                     const product = products.find(
                                         (p) => p.id === Number(val)
                                     );
                                     return {
-                                        product: Number(val),
+                                        product_id: Number(val),
                                         quantity: 1,
                                         price: product?.price.toString() || "0",
                                     };
@@ -168,10 +169,10 @@ export default function NewInvoiceForm() {
                         <TableBody>
                             {watchedItems.map((item, index) => {
                                 const product = products.find(
-                                    (p) => p.id === item.product
+                                    (p) => p.id === item.product_id
                                 );
                                 return (
-                                    <TableRow key={item.product}>
+                                    <TableRow key={item.product_id}>
                                         <TableCell>
                                             {product?.name || "Unknown"}
                                         </TableCell>
