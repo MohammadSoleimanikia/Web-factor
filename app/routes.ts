@@ -23,7 +23,6 @@ export default [
             route("invoices/:id", "routes/invoices/invoice.tsx"),
 
             route("profile", "routes/profile.tsx"),
-            route("branding", "routes/branding.tsx"),
         ]),
     ]),
 ] satisfies RouteConfig;

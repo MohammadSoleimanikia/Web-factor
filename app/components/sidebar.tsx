@@ -75,11 +75,6 @@ const userItems = [
         url: "#",
         icon: Settings,
     },
-    {
-        title: "شخصی سازی",
-        url: "/branding",
-        icon: Palette,
-    },
 ];
 
 export function AppSidebar() {
@@ -130,7 +125,7 @@ export function AppSidebar() {
                                             </SidebarMenuItem>
                                         ))}
                                         <SidebarMenuItem>
-                                            <ModeToggle/>
+                                            <ModeToggle />
                                         </SidebarMenuItem>
                                     </SidebarMenu>
                                 </SidebarGroupContent>
