@@ -59,7 +59,7 @@ const productItems = [
     },
     {
         title: "مشتریان",
-        url: "#",
+        url: "/customers",
         icon: Users,
     },
 ];
