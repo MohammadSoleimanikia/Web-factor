@@ -66,7 +66,16 @@ export default function NewInvoiceForm() {
                 console.error(err);
             }
         };
+        const fetchCustomers = async () => {
+            try {
+                const data = await apiFetch("/account/customers/?page_size=1000");
+                setProducts(data.results);
+            } catch (err) {
+                console.error(err);
+            }
+        };
         fetchProducts();
+        fetchCustomers();
     }, []);
 
     const onSubmit = async (data: InvoiceFormType) => {
