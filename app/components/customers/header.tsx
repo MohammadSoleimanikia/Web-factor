@@ -5,7 +5,7 @@ import {
     InputGroupButton,
     InputGroupInput,
 } from "../ui/input-group";
-import AddCustomerModal from "./addcustomerModal";
+import AddCustomerModal from "./addCustomerModal";
 
 export default function Header({ onAdded }: { onAdded: () => void }) {
     return (
