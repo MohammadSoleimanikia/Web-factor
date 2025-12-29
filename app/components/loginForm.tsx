@@ -22,7 +22,7 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp";
 import useAuth from "@/store/auth";
-
+import { toast } from "sonner"
 type PhoneForm = { phone_number: string };
 
 export function LoginForm({
@@ -69,7 +69,7 @@ export function LoginForm({
                 (error as any).phone_number[0] ===
                     "OTP for this phone number is still valid."
             ) {
-                alert(" هنوز معتبر است برای این شماره تلفنOPT ");
+                toast.info("کد OTP هنوز معتبر است برای این شماره تلفن");
                 setPhone(data.phone_number);
                 setStep("otp");
                 return;

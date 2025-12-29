@@ -16,6 +16,7 @@ import { apiFetch } from "@/lib/api";
 import { getStoredToken } from "@/lib/authStorage";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
+import { toast } from "sonner";
 export default function EditProfileModal({
     profile,
     setReload,
@@ -102,7 +103,8 @@ export default function EditProfileModal({
                 throw errorData;
             }
             setSuccess(true);
-            alert("پروفایل با موفقیت ویرایش شد");
+            toast.success("پروفایل با موفقیت ویرایش شد!");
+            
             
             setReload((prev) => prev + 1);
             setOpen(false);
@@ -285,9 +287,8 @@ export default function EditProfileModal({
                                     if (!file) return;
 
                                     if (file.size > MAX_SIZE) {
-                                        alert(
-                                            "حجم فایل باید کمتر از 25 باشد"
-                                        );
+                                        
+                                        toast.success("حجم فایل باید کمتر از 25 باشد");
                                         e.target.value = ""; // ریست input
                                         setLogoFile(null);
                                         return;

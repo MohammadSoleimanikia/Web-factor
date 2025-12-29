@@ -35,6 +35,7 @@ import type { Customer } from "@/types/customer";
 import { set } from "zod";
 import { Combobox } from "../ui/comboBox";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export default function NewInvoiceForm() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -108,12 +109,11 @@ export default function NewInvoiceForm() {
                 method: "POST",
                 body: JSON.stringify(payload),
             });
-            console.log(response);
+            toast.success("فاکتور با موفقیت ساخته شد!");
             Navigate(`/invoices/${response.id}`);
-            alert("Invoice created successfully!");
         } catch (error) {
             console.error("error:", error);
-            alert("Error creating invoice");
+            toast.error("خطا در ساخت فاکتور. لطفا دوباره تلاش کنید.");
         }
     };
 
