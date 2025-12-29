@@ -31,7 +31,7 @@ export default function InvoiceTable() {
     const totalPages = Math.ceil(count / pageSize);
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchInvoices = async () => {
             setLoading(true);
 
             try {
@@ -47,7 +47,7 @@ export default function InvoiceTable() {
             setLoading(false);
         };
 
-        fetchProducts();
+        fetchInvoices();
     }, [page]);
     return (
         <>
