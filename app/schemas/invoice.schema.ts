@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { custom, z } from "zod";
 
 // InvoiceItem schema
 const InvoiceItemSchema = z.object({
@@ -17,6 +17,7 @@ export const InvoiceSchema = z.object({
         .array(InvoiceItemSchema)
         .nonempty("حداقل یک آیتم الزامی است")
         .min(1, "حداقل یک آیتم الزامی است"),
+        customer_id: z.number().int().positive().optional(),
     customer_name: z
         .string()
         .min(2, "نام مشتری باید حداقل 2 کاراکتر باشد")

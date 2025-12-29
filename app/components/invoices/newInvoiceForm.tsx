@@ -31,9 +31,13 @@ import {
     MultiSelectTrigger,
     MultiSelectValue,
 } from "@/components/ui/multi-select";
+import type { Customer } from "@/types/customer";
+import { set } from "zod";
+import { Combobox } from "../ui/comboBox";
 
 export default function NewInvoiceForm() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [customers, setCustomers] = useState<Customer[]>([]);
 
     const {
         control,
@@ -41,6 +45,7 @@ export default function NewInvoiceForm() {
         handleSubmit,
         formState: { errors, isSubmitting },
         watch,
+        setValue,
     } = useForm({
         resolver: zodResolver(InvoiceSchema),
         defaultValues: {
@@ -56,6 +61,11 @@ export default function NewInvoiceForm() {
 
     const watchedItems = watch("items");
 
+    const customerOptions = customers.map((c) => ({
+        value: c.customer_name,
+        id: c.id,
+    }));
+
     // Fetch all products
     useEffect(() => {
         const fetchProducts = async () => {
@@ -68,8 +78,10 @@ export default function NewInvoiceForm() {
         };
         const fetchCustomers = async () => {
             try {
-                const data = await apiFetch("/account/customers/?page_size=1000");
-                setProducts(data.results);
+                const data = await apiFetch(
+                    "/account/customers/?page_size=1000"
+                );
+                setCustomers(data.results);
             } catch (err) {
                 console.error(err);
             }
@@ -231,6 +243,62 @@ export default function NewInvoiceForm() {
                 </div>
             )}
 
+            {/* search customer */}
+            <Controller
+                control={control}
+                name="customer_id"
+                render={({ field }) => (
+                    <div className="space-y-2 sm:w-6/12">
+                        <Label>انتخاب و جستجوی مشتری</Label>
+                        <Combobox
+                            items={customerOptions.map((c) => ({
+                                value: c.value,
+                                label: c.value,
+                            }))}
+                            value={
+                                field.value
+                                    ? customers.find(
+                                        (c) => c.id === field.value
+                                    )?.customer_name
+                                    : undefined
+                            }
+                            onChange={(val) => {
+                                const selectedCustomer = customers.find(
+                                    (c) => c.customer_name === val
+                                );
+
+                                if (!selectedCustomer) return;
+
+                                field.onChange(selectedCustomer.id);
+
+                                setValue(
+                                    "customer_name",
+                                    selectedCustomer.customer_name
+                                );
+                                setValue(
+                                    "customer_phone_number",
+                                    selectedCustomer.customer_phone_number || ""
+                                );
+                                setValue(
+                                    "customer_email",
+                                    selectedCustomer.customer_email || ""
+                                );
+                                setValue(
+                                    "customer_address",
+                                    selectedCustomer.customer_address || ""
+                                );
+                            }}
+                            placeholder="مشتری را انتخاب کن"
+                            searchPlaceholder="جستجوی مشتری..."
+                        />
+                        {errors.customer_id && (
+                            <span className="text-red-500">
+                                {errors.customer_id.message}
+                            </span>
+                        )}
+                    </div>
+                )}
+            />
             {/* Customer Details */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3">
