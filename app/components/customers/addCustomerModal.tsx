@@ -12,6 +12,7 @@ import type { CustomerCreate } from "@/types/customer";
 import { Input } from "../ui/input";
 import { apiFetch } from "@/lib/api";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function AddCustomerModal({
     onAdded,
@@ -19,7 +20,6 @@ export default function AddCustomerModal({
     onAdded?: () => void;
 }) {
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
 
     const {
         register,
@@ -32,12 +32,11 @@ export default function AddCustomerModal({
     const onSubmit = async (data: CustomerCreate) => {
         try {
             setLoading(true);
-            setSuccess(false);
             await apiFetch("/account/customers/", {
                 method: "POST",
                 body: JSON.stringify(data),
             });
-            setSuccess(true);
+            toast.success("مشتری با موفقیت افزوده شد");
             reset();
             onAdded?.();
         } catch (err: any) {
@@ -131,11 +130,7 @@ export default function AddCustomerModal({
                         {" "}
                         {errors.root?.message}
                     </p>
-                    {success && (
-                        <p className="text-green-500 text-center mt-2">
-                            مشتری با موفقیت اضافه شد!
-                        </p>
-                    )}
+                    
                 </form>
             </DialogContent>
         </Dialog>
