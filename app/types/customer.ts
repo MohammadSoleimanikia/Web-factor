@@ -1,13 +1,13 @@
 export type Customer = {
     id: number;
-    customer_name: string;
-    customer_phone_number: string;
-    customer_email: string;
-    customer_address: string;
+    name: string;
+    phone_number: string;
+    email: string;
+    address: string;
 };
 export type CustomerCreate = {
-    customer_name: string;
-    customer_phone_number: string;
-    customer_email?: string;
-    customer_address?: string;
+    name: string;
+    phone_number: string;
+    email?: string;
+    address?: string;
 };

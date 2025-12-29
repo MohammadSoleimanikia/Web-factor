@@ -81,7 +81,7 @@ export default function AddCustomerModal({
                     <Input
                         type="text"
                         placeholder="نام مشتری"
-                        {...register("customer_name", {
+                        {...register("name", {
                             required: "نام مشتری الزامی است",
                             minLength: { value: 2, message: "حداقل ۲ کاراکتر" },
                             maxLength: {
@@ -91,34 +91,34 @@ export default function AddCustomerModal({
                         })}
                     />
                     <p className="text-red-500 text-sm">
-                        {errors.customer_name?.message}
+                        {errors.name?.message}
                     </p>
 
                     <Input
                         type="email"
                         placeholder="ایمیل مشتری"
-                        {...register("customer_email", {})}
+                        {...register("email", {})}
                     />
                     <p className="text-red-500 text-sm">
-                        {errors.customer_email?.message}
+                        {errors.email?.message}
                     </p>
 
                     <Input
                         type="text"
                         placeholder="شماره تلفن مشتری"
-                        {...register("customer_phone_number", {
+                        {...register("phone_number", {
                             required: "شماره تلفن مشتری الزامی است",
                         })}
                     />
                     <p className="text-red-500 text-sm">
-                        {errors.customer_phone_number?.message}
+                        {errors.phone_number?.message}
                     </p>
                     <Input
                         placeholder=" آدرس مشتری"
-                        {...register("customer_address", {})}
+                        {...register("address", {})}
                     />
                     <p className="text-red-500 text-sm">
-                        {errors.customer_address?.message}
+                        {errors.address?.message}
                     </p>
                     <Button
                         type="submit"

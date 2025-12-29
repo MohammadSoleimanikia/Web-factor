@@ -65,7 +65,7 @@ export default function NewInvoiceForm() {
     const watchedItems = watch("items");
 
     const customerOptions = customers.map((c) => ({
-        value: c.customer_name,
+        value: c.name,
         id: c.id,
     }));
 
@@ -262,12 +262,12 @@ export default function NewInvoiceForm() {
                                 field.value
                                     ? customers.find(
                                         (c) => c.id === field.value
-                                    )?.customer_name
+                                    )?.name
                                     : undefined
                             }
                             onChange={(val) => {
                                 const selectedCustomer = customers.find(
-                                    (c) => c.customer_name === val
+                                    (c) => c.name === val
                                 );
 
                                 if (!selectedCustomer) return;
@@ -276,19 +276,19 @@ export default function NewInvoiceForm() {
 
                                 setValue(
                                     "customer_name",
-                                    selectedCustomer.customer_name
+                                    selectedCustomer.name
                                 );
                                 setValue(
                                     "customer_phone_number",
-                                    selectedCustomer.customer_phone_number || ""
+                                    selectedCustomer.phone_number || ""
                                 );
                                 setValue(
                                     "customer_email",
-                                    selectedCustomer.customer_email || ""
+                                    selectedCustomer.email || ""
                                 );
                                 setValue(
                                     "customer_address",
-                                    selectedCustomer.customer_address || ""
+                                    selectedCustomer.address || ""
                                 );
                             }}
                             placeholder="مشتری را انتخاب کن"
