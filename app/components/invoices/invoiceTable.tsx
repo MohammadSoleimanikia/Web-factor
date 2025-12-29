@@ -74,17 +74,15 @@ export default function InvoiceTable() {
                         <TableBody>
                             {invoices?.map((invoice: Invoice) => (
                                 <TableRow key={invoice.id}>
+                                    <TableCell>{invoice.name || "-"}</TableCell>
                                     <TableCell>
-                                        {invoice.customer_name || "-"}
+                                        {invoice.email || "-"}
                                     </TableCell>
                                     <TableCell>
-                                        {invoice.customer_email || "-"}
+                                        {invoice.phone_number || "-"}
                                     </TableCell>
                                     <TableCell>
-                                        {invoice.customer_phone_number || "-"}
-                                    </TableCell>
-                                    <TableCell>
-                                        {invoice.customer_address || "-"}
+                                        {invoice.address || "-"}
                                     </TableCell>
                                     <TableCell>
                                         {invoice.status || "-"}

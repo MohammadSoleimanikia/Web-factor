@@ -4,30 +4,32 @@ import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 import type { Invoice } from "@/types/invoice";
 import { toJalali } from "./jalali";
 
-type InvoiceViewModelProps ={
-    invoice:Invoice;
-}
-export function buildInvoiceViewModel({invoice}: InvoiceViewModelProps) {
+type InvoiceViewModelProps = {
+    invoice: Invoice;
+};
+export function buildInvoiceViewModel({ invoice }: InvoiceViewModelProps) {
     return {
         invoiceNumber: invoice.invoice_number,
         createdAt: toJalali(invoice.created),
         customer: {
-            name: invoice.customer_name,
-            address: invoice.customer_address,
-            phone: invoice.customer_phone_number,
-            email:invoice.customer_email ??'',
+            name: invoice.name,
+            address: invoice.address,
+            phone: invoice.phone_number,
+            email: invoice.email ?? "",
         },
         items: invoice.items.map((item) => {
             return {
                 name: item.product.name,
                 quantity: item.quantity,
                 unitPrice: item.price,
-                total:Number(item.price) * item.quantity,
+                total: Number(item.price) * item.quantity,
             };
         }),
         total: invoice.total_amount,
         totalText: num2persian(invoice.total_amount),
         statusText: invoice.status ? invoiceStatusFa[invoice.status] : "نامشخص",
-        paymentText: invoice.payment_mode ? paymentModeFa[invoice.payment_mode] : "نامشخص",
+        paymentText: invoice.payment_mode
+            ? paymentModeFa[invoice.payment_mode]
+            : "نامشخص",
     };
 }

@@ -74,13 +74,13 @@ export default function CustomersTable({ reload }: { reload: number }) {
                             {customers?.map((c: Customer) => (
                                 <TableRow key={c.id}>
                                     <TableCell className="text-right">
-                                        {c.customer_name}
+                                        {c.name}
                                     </TableCell>
                                     <TableCell>
-                                        {c.customer_address || "-"}
+                                        {c.address || "-"}
                                     </TableCell>
                                     <TableCell className="flex items-center gap-2">
-                                        <span>{c.customer_phone_number}</span>
+                                        <span>{c.phone_number}</span>
                                     </TableCell>
                                     <TableCell>
                                         <Button

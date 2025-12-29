@@ -53,10 +53,10 @@ export default function NewInvoiceForm() {
         resolver: zodResolver(InvoiceSchema),
         defaultValues: {
             items: [],
-            customer_name: "",
-            customer_phone_number: "",
-            customer_email: "",
-            customer_address: "",
+            name: "",
+            phone_number: "",
+            email: "",
+            address: "",
             status: "pending",
             payment_mode: "cash",
         },
@@ -249,7 +249,7 @@ export default function NewInvoiceForm() {
             {/* search customer */}
             <Controller
                 control={control}
-                name="customer_id"
+                name="id"
                 render={({ field }) => (
                     <div className="space-y-2 sm:w-6/12">
                         <Label>انتخاب و جستجوی مشتری</Label>
@@ -275,28 +275,28 @@ export default function NewInvoiceForm() {
                                 field.onChange(selectedCustomer.id);
 
                                 setValue(
-                                    "customer_name",
+                                    "name",
                                     selectedCustomer.name
                                 );
                                 setValue(
-                                    "customer_phone_number",
+                                    "phone_number",
                                     selectedCustomer.phone_number || ""
                                 );
                                 setValue(
-                                    "customer_email",
+                                    "email",
                                     selectedCustomer.email || ""
                                 );
                                 setValue(
-                                    "customer_address",
+                                    "address",
                                     selectedCustomer.address || ""
                                 );
                             }}
                             placeholder="مشتری را انتخاب کن"
                             searchPlaceholder="جستجوی مشتری..."
                         />
-                        {errors.customer_id && (
+                        {errors.id && (
                             <span className="text-red-500">
-                                {errors.customer_id.message}
+                                {errors.id.message}
                             </span>
                         )}
                     </div>
@@ -305,48 +305,48 @@ export default function NewInvoiceForm() {
             {/* Customer Details */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3">
-                    <Label htmlFor="customer_name">نام مشتری</Label>
-                    <Input {...register("customer_name")} id="customer_name" />
-                    {errors.customer_name && (
+                    <Label htmlFor="name">نام مشتری</Label>
+                    <Input {...register("name")} id="name" />
+                    {errors.name && (
                         <span className="text-red-500">
-                            {errors.customer_name.message}
+                            {errors.name.message}
                         </span>
                     )}
                 </div>
                 <div className="space-y-3">
-                    <Label htmlFor="customer_phone_number">شماره تلفن</Label>
+                    <Label htmlFor="phone_number">شماره تلفن</Label>
                     <Input
-                        {...register("customer_phone_number")}
-                        id="customer_phone_number"
+                        {...register("phone_number")}
+                        id="phone_number"
                     />
-                    {errors.customer_phone_number && (
+                    {errors.phone_number && (
                         <span className="text-red-500">
-                            {errors.customer_phone_number.message}
+                            {errors.phone_number.message}
                         </span>
                     )}
                 </div>
                 <div className="space-y-3">
-                    <Label htmlFor="customer_email">ایمیل</Label>
+                    <Label htmlFor="email">ایمیل</Label>
                     <Input
-                        {...register("customer_email")}
-                        id="customer_email"
+                        {...register("email")}
+                        id="email"
                         type="email"
                     />
-                    {errors.customer_email && (
+                    {errors.email && (
                         <span className="text-red-500">
-                            {errors.customer_email.message}
+                            {errors.email.message}
                         </span>
                     )}
                 </div>
                 <div className="space-y-3">
-                    <Label htmlFor="customer_address">آدرس</Label>
+                    <Label htmlFor="address">آدرس</Label>
                     <Input
-                        {...register("customer_address")}
-                        id="customer_address"
+                        {...register("address")}
+                        id="address"
                     />
-                    {errors.customer_address && (
+                    {errors.address && (
                         <span className="text-red-500">
-                            {errors.customer_address.message}
+                            {errors.address.message}
                         </span>
                     )}
                 </div>

@@ -14,10 +14,10 @@ import { Textarea } from "../ui/textarea";
 import { apiFetch } from "@/lib/api";
 import num2persian from "num2persian";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] =useState(false);
     const [numPersian, setNumPersian] =useState("");
 
     const {
@@ -31,12 +31,11 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
     const onSubmit = async (data: ProductCreate) => {
         try {
             setLoading(true);
-            setSuccess(false);
             await apiFetch("/user/products/", {
                 method: "POST",
                 body: JSON.stringify(data),
             });
-            setSuccess(true);
+            toast.success("کالا با موفقیت افزوده شد");
             reset();
             onAdded?.();
             setNumPersian("");
@@ -129,11 +128,7 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
                         {" "}
                         {errors.root?.message}
                     </p>
-                    {success && (
-                        <p className="text-green-500 text-center mt-2">
-                            محصول با موفقیت اضافه شد!
-                        </p>
-                    )}
+                    
                 </form>
             </DialogContent>
         </Dialog>
