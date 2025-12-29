@@ -132,7 +132,7 @@ export default function EditProfileModal({
                 <DialogTrigger asChild onClick={() => setOpen(true)}>
                     <Button>ویرایش پروفایل</Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent >
                     <DialogHeader>
                         <DialogTitle>ویرایش پروفایل</DialogTitle>
                         <DialogDescription>
@@ -141,7 +141,7 @@ export default function EditProfileModal({
                     </DialogHeader>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
-                        className="space-y-5"
+                        className="space-y-5 grid grid-cols-2 gap-x-4"
                     >
                         <div className="space-y-2">
                             <Label htmlFor="first_name">نام</Label>
