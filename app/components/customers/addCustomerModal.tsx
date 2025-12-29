@@ -92,7 +92,6 @@ export default function AddCustomerModal({
                         type="text"
                         placeholder="ایمیل مشتری"
                         {...register("customer_email", {
-                            required: "ایمیل مشتری الزامی است",
                         })}
                         typeof="email"
                     />
