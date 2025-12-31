@@ -50,7 +50,7 @@ export function SignupForm({
         try {
             setLoadingOtpRequest(true);
             // request backend to send OTP to phone
-            const res = await apiFetch("/account/request_otp/", {
+            const res = await apiFetch<any>("/account/request_otp/", {
                 method: "POST",
                 body: JSON.stringify({ phone_number: data.phone_number }),
             });
@@ -94,7 +94,7 @@ export function SignupForm({
 
         try {
             setLoadingVerify(true);
-            const result = await apiFetch("/account/register/", {
+            const result = await apiFetch<any>("/account/register/", {
                 method: "POST",
                 body: JSON.stringify({ phone_number: phone, otp_code: otp }),
             });
@@ -208,15 +208,15 @@ export function SignupForm({
                                         }
                                     >
                                         <InputOTPGroup>
-                                            <InputOTPSlot index={0} />
-                                            <InputOTPSlot index={1} />
-                                            <InputOTPSlot index={2} />
+                                            <InputOTPSlot index={5} />
+                                            <InputOTPSlot index={4} />
+                                            <InputOTPSlot index={3} />
                                         </InputOTPGroup>
                                         <InputOTPSeparator />
                                         <InputOTPGroup>
-                                            <InputOTPSlot index={3} />
-                                            <InputOTPSlot index={4} />
-                                            <InputOTPSlot index={5} />
+                                            <InputOTPSlot index={2} />
+                                            <InputOTPSlot index={1} />
+                                            <InputOTPSlot index={0} />
                                         </InputOTPGroup>
                                     </InputOTP>
                                 </Field>
