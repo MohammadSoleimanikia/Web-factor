@@ -9,3 +9,9 @@ export type ProductCreate = {
     description: string;
     price: number;
 };
+export type PaginatedProductList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Product[];
+};

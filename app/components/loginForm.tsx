@@ -22,8 +22,12 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp";
 import useAuth from "@/store/auth";
-import { toast } from "sonner"
+import { toast } from "sonner";
+import type { Token } from "@/types/token";
 type PhoneForm = { phone_number: string };
+type RequestOtpResponse = {
+    Code: string;
+};
 
 export function LoginForm({
     className,
@@ -49,7 +53,7 @@ export function LoginForm({
         try {
             setLoadingOtpRequest(true);
             // request backend to send OTP to phone
-            const res = await apiFetch("/account/request_otp/", {
+            const res = await apiFetch<RequestOtpResponse>("/account/request_otp/", {
                 method: "POST",
                 body: JSON.stringify({ phone_number: data.phone_number }),
             });
@@ -63,7 +67,8 @@ export function LoginForm({
         } catch (error) {
             setLoadingOtpRequest(false);
             if (
-                typeof error === "object" && error !== null &&
+                typeof error === "object" &&
+                error !== null &&
                 "phone_number" in error &&
                 Array.isArray((error as any).phone_number) &&
                 (error as any).phone_number[0] ===
@@ -93,7 +98,7 @@ export function LoginForm({
 
         try {
             setLoadingVerify(true);
-            const result = await apiFetch("/account/register/", {
+            const result = await apiFetch<Token>("/account/register/", {
                 method: "POST",
                 body: JSON.stringify({ phone_number: phone, otp_code: otp }),
             });

@@ -24,7 +24,7 @@ async function refreshToken() {
     return newToken.access;
 }
 
-export async function apiFetch(url: string, options: RequestInit = {}) {
+export async function apiFetch<T>(url: string, options: RequestInit = {}): Promise<T> {
     const token = getStoredToken();
 
     let headers: Record<string, string> = {
@@ -47,7 +47,7 @@ export async function apiFetch(url: string, options: RequestInit = {}) {
         if (!newAccess) {
             localStorage.removeItem("auth");
             window.location.href = "/login";
-            return;
+            throw new Error("Session expired");
         }
 
         headers.Authorization = `Bearer ${newAccess}`;

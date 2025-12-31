@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InvoiceSchema, type InvoiceFormType } from "@/schemas/invoice.schema";
 import { apiFetch } from "@/lib/api";
-import type { Product } from "@/types/product";
+import type { PaginatedProductList, Product } from "@/types/product";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,11 +31,11 @@ import {
     MultiSelectTrigger,
     MultiSelectValue,
 } from "@/components/ui/multi-select";
-import type { Customer } from "@/types/customer";
-import { set } from "zod";
+import type { Customer, PaginatedCustomerList } from "@/types/customer";
 import { Combobox } from "../ui/comboBox";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import type { Invoice } from "@/types/invoice";
 
 export default function NewInvoiceForm() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -53,10 +53,10 @@ export default function NewInvoiceForm() {
         resolver: zodResolver(InvoiceSchema),
         defaultValues: {
             items: [],
-            name: "",
-            phone_number: "",
-            email: "",
-            address: "",
+            customer_name: "",
+            customer_phone_number: "",
+            customer_email: "",
+            customer_address: "",
             status: "pending",
             payment_mode: "cash",
         },
@@ -73,7 +73,7 @@ export default function NewInvoiceForm() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const data = await apiFetch("/user/products/?page_size=1000");
+                const data = await apiFetch<PaginatedProductList>("/user/products/?page_size=1000");
                 setProducts(data.results);
             } catch (err) {
                 console.error(err);
@@ -81,7 +81,7 @@ export default function NewInvoiceForm() {
         };
         const fetchCustomers = async () => {
             try {
-                const data = await apiFetch(
+                const data = await apiFetch<PaginatedCustomerList>(
                     "/account/customers/?page_size=1000"
                 );
                 setCustomers(data.results);
@@ -105,10 +105,11 @@ export default function NewInvoiceForm() {
                 })),
             };
 
-            const response = await apiFetch("/user/invoices/", {
+            const response = await apiFetch<Invoice>("/user/invoices/", {
                 method: "POST",
                 body: JSON.stringify(payload),
             });
+            console.log("response:", response);
             toast.success("فاکتور با موفقیت ساخته شد!");
             Navigate(`/invoices/${response.id}`);
         } catch (error) {
@@ -275,19 +276,19 @@ export default function NewInvoiceForm() {
                                 field.onChange(selectedCustomer.id);
 
                                 setValue(
-                                    "name",
+                                    "customer_name",
                                     selectedCustomer.name
                                 );
                                 setValue(
-                                    "phone_number",
+                                    "customer_phone_number",
                                     selectedCustomer.phone_number || ""
                                 );
                                 setValue(
-                                    "email",
+                                    "customer_email",
                                     selectedCustomer.email || ""
                                 );
                                 setValue(
-                                    "address",
+                                    "customer_address",
                                     selectedCustomer.address || ""
                                 );
                             }}
@@ -305,48 +306,58 @@ export default function NewInvoiceForm() {
             {/* Customer Details */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3">
-                    <Label htmlFor="name">نام مشتری</Label>
-                    <Input {...register("name")} id="name" />
-                    {errors.name && (
+                    <Label htmlFor="customer_name">نام مشتری</Label>
+                    <Input {...register("customer_name",{
+                        required: "نام مشتری الزامی است",
+                        minLength: {
+                            value: 2,
+                            message: "نام مشتری باید حداقل 2 کاراکتر باشد",
+                        },
+                        maxLength: {
+                            value: 255,
+                            message: "نام مشتری نمی‌تواند بیشتر از 255 کاراکتر باشد",
+                        },
+                    })} id="customer_name" />
+                    {errors.customer_name && (
                         <span className="text-red-500">
-                            {errors.name.message}
+                            {errors.customer_name.message}
                         </span>
                     )}
                 </div>
                 <div className="space-y-3">
-                    <Label htmlFor="phone_number">شماره تلفن</Label>
+                    <Label htmlFor="customer_phone_number">شماره تلفن</Label>
                     <Input
-                        {...register("phone_number")}
-                        id="phone_number"
+                        {...register("customer_phone_number")}
+                        id="customer_phone_number"
                     />
-                    {errors.phone_number && (
+                    {errors.customer_phone_number && (
                         <span className="text-red-500">
-                            {errors.phone_number.message}
+                            {errors.customer_phone_number.message}
                         </span>
                     )}
                 </div>
                 <div className="space-y-3">
-                    <Label htmlFor="email">ایمیل</Label>
+                    <Label htmlFor="customer_email">ایمیل</Label>
                     <Input
-                        {...register("email")}
-                        id="email"
+                        {...register("customer_email")}
+                        id="customer_email"
                         type="email"
                     />
-                    {errors.email && (
+                    {errors.customer_email && (
                         <span className="text-red-500">
-                            {errors.email.message}
+                            {errors.customer_email.message}
                         </span>
                     )}
                 </div>
                 <div className="space-y-3">
-                    <Label htmlFor="address">آدرس</Label>
+                    <Label htmlFor="customer_address">آدرس</Label>
                     <Input
-                        {...register("address")}
-                        id="address"
+                        {...register("customer_address")}
+                        id="customer_address"
                     />
-                    {errors.address && (
+                    {errors.customer_address && (
                         <span className="text-red-500">
-                            {errors.address.message}
+                            {errors.customer_address.message}
                         </span>
                     )}
                 </div>

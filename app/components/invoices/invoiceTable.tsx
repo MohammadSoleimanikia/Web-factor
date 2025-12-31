@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import type { Invoice } from "@/types/invoice";
+import type { Invoice, PaginatedInvoiceList } from "@/types/invoice";
 import { apiFetch } from "@/lib/api";
 import { Button } from "../ui/button";
 
@@ -24,7 +24,7 @@ import { Link } from "react-router";
 
 export default function InvoiceTable() {
     const [loading, setLoading] = useState(true);
-    const [invoices, setInvoices] = useState([]);
+    const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [page, setPage] = useState(1);
     const pageSize = 10;
     const [count, setCount] = useState(0);
@@ -35,7 +35,7 @@ export default function InvoiceTable() {
             setLoading(true);
 
             try {
-                const data = await apiFetch(
+                const data = await apiFetch<PaginatedInvoiceList>(
                     `/user/invoices/?page=${page}&page_size=${pageSize}`
                 );
                 setInvoices(data.results);
@@ -74,15 +74,15 @@ export default function InvoiceTable() {
                         <TableBody>
                             {invoices?.map((invoice: Invoice) => (
                                 <TableRow key={invoice.id}>
-                                    <TableCell>{invoice.name || "-"}</TableCell>
+                                    <TableCell>{invoice.customer_name || "-"}</TableCell>
                                     <TableCell>
-                                        {invoice.email || "-"}
+                                        {invoice.customer_email || "-"}
                                     </TableCell>
                                     <TableCell>
-                                        {invoice.phone_number || "-"}
+                                        {invoice.customer_phone_number || "-"}
                                     </TableCell>
                                     <TableCell>
-                                        {invoice.address || "-"}
+                                        {invoice.customer_address || "-"}
                                     </TableCell>
                                     <TableCell>
                                         {invoice.status || "-"}
