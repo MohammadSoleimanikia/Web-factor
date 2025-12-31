@@ -21,23 +21,16 @@ export const InvoiceSchema = z.object({
         .nonempty("حداقل یک آیتم الزامی است")
         .min(1, "حداقل یک آیتم الزامی است"),
     id: z.number().int().positive().optional(),
-    name: z
+    customer_name: z
         .string()
         .min(2, "نام مشتری باید حداقل 2 کاراکتر باشد")
         .max(255, "نام مشتری نمی‌تواند بیشتر از 255 کاراکتر باشد"),
-    phone_number: z
-        .string()
-        .min(5, "شماره تلفن معتبر نیست")
-        .max(30, "شماره تلفن معتبر نیست"),
-    email: z
-        .string()
-        .email("فرمت ایمیل درست نمی‌باشد")
-        .min(5, "ایمیل معتبر نیست")
-        .max(254, "ایمیل طولانی است"),
-    address: z
-        .string()
-        .min(5, "آدرس باید حداقل 5 کاراکتر باشد")
-        .max(1024, "آدرس طولانی است"),
+    customer_phone_number: z
+        .string(),
+    customer_email: z
+        .string(),
+    customer_address: z
+        .string(),
     status: z.enum(["pending", "paid", "cancelled"], "وضعیت نامعتبر است"),
     payment_mode: z.enum(
         ["cash", "card", "bank", "others"],

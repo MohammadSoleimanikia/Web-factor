@@ -12,10 +12,10 @@ export function buildInvoiceViewModel({ invoice }: InvoiceViewModelProps) {
         invoiceNumber: invoice.invoice_number,
         createdAt: toJalali(invoice.created),
         customer: {
-            name: invoice.name,
-            address: invoice.address,
-            phone: invoice.phone_number,
-            email: invoice.email ?? "",
+            name: invoice.customer_name,
+            address: invoice.customer_address,
+            phone: invoice.customer_phone_number,
+            email: invoice.customer_email ?? "",
         },
         items: invoice.items.map((item) => {
             return {
