@@ -29,7 +29,7 @@ export default function Hero() {
                 <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl ">
                     فاکتور حرفه‌ای بساز و همون لحظه برای مشتری بفرست.
                 </p>
-                <p className="text-sm sm:text-md md:text-lg lg:text-xl font-light text-gray-600">
+                <p className="text-sm sm:text-md md:text-lg lg:text-xl font-light text-gray-600 dark:text-gray-400">
                     یه فاکتور‌ساز سریع و مخصوص فروشگاه‌های آنلاین؛ محصولاتو
                     اضافه کن، فاکتور بساز، آنلاین برای مشتری بفرست و با QR Code
                     همیشه قابل دسترس نگهش دار. همه‌چی ساده، تمیز و بدون دردسر.
