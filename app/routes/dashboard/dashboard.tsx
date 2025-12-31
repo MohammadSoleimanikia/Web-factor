@@ -3,6 +3,7 @@ import useAuth from "@/store/auth";
 import { apiFetch } from "@/lib/api";
 import type { User } from "@/types/user";
 import type { DashboardData } from "@/types/dashboardData";
+import LoadingSpinner from "@/components/ui/loadingSpinner";
 
 export default function Dashboard() {
     const { setProfile } = useAuth();
@@ -49,7 +50,7 @@ export default function Dashboard() {
         init();
     }, [setProfile]);
 
-    if (loading) return <p>در حال بارگذاری...</p>;
+    if (loading) return <LoadingSpinner />;
     if (!profile) return <p>پروفایل پیدا نشد</p>;
 
     return (
