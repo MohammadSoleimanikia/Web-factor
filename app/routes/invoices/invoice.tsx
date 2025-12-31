@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { Invoice } from "@/types/invoice";
 import type { User } from "@/types/user";
-import type { Product } from "@/types/product";
+import type { PaginatedProductList, Product } from "@/types/product";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
 import Minimal from "@/components/invoices/templates/minimal";
 
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import Modern from "@/components/invoices/templates/modern";
 import { Button } from "@/components/ui/button";
+import LoadingSpinner from "@/components/ui/loadingSpinner";
 
 export default function Invoice() {
     const { id } = useParams<{ id: string }>();
@@ -33,8 +34,8 @@ export default function Invoice() {
             setLoading(true);
             setError(null);
             try {
-                const result = await apiFetch(`/user/invoices/${id}/`);
-                const productsResult = await apiFetch(
+                const result = await apiFetch<Invoice>(`/user/invoices/${id}/`);
+                const productsResult = await apiFetch<PaginatedProductList>(
                     `/user/products/?page=1&page_size=10000`
                 );
 
@@ -53,7 +54,7 @@ export default function Invoice() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const result = await apiFetch(`/account/profile/`);
+                const result = await apiFetch<User>(`/account/profile/`);
                 setUser(result);
             } catch (err: any) {
                 console.error(err);
@@ -61,7 +62,7 @@ export default function Invoice() {
         };
         fetchUser();
     }, []);
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error}</div>;
     if (!invoice) return <div>Invoice not found</div>;
 
