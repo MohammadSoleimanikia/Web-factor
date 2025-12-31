@@ -13,6 +13,7 @@ import { Input } from "../ui/input";
 import { apiFetch } from "@/lib/api";
 import { useState } from "react";
 import { toast } from "sonner";
+import LoadingSpinner from "../ui/loadingSpinner";
 
 export default function AddCustomerModal({
     onAdded,
@@ -124,7 +125,7 @@ export default function AddCustomerModal({
                         disabled={loading || isSubmitting}
                         className="w-full"
                     >
-                        {loading ? "در حال ارسال..." : "افزودن مشتری"}
+                        {loading ? <LoadingSpinner text="در حال ارسال..." /> : "افزودن مشتری"}
                     </Button>
                     <p className="text-red-500 text-sm">
                         {" "}
