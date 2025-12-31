@@ -72,7 +72,7 @@ export default function Dashboard() {
                 {dashboardData.trends.length > 0 && (
                     <div>
                         <div className="bg-muted p-4 rounded-lg md:col-span-2">
-                            <h2 className="font-semibold mb-2">روندها</h2>
+                            <h2 className="font-semibold mb-2">روند فروش</h2>
                         </div>
                         {dashboardData.trends.map((trend) => (
                             <div key={trend.month}>
