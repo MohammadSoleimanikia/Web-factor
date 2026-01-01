@@ -23,9 +23,15 @@ import {
 import { Link } from "react-router";
 import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 
+import { Eye, Trash } from "lucide-react";
+import { toast } from "sonner";
+
 export default function InvoiceTable() {
     const [loading, setLoading] = useState(true);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
     const [invoices, setInvoices] = useState<Invoice[]>([]);
+
     const [page, setPage] = useState(1);
     const pageSize = 10;
     const [count, setCount] = useState(0);
@@ -50,6 +56,23 @@ export default function InvoiceTable() {
 
         fetchInvoices();
     }, [page]);
+
+    const handleDelete = async (id: string, status: string) => {
+        if (status === "paid") {
+            toast.error("فاکتور پرداخت شده را نمی‌توان حذف کرد");
+            return;
+        }
+        try {
+            setDeleteLoading(true);
+            await apiFetch(`/user/invoices/${id}`, { method: "DELETE" });
+            setInvoices(invoices.filter((inv: Invoice) => inv.id !== id));
+            setDeleteLoading(false);
+            toast.success("فاکتور با موفقیت حذف شد");
+        } catch (err) {
+            console.log(err);
+            toast.error("خطا در حذف فاکتور");
+        }
+    };
     return (
         <>
             {loading ? (
@@ -75,7 +98,9 @@ export default function InvoiceTable() {
                         <TableBody>
                             {invoices?.map((invoice: Invoice) => (
                                 <TableRow key={invoice.id}>
-                                    <TableCell>{invoice.customer_name || "-"}</TableCell>
+                                    <TableCell>
+                                        {invoice.customer_name || "-"}
+                                    </TableCell>
                                     <TableCell>
                                         {invoice.customer_email || "-"}
                                     </TableCell>
@@ -86,10 +111,16 @@ export default function InvoiceTable() {
                                         {invoice.customer_address || "-"}
                                     </TableCell>
                                     <TableCell>
-                                        {invoice.status ? invoiceStatusFa[invoice.status] : "-"}
+                                        {invoice.status
+                                            ? invoiceStatusFa[invoice.status]
+                                            : "-"}
                                     </TableCell>
                                     <TableCell>
-                                        {invoice.payment_mode ? paymentModeFa[invoice.payment_mode] : "-"}
+                                        {invoice.payment_mode
+                                            ? paymentModeFa[
+                                                invoice.payment_mode
+                                            ]
+                                            : "-"}
                                     </TableCell>
                                     <TableCell className="flex items-center gap-2">
                                         <span>{invoice.total_amount}</span>
@@ -103,12 +134,25 @@ export default function InvoiceTable() {
                                             invoice.created
                                         ).toLocaleDateString("fa-IR")}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="flex gap-2">
                                         <Link to={`/invoices/${invoice.id}`}>
                                             <Button variant="outline">
-                                                مشاهده
+                                                <Eye className="w-4 h-4" />
                                             </Button>
                                         </Link>
+
+                                        <Button
+                                            onClick={() =>
+                                                handleDelete(
+                                                    invoice.id,
+                                                    invoice.status
+                                                )
+                                            }
+                                            variant="destructive"
+                                            disabled={deleteLoading}
+                                        >
+                                            <Trash className="w-4 h-4" />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
