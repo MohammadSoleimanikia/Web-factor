@@ -32,7 +32,7 @@ export default function ProductTable({ reload }: { reload: number }) {
             setLoading(true);
 
             try {
-                const data = await apiFetch(
+                const data = await apiFetch<any>(
                     `/user/products/?page=${page}&page_size=${pageSize}`
                 );
                 setProducts(data.results);

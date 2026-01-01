@@ -1,6 +1,7 @@
 import { getStoredToken } from "./authStorage";
 
-const API_BASE_URL = "https://invociemanager-production.up.railway.app";
+const API_BASE_URL = "https://invocie-manager.vercel.app";
+
 
 async function refreshToken() {
     const token = getStoredToken();
