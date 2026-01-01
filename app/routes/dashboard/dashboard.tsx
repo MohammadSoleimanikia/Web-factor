@@ -63,7 +63,7 @@ export default function Dashboard() {
                     <p>{dashboardData.total_revenue}</p>
                 </div>
                 <div className="bg-muted p-4 rounded-lg">
-                    <h2 className="font-semibold">outstanding_amount</h2>
+                    <h2 className="font-semibold">مقدار فاکتور های در حال انتظار</h2>
                     <p>{dashboardData.outstanding_amount}</p>
                 </div>
                 <div className="bg-muted p-4 rounded-lg">
