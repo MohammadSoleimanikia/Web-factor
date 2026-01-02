@@ -23,8 +23,9 @@ import {
 import { Link } from "react-router";
 import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 
-import { Eye, Trash } from "lucide-react";
+import { Eye, Trash, SquarePen } from "lucide-react";
 import { toast } from "sonner";
+import DeleteConfirm from "../ui/deleteConfirm";
 
 export default function InvoiceTable() {
     const [loading, setLoading] = useState(true);
@@ -57,7 +58,7 @@ export default function InvoiceTable() {
         fetchInvoices();
     }, [page]);
 
-    const handleDelete = async (id: string, status: string) => {
+    const handleDelete = async (id: string, status: string | undefined) => {
         if (status === "paid") {
             toast.error("فاکتور پرداخت شده را نمی‌توان حذف کرد");
             return;
@@ -140,19 +141,22 @@ export default function InvoiceTable() {
                                                 <Eye className="w-4 h-4" />
                                             </Button>
                                         </Link>
-
-                                        <Button
-                                            onClick={() =>
+                                        {/* <Link
+                                            to={`/invoices/edit/${invoice.id}`}
+                                        >
+                                            <Button variant="outline">
+                                                <SquarePen className="w-4 h-4" /> 
+                                            </Button>
+                                        </Link> */}
+                                        <DeleteConfirm
+                                            title={"فاکتور"}
+                                            onConfirm={() =>
                                                 handleDelete(
                                                     invoice.id,
                                                     invoice.status
                                                 )
                                             }
-                                            variant="destructive"
-                                            disabled={deleteLoading}
-                                        >
-                                            <Trash className="w-4 h-4" />
-                                        </Button>
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))}

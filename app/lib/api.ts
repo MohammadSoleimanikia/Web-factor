@@ -2,7 +2,6 @@ import { getStoredToken } from "./authStorage";
 
 const API_BASE_URL = "https://invocie-manager.vercel.app";
 
-
 async function refreshToken() {
     const token = getStoredToken();
     if (!token?.refresh) return null;
@@ -25,7 +24,10 @@ async function refreshToken() {
     return newToken.access;
 }
 
-export async function apiFetch<T>(url: string, options: RequestInit = {}): Promise<T> {
+export async function apiFetch<T>(
+    url: string,
+    options: RequestInit = {}
+): Promise<T> {
     const token = getStoredToken();
 
     let headers: Record<string, string> = {
@@ -48,7 +50,10 @@ export async function apiFetch<T>(url: string, options: RequestInit = {}): Promi
         if (!newAccess) {
             localStorage.removeItem("auth");
             window.location.href = "/login";
-            throw new Error("Session expired");
+            throw {
+                status: 401,
+                message: "Session expired",
+            };
         }
 
         headers.Authorization = `Bearer ${newAccess}`;
@@ -59,7 +64,8 @@ export async function apiFetch<T>(url: string, options: RequestInit = {}): Promi
     }
 
     const text = await res.text();
-    let data;
+    let data: any = null;
+
     try {
         data = text ? JSON.parse(text) : null;
     } catch {
@@ -67,9 +73,15 @@ export async function apiFetch<T>(url: string, options: RequestInit = {}): Promi
     }
 
     if (!res.ok) {
-        console.log(data);
-        throw data;
+        throw {
+            status: res.status,
+            message:
+                data?.message ||
+                Object.values(data || {})[0] ||
+                "خطای ناشناخته",
+            errors: data,
+        };
     }
 
-    return data;
+    return data as T;
 }

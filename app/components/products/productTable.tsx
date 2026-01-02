@@ -19,6 +19,8 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
+import DeleteConfirm from "../ui/deleteConfirm";
+import { toast } from "sonner";
 export default function ProductTable({ reload }: { reload: number }) {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
@@ -50,10 +52,12 @@ export default function ProductTable({ reload }: { reload: number }) {
         try {
             await apiFetch(`/user/products/${id}/`, { method: "DELETE" });
             setProducts(products.filter((p: Product) => p.id !== id));
-        } catch (err) {
-            console.log(err);
+            toast.success("محصول حذف شد");
+        } catch (err: any) {
+            toast.error(err.message);
         }
     };
+
     return (
         <>
             {loading ? (
@@ -84,19 +88,10 @@ export default function ProductTable({ reload }: { reload: number }) {
                                         <span>تومان</span>
                                     </TableCell>
                                     <TableCell>
-                                        <Button
-                                            onClick={() => {
-                                                const ok = confirm(
-                                                    "آیا از حذف محصول اطمینان دارید؟"
-                                                );
-                                                if (ok) {
-                                                    handleDelete(p.id);
-                                                }
-                                            }}
-                                            variant="destructive"
-                                        >
-                                            حذف
-                                        </Button>
+                                        <DeleteConfirm
+                                            title={"کالا"}
+                                            onConfirm={() => handleDelete(p.id)}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))}

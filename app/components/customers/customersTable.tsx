@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import type { Customer } from "@/types/customer";
+import type { Customer, PaginatedCustomerList } from "@/types/customer";
 import { apiFetch } from "@/lib/api";
 import { Button } from "../ui/button";
 import {
@@ -19,9 +19,11 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
+import DeleteConfirm from "../ui/deleteConfirm";
+import { toast } from "sonner";
 export default function CustomersTable({ reload }: { reload: number }) {
     const [loading, setLoading] = useState(true);
-    const [customers, setCustomers] = useState([]);
+    const [customers, setCustomers] = useState<Customer[]>([]);
     const [page, setPage] = useState(1);
     const pageSize = 10;
     const [count, setCount] = useState(0);
@@ -32,7 +34,7 @@ export default function CustomersTable({ reload }: { reload: number }) {
             setLoading(true);
 
             try {
-                const data = await apiFetch(
+                const data = await apiFetch<PaginatedCustomerList>(
                     `/account/customers/?page=${page}&page_size=${pageSize}`
                 );
                 setCustomers(data.results);
@@ -50,8 +52,9 @@ export default function CustomersTable({ reload }: { reload: number }) {
         try {
             await apiFetch(`/account/customers/${id}/`, { method: "DELETE" });
             setCustomers(customers.filter((c: Customer) => c.id !== id));
-        } catch (err) {
-            console.log(err);
+            toast.success("مشتری حذف شد");
+        } catch (err: any) {
+            toast.error(err.message);
         }
     };
     return (
@@ -83,19 +86,7 @@ export default function CustomersTable({ reload }: { reload: number }) {
                                         <span>{c.phone_number}</span>
                                     </TableCell>
                                     <TableCell>
-                                        <Button
-                                            onClick={() => {
-                                                const ok = confirm(
-                                                    "آیا از حذف مشتری اطمینان دارید؟"
-                                                );
-                                                if (ok) {
-                                                    handleDelete(c.id);
-                                                }
-                                            }}
-                                            variant="destructive"
-                                        >
-                                            حذف
-                                        </Button>
+                                        <DeleteConfirm onConfirm={() => handleDelete(c.id)} title="مشتری"/>
                                     </TableCell>
                                 </TableRow>
                             ))}
