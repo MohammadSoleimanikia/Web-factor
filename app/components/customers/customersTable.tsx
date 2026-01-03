@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import type { Customer, PaginatedCustomerList } from "@/types/customer";
 import { apiFetch } from "@/lib/api";
-import { Button } from "../ui/button";
 import {
     Pagination,
     PaginationContent,
@@ -53,7 +52,8 @@ export default function CustomersTable({ reload }: { reload: number }) {
             await apiFetch(`/account/customers/${id}/`, { method: "DELETE" });
             setCustomers(customers.filter((c: Customer) => c.id !== id));
             toast.success("مشتری حذف شد");
-        } catch (err: any) {
+        } catch (err: unknown) {
+            if(err instanceof Error)
             toast.error(err.message);
         }
     };

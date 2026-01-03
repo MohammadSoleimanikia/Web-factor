@@ -1,5 +1,3 @@
-import type { Product } from "./product";
-
 export type User = {
     id: number;
     first_name: string;

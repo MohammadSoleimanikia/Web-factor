@@ -8,9 +8,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import type { Product } from "@/types/product";
+import type { PaginatedProductList, Product } from "@/types/product";
 import { apiFetch } from "@/lib/api";
-import { Button } from "../ui/button";
 import {
     Pagination,
     PaginationContent,
@@ -23,7 +22,7 @@ import DeleteConfirm from "../ui/deleteConfirm";
 import { toast } from "sonner";
 export default function ProductTable({ reload }: { reload: number }) {
     const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [page, setPage] = useState(1);
     const pageSize = 10;
     const [count, setCount] = useState(0);
@@ -34,7 +33,7 @@ export default function ProductTable({ reload }: { reload: number }) {
             setLoading(true);
 
             try {
-                const data = await apiFetch<any>(
+                const data = await apiFetch<PaginatedProductList>(
                     `/user/products/?page=${page}&page_size=${pageSize}`
                 );
                 setProducts(data.results);
@@ -53,8 +52,10 @@ export default function ProductTable({ reload }: { reload: number }) {
             await apiFetch(`/user/products/${id}/`, { method: "DELETE" });
             setProducts(products.filter((p: Product) => p.id !== id));
             toast.success("محصول حذف شد");
-        } catch (err: any) {
-            toast.error(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                toast.error(err.message);
+            }
         }
     };
 

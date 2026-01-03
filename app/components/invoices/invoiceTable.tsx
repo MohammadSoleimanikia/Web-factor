@@ -23,13 +23,12 @@ import {
 import { Link } from "react-router";
 import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 
-import { Eye, Trash, SquarePen } from "lucide-react";
+import { Eye } from "lucide-react";
 import { toast } from "sonner";
 import DeleteConfirm from "../ui/deleteConfirm";
 
 export default function InvoiceTable() {
     const [loading, setLoading] = useState(true);
-    const [deleteLoading, setDeleteLoading] = useState(false);
 
     const [invoices, setInvoices] = useState<Invoice[]>([]);
 
@@ -64,10 +63,10 @@ export default function InvoiceTable() {
             return;
         }
         try {
-            setDeleteLoading(true);
+
             await apiFetch(`/user/invoices/${id}/`, { method: "DELETE" });
             setInvoices(invoices.filter((inv: Invoice) => inv.id !== id));
-            setDeleteLoading(false);
+
             toast.success("فاکتور با موفقیت حذف شد");
         } catch (err) {
             console.log(err);
