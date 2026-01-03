@@ -1,29 +1,12 @@
-import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InvoiceSchema, type InvoiceFormType } from "@/schemas/invoice.schema";
-import { apiFetch } from "@/lib/api";
-import type { PaginatedProductList, Product } from "@/types/product";
+import { useEffect, useState } from "react";
+import { Controller,useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import {
     MultiSelect,
     MultiSelectContent,
@@ -32,11 +15,28 @@ import {
     MultiSelectTrigger,
     MultiSelectValue,
 } from "@/components/ui/multi-select";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { apiFetch } from "@/lib/api";
+import { type InvoiceFormType,InvoiceSchema } from "@/schemas/invoice.schema";
 import type { Customer, PaginatedCustomerList } from "@/types/customer";
-import { Combobox } from "../ui/comboBox";
-import { useNavigate } from "react-router";
-import { toast } from "sonner";
 import type { Invoice } from "@/types/invoice";
+import type { PaginatedProductList, Product } from "@/types/product";
+
+import { Combobox } from "../ui/comboBox";
 
 export default function NewInvoiceForm() {
     const [products, setProducts] = useState<Product[]>([]);

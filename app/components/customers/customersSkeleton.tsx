@@ -3,9 +3,9 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableRow,
-    TableHeader,
     TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table";
 
 export default function CustomersSkeleton() {

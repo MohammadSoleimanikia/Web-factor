@@ -1,6 +1,7 @@
+import { Link } from "react-router";
+
 import NewInvoiceForm from "@/components/invoices/newInvoiceForm";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router";
 
 export default function NewInvoice() {
     return (

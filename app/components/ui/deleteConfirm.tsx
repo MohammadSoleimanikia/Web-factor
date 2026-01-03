@@ -1,3 +1,5 @@
+import { Trash } from "lucide-react";
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -9,8 +11,8 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 import { Button } from "../ui/button";
-import { Trash } from "lucide-react";
 export default function DeleteConfirm({ onConfirm, title }: { onConfirm: () => void, title?: string }) {
     return (
         <AlertDialog>

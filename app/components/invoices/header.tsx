@@ -1,12 +1,13 @@
 import { SearchIcon } from "lucide-react";
+import { Link } from "react-router";
+
+import { Button } from "../ui/button";
 import {
     InputGroup,
     InputGroupAddon,
     InputGroupButton,
     InputGroupInput,
 } from "../ui/input-group";
-import { Button } from "../ui/button";
-import { Link } from "react-router";
 
 export default function Header() {
     return (

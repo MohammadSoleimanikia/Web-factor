@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import EditProfileModal from "./editProfileModal";
-import type { User } from "@/types/user";
+
 import { apiFetch } from "@/lib/api";
 import useAuth from "@/store/auth";
+import type { User } from "@/types/user";
+
 import LoadingSpinner from "../ui/loadingSpinner";
+import EditProfileModal from "./editProfileModal";
 
 export default function ProfileCard() {
     const { setProfile } = useAuth();

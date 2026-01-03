@@ -1,5 +1,8 @@
+import { Eye } from "lucide-react";
 import { useEffect, useState } from "react";
-import InvoiceSkeleton from "./invoiceSkeleton";
+import { Link } from "react-router";
+import { toast } from "sonner";
+
 import {
     Table,
     TableBody,
@@ -8,10 +11,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import type { Invoice, PaginatedInvoiceList } from "@/types/invoice";
+import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 import { apiFetch } from "@/lib/api";
-import { Button } from "../ui/button";
+import type { Invoice, PaginatedInvoiceList } from "@/types/invoice";
 
+import { Button } from "../ui/button";
+import DeleteConfirm from "../ui/deleteConfirm";
 import {
     Pagination,
     PaginationContent,
@@ -20,12 +25,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
-import { Link } from "react-router";
-import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
-
-import { Eye } from "lucide-react";
-import { toast } from "sonner";
-import DeleteConfirm from "../ui/deleteConfirm";
+import InvoiceSkeleton from "./invoiceSkeleton";
 
 export default function InvoiceTable() {
     const [loading, setLoading] = useState(true);

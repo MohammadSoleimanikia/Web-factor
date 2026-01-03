@@ -1,16 +1,17 @@
 import {
-    Users,
-    Home,
-    Package,
-    Settings,
-    ScrollText,
-    User2,
-    ChevronUp,
-    LogOut,
-    CircleUserRound,
     ChevronDown,
+    ChevronUp,
+    CircleUserRound,
+    Home,
+    LogOut,
+    Package,
     Palette,
+    ScrollText,
+    Settings,
+    User2,
+    Users,
 } from "lucide-react";
+import { NavLink } from "react-router";
 
 import {
     Sidebar,
@@ -24,22 +25,21 @@ import {
     SidebarMenuItem,
     SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { NavLink } from "react-router";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import useAuth from "@/store/auth";
 
+import { ModeToggle } from "./modeToggle";
 import { Button } from "./ui/button";
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
 } from "./ui/collapsible";
-import useAuth from "@/store/auth";
-import { ModeToggle } from "./modeToggle";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 // Menu items.
 const productItems = [
     {

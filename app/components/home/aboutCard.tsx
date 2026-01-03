@@ -1,3 +1,5 @@
+import { motion } from "motion/react";
+
 import {
     Card,
     CardAction,
@@ -7,7 +9,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { motion } from "motion/react";
 type AboutCardProps = {
     title: string;
     url: string;

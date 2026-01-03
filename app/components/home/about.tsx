@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+
 import AboutCard from "./aboutCard";
 
 export default function About() {

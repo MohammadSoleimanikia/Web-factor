@@ -1,39 +1,45 @@
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
 import react from "eslint-plugin-react";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import { defineConfig } from "eslint/config";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
     {
-        files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+        ignores: [
+            "build/**",
+            "dist/**",
+            ".next/**",
+            "out/**",
+            "node_modules/**",
+            ".react-router/**",
+        ],
+    },
+
+    js.configs.recommended,
+    ...tseslint.configs.recommended,
+
+    {
+        files: ["**/*.{js,jsx,ts,tsx}"],
         languageOptions: {
-            parser: "@typescript-eslint/parser",
-            globals: globals.browser,
-            ecmaVersion: "latest",
-            sourceType: "module",
-            ecmaFeatures: {
-                jsx: true,
+            globals: {
+                ...globals.browser,
+                ...globals.node,
             },
         },
         plugins: {
             react,
-            "@typescript-eslint": tseslint,
             "simple-import-sort": simpleImportSort,
         },
-        extends: [
-            "eslint:recommended",
-            "plugin:react/recommended",
-            "plugin:@typescript-eslint/recommended",
-        ],
         rules: {
-            "react/react-in-jsx-scope": "off", // React 17+ JSX doesn’t need import React
-            "@typescript-eslint/no-explicit-any": "off", // allow any type
+            "react/react-in-jsx-scope": "off",
+
+            "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-unused-expressions": "off",
+
             "simple-import-sort/imports": "error",
             "simple-import-sort/exports": "error",
-            // optional: disable other conflicting sorting rules
-            "sort-imports": "off",
-            "import/order": "off",
         },
         settings: {
             react: {

@@ -1,8 +1,9 @@
-import useAuth from "@/store/auth";
-import type { User } from "@/types/user";
-import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
 import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
+
+import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
+import useAuth from "@/store/auth";
 import type { InvoiceViewModel } from "@/types/invoice";
+import type { User } from "@/types/user";
 type invoiceProps = {
     invoice: InvoiceViewModel;
     user: User | null;

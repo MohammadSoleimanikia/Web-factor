@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import {
     Dialog,
     DialogContent,
@@ -6,13 +10,11 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
-import { useForm } from "react-hook-form";
-import type { CustomerCreate } from "@/types/customer";
-import { Input } from "../ui/input";
 import { apiFetch } from "@/lib/api";
-import { useState } from "react";
-import { toast } from "sonner";
+import type { CustomerCreate } from "@/types/customer";
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import LoadingSpinner from "../ui/loadingSpinner";
 
 export default function AddCustomerModal({

@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import {
     Dialog,
     DialogContent,
@@ -6,17 +10,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
-import type { User, UserUpdate } from "@/types/user";
-
-import { useForm } from "react-hook-form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import { apiFetch } from "@/lib/api";
 import { getStoredToken } from "@/lib/authStorage";
-import { useEffect, useState } from "react";
+import type { User, UserUpdate } from "@/types/user";
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { toast } from "sonner";
+import { Textarea } from "../ui/textarea";
 export default function EditProfileModal({
     profile,
     setReload,

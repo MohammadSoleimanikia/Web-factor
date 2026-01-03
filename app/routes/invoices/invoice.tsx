@@ -1,13 +1,11 @@
-import Classic from "@/components/invoices/templates/classic";
-import { apiFetch } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import type { Invoice } from "@/types/invoice";
-import type { User } from "@/types/user";
-import type { PaginatedProductList, Product } from "@/types/product";
-import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
-import Minimal from "@/components/invoices/templates/minimal";
 
+import Classic from "@/components/invoices/templates/classic";
+import Minimal from "@/components/invoices/templates/minimal";
+import Modern from "@/components/invoices/templates/modern";
+import { Button } from "@/components/ui/button";
+import LoadingSpinner from "@/components/ui/loadingSpinner";
 import {
     Select,
     SelectContent,
@@ -15,9 +13,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import Modern from "@/components/invoices/templates/modern";
-import { Button } from "@/components/ui/button";
-import LoadingSpinner from "@/components/ui/loadingSpinner";
+import { apiFetch } from "@/lib/api";
+import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
+import type { Invoice } from "@/types/invoice";
+import type { PaginatedProductList, Product } from "@/types/product";
+import type { User } from "@/types/user";
 
 export default function Invoice() {
     const { id } = useParams<{ id: string }>();

@@ -1,6 +1,7 @@
+import { useState } from "react";
+
 import Header from "@/components/products/header";
 import ProductTable from "@/components/products/productTable";
-import { useState } from "react";
 
 export default function Products() {
     const [reload, setReload] = useState(0);

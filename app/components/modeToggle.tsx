@@ -1,5 +1,6 @@
 import { ChevronDown, Moon, Sun } from "lucide-react";
 
+import { useTheme } from "@/components/themeProvider";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -7,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "@/components/themeProvider";
+
 import { SidebarMenuButton } from "./ui/sidebar";
 
 export function ModeToggle() {

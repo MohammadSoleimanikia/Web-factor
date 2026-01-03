@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import CustomersSkeleton from "./customersSkeleton";
+import { toast } from "sonner";
+
 import {
     Table,
     TableBody,
@@ -8,8 +9,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import type { Customer, PaginatedCustomerList } from "@/types/customer";
 import { apiFetch } from "@/lib/api";
+import type { Customer, PaginatedCustomerList } from "@/types/customer";
+
+import DeleteConfirm from "../ui/deleteConfirm";
 import {
     Pagination,
     PaginationContent,
@@ -18,8 +21,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
-import DeleteConfirm from "../ui/deleteConfirm";
-import { toast } from "sonner";
+import CustomersSkeleton from "./customersSkeleton";
 export default function CustomersTable({ reload }: { reload: number }) {
     const [loading, setLoading] = useState(true);
     const [customers, setCustomers] = useState<Customer[]>([]);

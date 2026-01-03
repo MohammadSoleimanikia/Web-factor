@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import useAuth from "@/store/auth";
-import { apiFetch } from "@/lib/api";
-import type { User } from "@/types/user";
-import type { DashboardData } from "@/types/dashboardData";
+
 import LoadingSpinner from "@/components/ui/loadingSpinner";
+import { apiFetch } from "@/lib/api";
+import useAuth from "@/store/auth";
+import type { DashboardData } from "@/types/dashboardData";
+import type { User } from "@/types/user";
 
 export default function Dashboard() {
     const { setProfile } = useAuth();

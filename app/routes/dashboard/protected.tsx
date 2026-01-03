@@ -1,6 +1,7 @@
-import useAuth from "@/store/auth";
-import { Outlet, useNavigate } from "react-router";
 import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
+
+import useAuth from "@/store/auth";
 
 export default function Protected() {
     const token = useAuth((state) => state.token);

@@ -6,8 +6,9 @@ import {
     MultiSelectTrigger,
     MultiSelectValue,
 } from "@/components/ui/multi-select";
-import { Label } from "../ui/label";
 import type { Product } from "@/types/product";
+
+import { Label } from "../ui/label";
 
 type MultiSelectProps = {
     selectedItems: number[];

@@ -1,4 +1,9 @@
-import { cn } from "@/lib/utils";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -8,21 +13,15 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
-
-import { useForm } from "react-hook-form";
-import * as React from "react";
-
-import { apiFetch } from "@/lib/api";
-import { useNavigate } from "react-router";
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSeparator,
     InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { apiFetch } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import useAuth from "@/store/auth";
-import { toast } from "sonner";
 
 type PhoneForm = { phone_number: string };
 

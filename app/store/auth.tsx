@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Token } from "@/types/token";
+
 import type { AuthContextType } from "@/types/authContext";
+import type { Token } from "@/types/token";
 import type { User } from "@/types/user";
 
 const BASE_URL = "https://invociemanager-production.up.railway.app/account";

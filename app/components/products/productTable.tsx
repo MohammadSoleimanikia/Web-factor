@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
 import ProductsSkeleton from "@/components/products/productsSkeleton";
 import {
     Table,
@@ -8,8 +10,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import type { PaginatedProductList, Product } from "@/types/product";
 import { apiFetch } from "@/lib/api";
+import type { PaginatedProductList, Product } from "@/types/product";
+
+import DeleteConfirm from "../ui/deleteConfirm";
 import {
     Pagination,
     PaginationContent,
@@ -18,8 +22,6 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
-import DeleteConfirm from "../ui/deleteConfirm";
-import { toast } from "sonner";
 export default function ProductTable({ reload }: { reload: number }) {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState<Product[]>([]);

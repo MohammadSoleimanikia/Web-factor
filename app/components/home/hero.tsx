@@ -1,6 +1,7 @@
-import { NavLink } from "react-router";
-import { Button } from "../ui/button";
 import { motion } from "motion/react";
+import { NavLink } from "react-router";
+
+import { Button } from "../ui/button";
 export default function Hero() {
     const scrollToAbout = () => {
         const aboutSection = document.getElementById("about");

@@ -30,7 +30,7 @@ export async function apiFetch<T>(
 ): Promise<T> {
     const token = getStoredToken();
 
-    let headers: Record<string, string> = {
+    const headers: Record<string, string> = {
         "Content-Type": "application/json",
         ...(options.headers as Record<string, string>),
     };

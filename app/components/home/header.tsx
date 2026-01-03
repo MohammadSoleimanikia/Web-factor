@@ -1,5 +1,7 @@
 import { Link, NavLink } from "react-router";
+
 import { Button } from "@/components/ui/button";
+
 import ThemeToggler from "./themeToggler";
 
 export default function Header() {
