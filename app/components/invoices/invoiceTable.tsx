@@ -65,7 +65,7 @@ export default function InvoiceTable() {
         }
         try {
             setDeleteLoading(true);
-            await apiFetch(`/user/invoices/${id}`, { method: "DELETE" });
+            await apiFetch(`/user/invoices/${id}/`, { method: "DELETE" });
             setInvoices(invoices.filter((inv: Invoice) => inv.id !== id));
             setDeleteLoading(false);
             toast.success("فاکتور با موفقیت حذف شد");
