@@ -24,7 +24,7 @@ import {
 } from "../ui/pagination";
 import InvoiceActions from "./invoiceActions";
 import InvoiceSkeleton from "./invoiceSkeleton";
-export default function InvoiceTable() {
+export default function InvoiceTable({searchQuery}:{searchQuery:string}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
@@ -41,7 +41,7 @@ export default function InvoiceTable() {
 
             try {
                 const data = await apiFetch<PaginatedInvoiceList>(
-                    `/user/invoices/?page=${page}&page_size=${pageSize}`
+                    `/user/invoices/?page=${page}&page_size=${pageSize}&search=${searchQuery}`
                 );
                 setInvoices(data.results);
                 setCount(data.count);
@@ -53,7 +53,7 @@ export default function InvoiceTable() {
         };
 
         fetchInvoices();
-    }, [page]);
+    }, [page,searchQuery]);
 
     const handleDelete = async (id: string, status: string | undefined) => {
         if (status === "paid") {
