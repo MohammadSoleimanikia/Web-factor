@@ -165,6 +165,9 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Product Selection */}
+            {!isEdit && (
+
+            
             <Controller
                 control={control}
                 name="items"
@@ -222,7 +225,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                     </div>
                 )}
             />
-
+)}
             {/* Items Table */}
             {watchedItems.length > 0 && (
                 <div>
@@ -251,6 +254,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                                                 name={`items.${index}.quantity`}
                                                 render={({ field }) => (
                                                     <Input
+                                                    disabled={isEdit}
                                                         type="number"
                                                         min={1}
                                                         value={Number(field.value ?? 1)} 
@@ -285,6 +289,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                                                 name={`items.${index}.price`}
                                                 render={({ field }) => (
                                                     <Input
+                                                    disabled={isEdit}
                                                         type="number"
                                                         min={0}
                                                         step="1"

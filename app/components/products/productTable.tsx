@@ -52,15 +52,16 @@ export default function ProductTable({ reload }: { reload: number }) {
     const handleDelete = async (id: number) => {
         try {
             await apiFetch(`/user/products/${id}/`, { method: "DELETE" });
-            setProducts(products.filter((p: Product) => p.id !== id));
+            setProducts((prev) => prev.filter((p) => p.id !== id));
             toast.success("محصول حذف شد");
-        } catch (err: unknown) {
+        } catch (err) {
             if (err instanceof Error) {
                 toast.error(err.message);
+            } else {
+                toast.error("خطای نامشخصی رخ داد");
             }
         }
     };
-
     return (
         <>
             {loading ? (
