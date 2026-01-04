@@ -58,7 +58,7 @@ export default function ProductTable({ reload }: { reload: number }) {
             if (err instanceof Error) {
                 toast.error(err.message);
             } else {
-                toast.error("خطای نامشخصی رخ داد");
+                toast.error("کالایی که در فاکتور استفاده شده را نمی‌توان حذف کرد");
             }
         }
     };
