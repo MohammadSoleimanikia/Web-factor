@@ -1,6 +1,7 @@
-import { Eye } from "lucide-react";
+import { Eye, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 import {
@@ -26,8 +27,8 @@ import {
     PaginationPrevious,
 } from "../ui/pagination";
 import InvoiceSkeleton from "./invoiceSkeleton";
-
 export default function InvoiceTable() {
+    const navigate=useNavigate();
     const [loading, setLoading] = useState(true);
 
     const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -63,7 +64,6 @@ export default function InvoiceTable() {
             return;
         }
         try {
-
             await apiFetch(`/user/invoices/${id}/`, { method: "DELETE" });
             setInvoices(invoices.filter((inv: Invoice) => inv.id !== id));
 
@@ -72,6 +72,13 @@ export default function InvoiceTable() {
             console.log(err);
             toast.error("خطا در حذف فاکتور");
         }
+    };
+    const handleEdit = async (id: string, status: string | undefined) => {
+        if (status === "paid") {
+            toast.error("فاکتور پرداخت شده را نمی‌توان ویرایش کرد");
+            return;
+        }
+        navigate(`/invoices/edit/${id}`);
     };
     return (
         <>
@@ -118,8 +125,8 @@ export default function InvoiceTable() {
                                     <TableCell>
                                         {invoice.payment_mode
                                             ? paymentModeFa[
-                                                invoice.payment_mode
-                                            ]
+                                                  invoice.payment_mode
+                                              ]
                                             : "-"}
                                     </TableCell>
                                     <TableCell className="flex items-center gap-2">
@@ -140,13 +147,9 @@ export default function InvoiceTable() {
                                                 <Eye className="w-4 h-4" />
                                             </Button>
                                         </Link>
-                                        {/* <Link
-                                            to={`/invoices/edit/${invoice.id}`}
-                                        >
-                                            <Button variant="outline">
-                                                <SquarePen className="w-4 h-4" /> 
-                                            </Button>
-                                        </Link> */}
+                                        <Button onClick={() => handleEdit(invoice.id, invoice.status)} variant="outline">
+                                            <SquarePen className="w-4 h-4" />
+                                        </Button>
                                         <DeleteConfirm
                                             title={"فاکتور"}
                                             onConfirm={() =>

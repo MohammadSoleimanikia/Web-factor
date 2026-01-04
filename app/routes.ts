@@ -24,7 +24,7 @@ export default [
                 id: "invoice-new",
             }),
 
-            route("invoices/:id/edit", "routes/invoices/newInvoice.tsx", {
+            route("invoices/edit/:id", "routes/invoices/newInvoice.tsx", {
                 id: "invoice-edit",
             }),
 

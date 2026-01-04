@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { Controller,useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -31,22 +31,25 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { apiFetch } from "@/lib/api";
-import { type InvoiceFormType,InvoiceSchema } from "@/schemas/invoice.schema";
+import { type InvoiceFormType, InvoiceSchema } from "@/schemas/invoice.schema";
 import type { Customer, PaginatedCustomerList } from "@/types/customer";
 import type { Invoice } from "@/types/invoice";
 import type { PaginatedProductList, Product } from "@/types/product";
 
 import { Combobox } from "../ui/comboBox";
+import LoadingSpinner from "../ui/loadingSpinner";
 
-export default function NewInvoiceForm() {
+export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
     const [products, setProducts] = useState<Product[]>([]);
     const [customers, setCustomers] = useState<Customer[]>([]);
-
+    const [isLoading, setIsLoading] = useState(true);
+    const isEdit = Boolean(invoiceID);
     const Navigate = useNavigate();
     const {
         control,
         register,
         handleSubmit,
+        reset,
         formState: { errors, isSubmitting },
         watch,
         setValue,
@@ -72,27 +75,51 @@ export default function NewInvoiceForm() {
 
     // Fetch all products
     useEffect(() => {
-        const fetchProducts = async () => {
+        const loadData = async () => {
             try {
-                const data = await apiFetch<PaginatedProductList>("/user/products/?page_size=1000");
-                setProducts(data.results);
+                setIsLoading(true);
+
+                const [productsRes, customersRes] = await Promise.all([
+                    apiFetch<PaginatedProductList>(
+                        "/user/products/?page_size=1000"
+                    ),
+                    apiFetch<PaginatedCustomerList>(
+                        "/account/customers/?page_size=1000"
+                    ),
+                ]);
+
+                setProducts(productsRes.results);
+                setCustomers(customersRes.results);
+
+                if (invoiceID) {
+                    const invoice = await apiFetch<Invoice>(
+                        `/user/invoices/${invoiceID}/`
+                    );
+
+                    reset({
+                        items: invoice.items.map((item) => ({
+                            product_id: item.product.id,
+                            quantity: item.quantity,
+                            price: item.price.toString(),
+                        })),
+                        customer_name: invoice.customer_name ?? "",
+                        customer_phone_number:
+                            invoice.customer_phone_number ?? "",
+                        customer_email: invoice.customer_email ?? "",
+                        customer_address: invoice.customer_address ?? "",
+                        status: invoice.status ?? "pending",
+                        payment_mode: invoice.payment_mode ?? "cash",
+                    });
+                }
             } catch (err) {
                 console.error(err);
+            } finally {
+                setIsLoading(false); // ✅ فقط اینجا
             }
         };
-        const fetchCustomers = async () => {
-            try {
-                const data = await apiFetch<PaginatedCustomerList>(
-                    "/account/customers/?page_size=1000"
-                );
-                setCustomers(data.results);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchProducts();
-        fetchCustomers();
-    }, []);
+
+        loadData();
+    }, [invoiceID, reset]);
 
     const onSubmit = async (data: InvoiceFormType) => {
         try {
@@ -106,19 +133,35 @@ export default function NewInvoiceForm() {
                 })),
             };
 
-            const response = await apiFetch<Invoice>("/user/invoices/", {
-                method: "POST",
-                body: JSON.stringify(payload),
-            });
-            console.log("response:", response);
-            toast.success("فاکتور با موفقیت ساخته شد!");
+            
+
+            const response = await apiFetch<Invoice>(
+                isEdit ? `/user/invoices/${invoiceID}/` : "/user/invoices/",
+                {
+                    method: isEdit ? "PATCH" : "POST",
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            toast.success(
+                isEdit
+                    ? "فاکتور با موفقیت ویرایش شد!"
+                    : "فاکتور با موفقیت ساخته شد!"
+            );
+
             Navigate(`/invoices/${response.id}`);
         } catch (error) {
             console.error("error:", error);
-            toast.error("خطا در ساخت فاکتور. لطفا دوباره تلاش کنید.");
+            toast.error(
+                invoiceID
+                    ? "خطا در ویرایش فاکتور. لطفا دوباره تلاش کنید."
+                    : "خطا در ساخت فاکتور. لطفا دوباره تلاش کنید."
+            );
         }
     };
-
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Product Selection */}
@@ -203,14 +246,29 @@ export default function NewInvoiceForm() {
                                             {product?.name || "Unknown"}
                                         </TableCell>
                                         <TableCell>
-                                            <Input
-                                                type="number"
-                                                min={1}
-                                                max={999999}
-                                                {...register(
-                                                    `items.${index}.quantity` as const
+                                            <Controller
+                                                control={control}
+                                                name={`items.${index}.quantity`}
+                                                render={({ field }) => (
+                                                    <Input
+                                                        type="number"
+                                                        min={1}
+                                                        value={Number(field.value ?? 1)} 
+                                                        onChange={(e) => {
+                                                            const value =
+                                                                Number(
+                                                                    e.target
+                                                                        .value
+                                                                );
+                                                            if (!isNaN(value))
+                                                                field.onChange(
+                                                                    value
+                                                                ); 
+                                                        }}
+                                                    />
                                                 )}
                                             />
+
                                             {errors.items?.[index]
                                                 ?.quantity && (
                                                 <span className="text-red-500">
@@ -222,14 +280,17 @@ export default function NewInvoiceForm() {
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            <Input
-                                                type="number"
-                                                min={0}
-                                                step="0.01"
-                                                {...register(
-                                                    `items.${index}.price` as const
+                                            <Controller
+                                                control={control}
+                                                name={`items.${index}.price`}
+                                                render={({ field }) => (
+                                                    <Input
+                                                        type="number"
+                                                        min={0}
+                                                        step="1"
+                                                        {...field}
+                                                    />
                                                 )}
-                                                defaultValue={item.price}
                                             />
                                             {errors.items?.[index]?.price && (
                                                 <span className="text-red-500">
@@ -263,8 +324,8 @@ export default function NewInvoiceForm() {
                             value={
                                 field.value
                                     ? customers.find(
-                                        (c) => c.id === field.value
-                                    )?.name
+                                          (c) => c.id === field.value
+                                      )?.name
                                     : undefined
                             }
                             onChange={(val) => {
@@ -308,17 +369,21 @@ export default function NewInvoiceForm() {
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3">
                     <Label htmlFor="customer_name">نام مشتری</Label>
-                    <Input {...register("customer_name",{
-                        required: "نام مشتری الزامی است",
-                        minLength: {
-                            value: 2,
-                            message: "نام مشتری باید حداقل 2 کاراکتر باشد",
-                        },
-                        maxLength: {
-                            value: 255,
-                            message: "نام مشتری نمی‌تواند بیشتر از 255 کاراکتر باشد",
-                        },
-                    })} id="customer_name" />
+                    <Input
+                        {...register("customer_name", {
+                            required: "نام مشتری الزامی است",
+                            minLength: {
+                                value: 2,
+                                message: "نام مشتری باید حداقل 2 کاراکتر باشد",
+                            },
+                            maxLength: {
+                                value: 255,
+                                message:
+                                    "نام مشتری نمی‌تواند بیشتر از 255 کاراکتر باشد",
+                            },
+                        })}
+                        id="customer_name"
+                    />
                     {errors.customer_name && (
                         <span className="text-red-500">
                             {errors.customer_name.message}
@@ -441,7 +506,7 @@ export default function NewInvoiceForm() {
             </div>
 
             <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "در حال ساخت..." : "ساخت فاکتور"}
+                {isSubmitting ? "در حال ساخت..." : isEdit ? "ویرایش فاکتور" : "ساخت فاکتور"}
             </Button>
         </form>
     );
