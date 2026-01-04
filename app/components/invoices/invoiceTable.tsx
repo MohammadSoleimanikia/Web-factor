@@ -1,6 +1,4 @@
-import { Eye, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -16,8 +14,6 @@ import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 import { apiFetch } from "@/lib/api";
 import type { Invoice, PaginatedInvoiceList } from "@/types/invoice";
 
-import { Button } from "../ui/button";
-import DeleteConfirm from "../ui/deleteConfirm";
 import {
     Pagination,
     PaginationContent,
@@ -26,9 +22,10 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
+import InvoiceActions from "./invoiceActions";
 import InvoiceSkeleton from "./invoiceSkeleton";
 export default function InvoiceTable() {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
     const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -80,6 +77,19 @@ export default function InvoiceTable() {
         }
         navigate(`/invoices/edit/${id}`);
     };
+
+    const handlePaid = async (id: string, status: string | undefined) => {
+        if (status === "paid") {
+            toast.error("فاکتور از قبل پرداخت شده است");
+            return;
+        }
+        try {
+            await apiFetch(`/user/invoices/${id}/paid/`, { method: "POST" });
+        } catch (err) {
+            console.log(err);
+            toast.error("خطا در تغییر وضعیت فاکتور");
+        }
+    };
     return (
         <>
             {loading ? (
@@ -117,7 +127,7 @@ export default function InvoiceTable() {
                                     <TableCell>
                                         {invoice.customer_address || "-"}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="flex items-center gap-3 justify-between">
                                         {invoice.status
                                             ? invoiceStatusFa[invoice.status]
                                             : "-"}
@@ -125,8 +135,8 @@ export default function InvoiceTable() {
                                     <TableCell>
                                         {invoice.payment_mode
                                             ? paymentModeFa[
-                                                  invoice.payment_mode
-                                              ]
+                                                invoice.payment_mode
+                                            ]
                                             : "-"}
                                     </TableCell>
                                     <TableCell className="flex items-center gap-2">
@@ -142,23 +152,8 @@ export default function InvoiceTable() {
                                         ).toLocaleDateString("fa-IR")}
                                     </TableCell>
                                     <TableCell className="flex gap-2">
-                                        <Link to={`/invoices/${invoice.id}`}>
-                                            <Button variant="outline">
-                                                <Eye className="w-4 h-4" />
-                                            </Button>
-                                        </Link>
-                                        <Button onClick={() => handleEdit(invoice.id, invoice.status)} variant="outline">
-                                            <SquarePen className="w-4 h-4" />
-                                        </Button>
-                                        <DeleteConfirm
-                                            title={"فاکتور"}
-                                            onConfirm={() =>
-                                                handleDelete(
-                                                    invoice.id,
-                                                    invoice.status
-                                                )
-                                            }
-                                        />
+
+                                        <InvoiceActions invoiceId={invoice.id} invoiceStatus={invoice.status} handleDelete={handleDelete} handleEdit={handleEdit} handlePaid={handlePaid} />
                                     </TableCell>
                                 </TableRow>
                             ))}

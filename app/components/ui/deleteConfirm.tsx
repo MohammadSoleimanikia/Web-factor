@@ -13,14 +13,27 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Button } from "../ui/button";
-export default function DeleteConfirm({ onConfirm, title }: { onConfirm: () => void, title?: string }) {
+type DeleteConfirmProps = {
+    onConfirm: () => void;
+    title?: string;
+    trigger?: React.ReactNode;
+};
+
+export default function DeleteConfirm({
+    onConfirm,
+    title,
+    trigger,
+}: DeleteConfirmProps) {
     return (
         <AlertDialog>
-            <AlertDialogTrigger>
-                <Button variant="destructive">
-                    <Trash />
-                </Button>
+            <AlertDialogTrigger asChild>
+                {trigger ?? (
+                    <Button variant="destructive" size="icon">
+                        <Trash className="w-4 h-4" />
+                    </Button>
+                )}
             </AlertDialogTrigger>
+
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>آیا مطمئن هستید؟</AlertDialogTitle>
@@ -29,9 +42,12 @@ export default function DeleteConfirm({ onConfirm, title }: { onConfirm: () => v
                         این {title} را حذف کنید؟
                     </AlertDialogDescription>
                 </AlertDialogHeader>
+
                 <AlertDialogFooter>
                     <AlertDialogCancel>انصراف</AlertDialogCancel>
-                    <AlertDialogAction onClick={onConfirm}>حذف</AlertDialogAction>
+                    <AlertDialogAction onClick={onConfirm}>
+                        حذف
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
