@@ -22,7 +22,13 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
-export default function ProductTable({ reload }: { reload: number }) {
+export default function ProductTable({
+    reload,
+    searchQuery,
+}: {
+    reload: number;
+    searchQuery: string;
+}) {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState<Product[]>([]);
     const [page, setPage] = useState(1);
@@ -36,7 +42,7 @@ export default function ProductTable({ reload }: { reload: number }) {
 
             try {
                 const data = await apiFetch<PaginatedProductList>(
-                    `/user/products/?page=${page}&page_size=${pageSize}`
+                    `/user/products/?page=${page}&page_size=${pageSize}&search=${searchQuery}`
                 );
                 setProducts(data.results);
                 setCount(data.count);
@@ -48,7 +54,7 @@ export default function ProductTable({ reload }: { reload: number }) {
         };
 
         fetchProducts();
-    }, [reload, page]);
+    }, [reload, page,searchQuery]);
     const handleDelete = async (id: number) => {
         try {
             await apiFetch(`/user/products/${id}/`, { method: "DELETE" });
@@ -58,7 +64,9 @@ export default function ProductTable({ reload }: { reload: number }) {
             if (err instanceof Error) {
                 toast.error(err.message);
             } else {
-                toast.error("کالایی که در فاکتور استفاده شده را نمی‌توان حذف کرد");
+                toast.error(
+                    "کالایی که در فاکتور استفاده شده را نمی‌توان حذف کرد"
+                );
             }
         }
     };

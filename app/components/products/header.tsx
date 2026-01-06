@@ -1,4 +1,5 @@
 import { SearchIcon } from "lucide-react";
+import { useState } from "react";
 
 import {
     InputGroup,
@@ -8,7 +9,14 @@ import {
 } from "../ui/input-group";
 import AddProductModal from "./addProductModal";
 
-export default function Header({ onAdded }: { onAdded: () => void }) {
+export default function Header({
+    onAdded,
+    setSearchQuery,
+}: {
+    onAdded: () => void;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+}) {
+    const [searchInput, setSearchInput] = useState("");
     return (
         <header className="mx-5">
             <h1 className="title">کالا ها</h1>
@@ -16,12 +24,18 @@ export default function Header({ onAdded }: { onAdded: () => void }) {
                 <AddProductModal onAdded={onAdded} />
                 {/* search btn */}
                 <InputGroup>
-                    <InputGroupInput placeholder="جستجو..." />
-                    <InputGroupAddon>
-                        <SearchIcon />
-                    </InputGroupAddon>
+                    <InputGroupInput
+                        placeholder="جستجو..."
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                    />
                     <InputGroupAddon align="inline-end">
-                        <InputGroupButton>جستجو</InputGroupButton>
+                        <InputGroupButton
+                            className="ml-2"
+                            onClick={() => setSearchQuery(searchInput)}
+                        >
+                            <SearchIcon />
+                        </InputGroupButton>
                     </InputGroupAddon>
                 </InputGroup>
             </div>
