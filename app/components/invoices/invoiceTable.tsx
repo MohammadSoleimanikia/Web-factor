@@ -24,7 +24,7 @@ import {
 } from "../ui/pagination";
 import InvoiceActions from "./invoiceActions";
 import InvoiceSkeleton from "./invoiceSkeleton";
-export default function InvoiceTable({searchQuery}:{searchQuery:string}) {
+export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
@@ -53,7 +53,7 @@ export default function InvoiceTable({searchQuery}:{searchQuery:string}) {
         };
 
         fetchInvoices();
-    }, [page,searchQuery]);
+    }, [page, searchQuery]);
 
     const handleDelete = async (id: string, status: string | undefined) => {
         if (status === "paid") {
@@ -135,8 +135,8 @@ export default function InvoiceTable({searchQuery}:{searchQuery:string}) {
                                     <TableCell>
                                         {invoice.payment_mode
                                             ? paymentModeFa[
-                                                invoice.payment_mode
-                                            ]
+                                                  invoice.payment_mode
+                                              ]
                                             : "-"}
                                     </TableCell>
                                     <TableCell className="flex items-center gap-2">
@@ -146,14 +146,15 @@ export default function InvoiceTable({searchQuery}:{searchQuery:string}) {
                                     <TableCell>
                                         {invoice.items?.length || 0}
                                     </TableCell>
-                                    <TableCell>
-                                        {new Date(
-                                            invoice.created
-                                        ).toLocaleDateString("fa-IR")}
-                                    </TableCell>
+                                    <TableCell>{invoice.created}</TableCell>
                                     <TableCell className="flex gap-2">
-
-                                        <InvoiceActions invoiceId={invoice.id} invoiceStatus={invoice.status} handleDelete={handleDelete} handleEdit={handleEdit} handlePaid={handlePaid} />
+                                        <InvoiceActions
+                                            invoiceId={invoice.id}
+                                            invoiceStatus={invoice.status}
+                                            handleDelete={handleDelete}
+                                            handleEdit={handleEdit}
+                                            handlePaid={handlePaid}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))}
