@@ -20,7 +20,7 @@ export default function Dashboard() {
         pending_count: 0,
         trends: [
             {
-                month: "2025-12-31T06:50:15.300Z",
+                date: "2025-12-31T06:50:15.300Z",
                 total: 0,
             },
         ],

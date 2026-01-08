@@ -16,7 +16,7 @@ const chartConfig = {
 export function TrendChart({
     chartData,
 }: {
-    chartData: { month: string; total: number }[];
+    chartData: { date: string; total: number }[];
 }) {
     return (
         <Card>
@@ -29,14 +29,14 @@ export function TrendChart({
                         <CartesianGrid vertical={false} />
 
                         <XAxis
-                            dataKey="month"
+                            dataKey="date"
                             tickFormatter={(value) => value.slice(0, 7)}
                         />
                         <ChartTooltip
                             content={
                                 <ChartTooltipContent
                                     indicator="line"
-                                    labelKey="month"
+                                    labelKey="date"
                                     nameKey="total"
                                 />
                             }

@@ -1,5 +1,5 @@
 type Trends = {
-    month: string;
+    date: string;
     total: number;
 };
 type TopProducts = {
