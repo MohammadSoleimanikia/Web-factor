@@ -5,10 +5,6 @@ import { Button } from "@/components/ui/button";
 import ThemeToggler from "./themeToggler";
 
 export default function Header() {
-    const scrollToAbout = () => {
-        const aboutSection = document.getElementById("about");
-        aboutSection?.scrollIntoView({ behavior: "smooth" });
-    };
     return (
         <header className=" container mx-auto flex justify-between items-center  pt-4 h-16">
             <Link to={"/"}>
@@ -17,9 +13,7 @@ export default function Header() {
             <div className="flex items-center gap-3">
                 <ThemeToggler />
                 <Link to={"/demo"}>
-                    <Button onClick={scrollToAbout} variant={"outline"}>
-                        دمو
-                    </Button>
+                    <Button variant={"outline"}>دمو</Button>
                 </Link>
                 <NavLink to={"/dashboard"}>
                     <Button>ورود/عضویت</Button>
