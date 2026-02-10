@@ -145,7 +145,7 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                         <span>{invoice.total_amount}</span>
                                         <span>تومان</span>
                                     </TableCell>
-                                    
+
                                     <TableCell>{invoice.created}</TableCell>
                                     <TableCell className="flex gap-2">
                                         <InvoiceActions

@@ -10,6 +10,10 @@ export type Invoice = {
     customer_phone_number?: string | null;
     customer_email?: string | null;
     customer_address?: string | null;
+
+    is_public: boolean;
+    public_token: string;
+
     status?: "pending" | "paid" | "cancelled";
     payment_mode?: "cash" | "card" | "bank" | "others";
     created: string;
