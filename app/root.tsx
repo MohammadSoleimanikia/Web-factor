@@ -9,15 +9,14 @@ import {
     ScrollRestoration,
 } from "react-router";
 
-import { ThemeProvider } from "@/components/themeProvider"
-import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "@/components/themeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 import type { Route } from "./+types/root";
 
-
 export const links: Route.LinksFunction = () => [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
-    
+
     {
         rel: "preconnect",
         href: "https://fonts.gstatic.com",
@@ -31,7 +30,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" dir="rtl">
+        <html lang="en" dir="rtl" suppressHydrationWarning>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -41,7 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Meta />
                 <Links />
             </head>
-            <body>
+            <body suppressHydrationWarning>
                 {children}
                 <ScrollRestoration />
                 <Scripts />
@@ -53,12 +52,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
     return (
-            <ThemeProvider>
-                <div className=" font-vazir">
-                    <Outlet />
-                </div>
-                
-            </ThemeProvider>
+        <ThemeProvider>
+            <div className=" font-vazir">
+                <Outlet />
+            </div>
+        </ThemeProvider>
     );
 }
 
