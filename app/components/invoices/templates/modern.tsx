@@ -135,7 +135,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                     <div className="flex flex-col items-center">
                         {brandingLogo ? (
                             <img
-                                src={`https://invociemanager-production.up.railway.app/account${profile.profile.logo}`}
+                                src={`https://yasinhossini94.pythonanywhere.com/account${profile.profile.logo}`}
                                 alt="Logo"
                                 className="w-36"
                             />

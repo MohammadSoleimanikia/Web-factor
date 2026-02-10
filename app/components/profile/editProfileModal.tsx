@@ -88,7 +88,7 @@ export default function EditProfileModal({
             }
 
             const response = await fetch(
-                "https://invociemanager-production.up.railway.app/account/profile/",
+                "https://yasinhossini94.pythonanywhere.com/account/profile/",
                 {
                     method: "PATCH",
                     headers,

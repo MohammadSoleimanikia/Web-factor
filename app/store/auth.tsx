@@ -5,7 +5,7 @@ import type { AuthContextType } from "@/types/authContext";
 import type { Token } from "@/types/token";
 import type { User } from "@/types/user";
 
-const BASE_URL = "https://invociemanager-production.up.railway.app/account";
+const BASE_URL = "https://yasinhossini94.pythonanywhere.com/account";
 const useAuth = create<AuthContextType>()(
     persist(
         (set) => ({

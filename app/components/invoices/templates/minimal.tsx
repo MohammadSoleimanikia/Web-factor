@@ -10,7 +10,9 @@ type invoiceProps = {
 };
 export default function Minimal({ invoice, user }: invoiceProps) {
     const { profile } = useAuth();
-    const brandingLogo = profile?.profile.logo;
+    // Use passed user prop for public invoices, fallback to authenticated user profile
+    const displayUser = user || profile;
+    const brandingLogo = displayUser?.profile?.logo;
     return (
         <div className="w-[210mm] min-h-[297mm] mx-auto bg-white dark:bg-muted  print:dark:bg-white p-10 flex flex-col print:page-break-inside-avoid">
             <header className="flex justify-between pb-8">
@@ -54,18 +56,18 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                 <div className="flex flex-col items-center">
                     {brandingLogo ? (
                         <img
-                            src={`https://invociemanager-production.up.railway.app/account${profile.profile.logo}`}
+                            src={`https://yasinhossini94.pythonanywhere.com/account${brandingLogo}`}
                             alt="Logo"
                             className="w-36 "
                         />
                     ) : (
                         <h2 className="text-3xl font-bold">
-                            {user?.profile.store_name}
+                            {displayUser?.profile?.store_name || "فاکتور"}
                         </h2>
                     )}
-                    {user && brandingLogo && (
+                    {brandingLogo && displayUser?.profile?.store_name && (
                         <p className="ml-4 text-xl font-light">
-                            {user.profile.store_name}
+                            {displayUser.profile.store_name}
                         </p>
                     )}
                 </div>
@@ -129,30 +131,24 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                 </div>
             </section>
             <footer className="mt-auto flex gap-5 justify-around">
-                {
-                        user?.profile.insta_link && (
-                            <div className="flex gap-2">
-                                <Instagram />
-                                {user?.profile.insta_link}
-                            </div>
-                        )
-                    }
-                    {
-                        user?.phone_number && (
-                            <div className="flex gap-2">
-                                <PhoneCall />
-                                {user?.phone_number}
-                            </div>
-                        )
-                    }
-                    {
-                        user?.profile.store_address && (
-                            <div className="flex gap-2">
-                                <MapPinHouse />
-                                {user?.profile.store_address}
-                            </div>
-                        )
-                    }
+                {displayUser?.profile?.insta_link && (
+                    <div className="flex gap-2">
+                        <Instagram />
+                        {displayUser.profile.insta_link}
+                    </div>
+                )}
+                {displayUser?.phone_number && (
+                    <div className="flex gap-2">
+                        <PhoneCall />
+                        {displayUser.phone_number}
+                    </div>
+                )}
+                {displayUser?.profile?.store_address && (
+                    <div className="flex gap-2">
+                        <MapPinHouse />
+                        {displayUser.profile.store_address}
+                    </div>
+                )}
             </footer>
         </div>
     );

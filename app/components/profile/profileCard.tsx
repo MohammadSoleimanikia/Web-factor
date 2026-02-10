@@ -122,7 +122,7 @@ export default function ProfileCard() {
                     <div className="bg-muted rounded-sm p-2">
                         {profile.profile.logo ? (
                             <img
-                                src={`https://invociemanager-production.up.railway.app/account${profile.profile.logo}`}
+                                src={`https://yasinhossini94.pythonanywhere.com/account${profile.profile.logo}`}
                                 alt="Logo"
                                 className="w-16 h-16 object-contain"
                             />
