@@ -41,7 +41,7 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
 
             try {
                 const data = await apiFetch<PaginatedInvoiceList>(
-                    `/user/invoices/?page=${page}&page_size=${pageSize}&search=${searchQuery}`
+                    `/user/invoices/?page=${page}&page_size=${pageSize}&search=${searchQuery}`,
                 );
                 setInvoices(data.results);
                 setCount(data.count);
@@ -87,8 +87,8 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
             await apiFetch(`/user/invoices/${id}/paid/`, { method: "POST" });
             setInvoices(
                 invoices.map((inv: Invoice) =>
-                    inv.id === id ? { ...inv, status: "paid" } : inv
-                )
+                    inv.id === id ? { ...inv, status: "paid" } : inv,
+                ),
             );
             toast.success("فاکتور با موفقیت به پرداخت شده تغییر یافت");
         } catch (err) {
@@ -106,13 +106,11 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                         <TableHeader className="bg-muted rounded-sm">
                             <TableRow>
                                 <TableHead>نام مشتری</TableHead>
-                                <TableHead>ایمیل مشتری</TableHead>
                                 <TableHead>شماره تلفن</TableHead>
                                 <TableHead>آدرس</TableHead>
                                 <TableHead>وضعیت</TableHead>
                                 <TableHead>روش پرداخت</TableHead>
                                 <TableHead>مبلغ کل</TableHead>
-                                <TableHead>تعداد آیتم‌ها</TableHead>
                                 <TableHead>تاریخ ایجاد</TableHead>
                                 <TableHead>عملیات</TableHead>
                             </TableRow>
@@ -124,9 +122,7 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                     <TableCell>
                                         {invoice.customer_name || "-"}
                                     </TableCell>
-                                    <TableCell>
-                                        {invoice.customer_email || "-"}
-                                    </TableCell>
+
                                     <TableCell>
                                         {invoice.customer_phone_number || "-"}
                                     </TableCell>
@@ -149,9 +145,7 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                         <span>{invoice.total_amount}</span>
                                         <span>تومان</span>
                                     </TableCell>
-                                    <TableCell>
-                                        {invoice.items?.length || 0}
-                                    </TableCell>
+                                    
                                     <TableCell>{invoice.created}</TableCell>
                                     <TableCell className="flex gap-2">
                                         <InvoiceActions
