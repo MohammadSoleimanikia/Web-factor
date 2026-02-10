@@ -11,9 +11,11 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import SharePublicLinkDialog from "./sharePublicLinkDialog";
 
 type InvoiceActionsProps = {
     invoiceId: string;
+    invoiceToken: string;
     invoiceStatus: string | undefined;
     handleDelete: (id: string, status: string) => void;
     handleEdit: (id: string, status: string) => void;
@@ -21,6 +23,7 @@ type InvoiceActionsProps = {
 };
 export default function InvoiceActions({
     invoiceId,
+    invoiceToken,
     invoiceStatus,
     handleDelete,
     handleEdit,
@@ -33,6 +36,7 @@ export default function InvoiceActions({
                     <Eye className="w-4 h-4" />
                 </Button>
             </Link>
+            <SharePublicLinkDialog invoiceToken={invoiceToken} />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
@@ -43,7 +47,7 @@ export default function InvoiceActions({
                         <MoreHorizontalIcon />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" >
+                <DropdownMenuContent align="start">
                     <DropdownMenuGroup>
                         {invoiceStatus && (
                             <DropdownMenuItem
@@ -56,10 +60,14 @@ export default function InvoiceActions({
                             </DropdownMenuItem>
                         )}
                         {invoiceStatus && (
-                        <DropdownMenuItem onClick={() => handlePaid(invoiceId, invoiceStatus)}>
-                            <Check />
-                            تغیر حالت به پرداخت شده
-                        </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() =>
+                                    handlePaid(invoiceId, invoiceStatus)
+                                }
+                            >
+                                <Check />
+                                تغیر حالت به پرداخت شده
+                            </DropdownMenuItem>
                         )}
                         {invoiceStatus && (
                             <DropdownMenuItem

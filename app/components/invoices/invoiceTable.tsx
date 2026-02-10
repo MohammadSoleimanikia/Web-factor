@@ -150,6 +150,7 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                     <TableCell className="flex gap-2">
                                         <InvoiceActions
                                             invoiceId={invoice.id}
+                                            invoiceToken={invoice.public_token}
                                             invoiceStatus={invoice.status}
                                             handleDelete={handleDelete}
                                             handleEdit={handleEdit}

@@ -7,19 +7,21 @@ import {
 
 export default [
     index("routes/home.tsx"),
-
+    route("public/:invoiceToken", "routes/invoices/publicInvoice.tsx"),
     layout("routes/guestOnly.tsx", [
         route("login", "routes/logIn.tsx"),
         route("signup", "routes/signUp.tsx"),
         route("demo", "routes/demoInvoice.tsx"),
         route("demo-invoice/preview", "routes/demoInvoicePreview.tsx"),
+        
     ]),
     // layout
     layout("routes/dashboard/protected.tsx", [
         layout("routes/dashboard/dashboardLayout.tsx", [
             route("dashboard", "routes/dashboard/dashboard.tsx"),
             route("products", "routes/products.tsx"),
-
+            
+            
             route("invoices", "routes/invoices/invoices.tsx"),
 
             route("invoices/new", "routes/invoices/newInvoice.tsx", {

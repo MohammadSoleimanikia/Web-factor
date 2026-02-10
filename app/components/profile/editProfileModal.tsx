@@ -93,7 +93,7 @@ export default function EditProfileModal({
                     method: "PATCH",
                     headers,
                     body: formData,
-                }
+                },
             );
 
             if (!response.ok) {
@@ -270,15 +270,26 @@ export default function EditProfileModal({
                             <Input
                                 type="file"
                                 id="profile.logo"
-                                accept="image/*"
+                                accept="image/png"
                                 onChange={(e) => {
                                     const file = e.target.files?.[0];
 
                                     if (!file) return;
 
+                                    // Check file type
+                                    if (file.type !== "image/png") {
+                                        toast.error(
+                                            "فقط فایل‌های PNG قابل قبول هستند",
+                                        );
+                                        e.target.value = "";
+                                        setLogoFile(null);
+                                        return;
+                                    }
+
+                                    // Check file size
                                     if (file.size > MAX_SIZE) {
-                                        toast.success(
-                                            "حجم فایل باید کمتر از 25 باشد"
+                                        toast.error(
+                                            "حجم فایل باید کمتر از 25 کیلوبایت باشد",
                                         );
                                         e.target.value = ""; // ریست input
                                         setLogoFile(null);
@@ -286,6 +297,7 @@ export default function EditProfileModal({
                                     }
 
                                     setLogoFile(file);
+                                    toast.success("لوگو با موفقیت انتخاب شد");
                                 }}
                             />
                             <p className="text-red-500 text-sm">

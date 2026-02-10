@@ -12,6 +12,8 @@ export function buildInvoiceViewModel({ invoice }: InvoiceViewModelProps) {
     return {
         invoiceNumber: invoice.invoice_number,
         createdAt: invoice.created,
+        is_public: invoice.is_public,
+        public_token: invoice.public_token,
         customer: {
             name: invoice.customer_name,
             address: invoice.customer_address,
