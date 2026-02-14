@@ -25,6 +25,7 @@ import {
     SidebarSeparator,
 } from "@/components/ui/sidebar";
 import useAuth from "@/store/auth";
+import type { AuthContextType } from "@/types/authContext";
 
 import { ModeToggle } from "./modeToggle";
 import {
@@ -76,9 +77,9 @@ const userItems = [
 ];
 
 export function AppSidebar() {
-    const logOut = useAuth((state) => state.logOut);
+    const logOut = useAuth((state: AuthContextType) => state.logOut);
     return (
-        <Sidebar className="print:hidden print:m-0" side="right">
+        <Sidebar className="print:hidden print:m-0" side="left">
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupContent>

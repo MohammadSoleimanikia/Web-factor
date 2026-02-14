@@ -129,7 +129,7 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                     <TableCell>
                                         {invoice.customer_address || "-"}
                                     </TableCell>
-                                    <TableCell className="flex items-center gap-3 justify-between">
+                                    <TableCell className="text-right">
                                         {invoice.status
                                             ? invoiceStatusFa[invoice.status]
                                             : "-"}
@@ -141,13 +141,12 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                               ]
                                             : "-"}
                                     </TableCell>
-                                    <TableCell className="flex items-center gap-2">
-                                        <span>{invoice.total_amount}</span>
-                                        <span>تومان</span>
+                                    <TableCell className="text-right whitespace-nowrap">
+                                        {invoice.total_amount} تومان
                                     </TableCell>
 
                                     <TableCell>{invoice.created}</TableCell>
-                                    <TableCell className="flex gap-2">
+                                    <TableCell>
                                         <InvoiceActions
                                             invoiceId={invoice.id}
                                             invoiceToken={invoice.public_token}

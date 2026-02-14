@@ -1,7 +1,3 @@
-/**
- * Reusable select field component for status and payment mode
- */
-
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller } from "react-hook-form";
 

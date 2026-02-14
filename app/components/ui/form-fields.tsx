@@ -1,7 +1,3 @@
-/**
- * Reusable form field components to reduce duplication and improve maintainability
- */
-
 import type { ReactNode } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 

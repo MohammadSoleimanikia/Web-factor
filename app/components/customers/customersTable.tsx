@@ -36,7 +36,7 @@ export default function CustomersTable({ reload }: { reload: number }) {
 
             try {
                 const data = await apiFetch<PaginatedCustomerList>(
-                    `/account/customers/?page=${page}&page_size=${pageSize}`
+                    `/account/customers/?page=${page}&page_size=${pageSize}`,
                 );
                 setCustomers(data.results);
                 setCount(data.count);
@@ -55,8 +55,7 @@ export default function CustomersTable({ reload }: { reload: number }) {
             setCustomers(customers.filter((c: Customer) => c.id !== id));
             toast.success("مشتری حذف شد");
         } catch (err: unknown) {
-            if(err instanceof Error)
-            toast.error(err.message);
+            if (err instanceof Error) toast.error(err.message);
         }
     };
     return (
@@ -81,14 +80,15 @@ export default function CustomersTable({ reload }: { reload: number }) {
                                     <TableCell className="text-right">
                                         {c.name}
                                     </TableCell>
-                                    <TableCell>
-                                        {c.address || "-"}
-                                    </TableCell>
-                                    <TableCell className="flex items-center gap-2">
-                                        <span>{c.phone_number}</span>
+                                    <TableCell>{c.address || "-"}</TableCell>
+                                    <TableCell className="text-right">
+                                        {c.phone_number}
                                     </TableCell>
                                     <TableCell>
-                                        <DeleteConfirm onConfirm={() => handleDelete(c.id)} title="مشتری"/>
+                                        <DeleteConfirm
+                                            onConfirm={() => handleDelete(c.id)}
+                                            title="مشتری"
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))}

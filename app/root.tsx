@@ -10,6 +10,7 @@ import {
 } from "react-router";
 
 import { ThemeProvider } from "@/components/themeProvider";
+import { DirectionProvider } from "@/components/ui/direction";
 import { Toaster } from "@/components/ui/sonner";
 
 import type { Route } from "./+types/root";
@@ -30,7 +31,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" dir="rtl" suppressHydrationWarning>
+        <html lang="fa" dir="rtl" suppressHydrationWarning>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -41,7 +42,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body suppressHydrationWarning>
-                {children}
+                <DirectionProvider dir="rtl">
+                    {children}
+                </DirectionProvider>
                 <ScrollRestoration />
                 <Scripts />
                 <Toaster />

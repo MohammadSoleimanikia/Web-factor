@@ -47,7 +47,7 @@ export default function InvoiceActions({
                         <MoreHorizontalIcon />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
+                <DropdownMenuContent align="end">
                     <DropdownMenuGroup>
                         {invoiceStatus && (
                             <DropdownMenuItem

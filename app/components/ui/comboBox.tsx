@@ -57,7 +57,7 @@ export function Combobox({
                     {value
                         ? items.find((i) => i.value === value)?.label
                         : placeholder}
-                    <ChevronsUpDownIcon className="ml-2 h-4 w-4 opacity-50" />
+                    <ChevronsUpDownIcon className="ms-2 h-4 w-4 opacity-50" />
                 </Button>
             </PopoverTrigger>
 
@@ -78,7 +78,7 @@ export function Combobox({
                                 >
                                     <CheckIcon
                                         className={cn(
-                                            "mr-2 h-4 w-4",
+                                            "me-2 h-4 w-4",
                                             value === item.value
                                                 ? "opacity-100"
                                                 : "opacity-0"
