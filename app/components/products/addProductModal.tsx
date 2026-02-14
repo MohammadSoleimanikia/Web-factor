@@ -20,7 +20,9 @@ import { Textarea } from "../ui/textarea";
 
 export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
     const [loading, setLoading] = useState(false);
-    const [numPersian, setNumPersian] =useState("");
+    const [pricePersian, setPricePersian] = useState("");
+    const [buyPersian, setBuyPersian] = useState("");
+
 
     const {
         register,
@@ -40,7 +42,7 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
             toast.success("کالا با موفقیت افزوده شد");
             reset();
             onAdded?.();
-            setNumPersian("");
+            setPricePersian("");
         } catch (err: any) {
             console.error(err);
 
@@ -111,14 +113,28 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
                             min: { value: 1, message: "حداقل ۱" },
                         })}
                         onChange={(e) => {
-                            setNumPersian(num2persian(e.target.value));
+                            setPricePersian(num2persian(e.target.value));
                         }}
                     />
-                    {numPersian && <p>{numPersian} تومان</p>}
+                    {pricePersian && <p>{pricePersian} تومان</p>}
                     <p className="text-red-500 text-sm">
                         {errors.price?.message}
                     </p>
-
+                    <Input
+                        type="number"
+                        placeholder="قیمت خرید"
+                        {...register("buy", {
+                            required: "قیمت خرید الزامی است",
+                            min: { value: 1, message: "حداقل ۱" },
+                        })}
+                        onChange={(e) => {
+                            setBuyPersian(num2persian(e.target.value));
+                        }}
+                    />
+                    {buyPersian && <p>{buyPersian} تومان</p>}
+                    <p className="text-red-500 text-sm">
+                        {errors.buy?.message}
+                    </p>
                     <Button
                         type="submit"
                         disabled={loading || isSubmitting}
@@ -130,7 +146,6 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
                         {" "}
                         {errors.root?.message}
                     </p>
-                    
                 </form>
             </DialogContent>
         </Dialog>

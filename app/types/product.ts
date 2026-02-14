@@ -2,11 +2,13 @@ export type Product = {
     id: number;
     name: string;
     description:string;
+    buy:number;
     price:number;
 }
 export type ProductCreate = {
     name: string;
     description: string;
+    buy:number;
     price: number;
 };
 export type PaginatedProductList = {

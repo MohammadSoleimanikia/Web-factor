@@ -42,7 +42,7 @@ export default function ProductTable({
 
             try {
                 const data = await apiFetch<PaginatedProductList>(
-                    `/user/products/?page=${page}&page_size=${pageSize}&search=${searchQuery}`
+                    `/user/products/?page=${page}&page_size=${pageSize}&search=${searchQuery}`,
                 );
                 setProducts(data.results);
                 setCount(data.count);
@@ -54,7 +54,7 @@ export default function ProductTable({
         };
 
         fetchProducts();
-    }, [reload, page,searchQuery]);
+    }, [reload, page, searchQuery]);
     const handleDelete = async (id: number) => {
         try {
             await apiFetch(`/user/products/${id}/`, { method: "DELETE" });
@@ -65,7 +65,7 @@ export default function ProductTable({
                 toast.error(err.message);
             } else {
                 toast.error(
-                    "کالایی که در فاکتور استفاده شده را نمی‌توان حذف کرد"
+                    "کالایی که در فاکتور استفاده شده را نمی‌توان حذف کرد",
                 );
             }
         }
@@ -81,7 +81,8 @@ export default function ProductTable({
                             <TableRow>
                                 <TableHead>نام</TableHead>
                                 <TableHead>توضیحات</TableHead>
-                                <TableHead>قیمت</TableHead>
+                                <TableHead>قیمت فروش</TableHead>
+                                <TableHead>قیمت خرید</TableHead>
                                 <TableHead>عملیات</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -95,9 +96,11 @@ export default function ProductTable({
                                     <TableCell>
                                         {p.description || "-"}
                                     </TableCell>
-                                    <TableCell className="flex items-center gap-2">
-                                        <span>{p.price}</span>
-                                        <span>تومان</span>
+                                    <TableCell className="text-right whitespace-nowrap">
+                                        {p.price} تومان
+                                    </TableCell>
+                                    <TableCell className="text-right whitespace-nowrap">
+                                        {p.buy} تومان
                                     </TableCell>
                                     <TableCell>
                                         <DeleteConfirm
