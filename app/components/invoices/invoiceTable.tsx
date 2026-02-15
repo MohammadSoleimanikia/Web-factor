@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
+import { invoiceStatusFa, } from "@/constants/invoice";
 import { apiFetch } from "@/lib/api";
 import type { Invoice, PaginatedInvoiceList } from "@/types/invoice";
 
@@ -102,14 +102,13 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                 <InvoiceSkeleton />
             ) : (
                 <div className="my-5 ">
-                    <Table className="my-5">
+                    <Table className="my-5 ">
                         <TableHeader className="bg-muted rounded-sm">
                             <TableRow>
                                 <TableHead>نام مشتری</TableHead>
                                 <TableHead>شماره تلفن</TableHead>
                                 <TableHead>آدرس</TableHead>
                                 <TableHead>وضعیت</TableHead>
-                                <TableHead>روش پرداخت</TableHead>
                                 <TableHead>مبلغ کل</TableHead>
                                 <TableHead>تاریخ ایجاد</TableHead>
                                 <TableHead>عملیات</TableHead>
@@ -126,21 +125,17 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                     <TableCell>
                                         {invoice.customer_phone_number || "-"}
                                     </TableCell>
-                                    <TableCell>
-                                        {invoice.customer_address || "-"}
+                                    <TableCell className=" w-40 truncate">
+                                        <div className="w-45 truncate">
+                                            {invoice.customer_address || "-"}
+                                        </div>
                                     </TableCell>
                                     <TableCell className="text-right">
                                         {invoice.status
                                             ? invoiceStatusFa[invoice.status]
                                             : "-"}
                                     </TableCell>
-                                    <TableCell>
-                                        {invoice.payment_mode
-                                            ? paymentModeFa[
-                                                  invoice.payment_mode
-                                              ]
-                                            : "-"}
-                                    </TableCell>
+
                                     <TableCell className="text-right whitespace-nowrap">
                                         {invoice.total_amount} تومان
                                     </TableCell>
