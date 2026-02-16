@@ -6,7 +6,6 @@ import {
     LogOut,
     Package,
     ScrollText,
-    Settings,
     User2,
     Users,
 } from "lucide-react";
@@ -68,11 +67,6 @@ const userItems = [
         title: "پروفایل",
         url: "/profile",
         icon: CircleUserRound,
-    },
-    {
-        title: "تنظیمات",
-        url: "#",
-        icon: Settings,
     },
 ];
 
