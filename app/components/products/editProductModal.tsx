@@ -16,6 +16,7 @@ import { apiFetch } from "@/lib/api";
 import type { Product, ProductCreate } from "@/types/product";
 
 import { Button } from "../ui/button";
+import { Field,  FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
@@ -87,53 +88,69 @@ export default function EditProductModal({
                         {product.name}
                     </p>
 
-                    <Textarea
-                        placeholder="توضیحات"
-                        defaultValue={product.description}
-                        {...register("description", {
-                            minLength: { value: 2, message: "حداقل ۲ کاراکتر" },
-                            maxLength: {
-                                value: 300,
-                                message: "حداکثر ۳۰۰ کاراکتر",
-                            },
-                        })}
-                    />
-                    <p className="text-red-500 text-sm">
-                        {errors.description?.message}
-                    </p>
+                    <Field>
+                        <FieldLabel htmlFor="description">توضیحات</FieldLabel>
+                        <Textarea
+                            placeholder="توضیحات"
+                            id="description"
+                            defaultValue={product.description}
+                            {...register("description", {
+                                minLength: {
+                                    value: 2,
+                                    message: "حداقل ۲ کاراکتر",
+                                },
+                                maxLength: {
+                                    value: 300,
+                                    message: "حداکثر ۳۰۰ کاراکتر",
+                                },
+                            })}
+                        />
+                        <p className="text-red-500 text-sm">
+                            {errors.description?.message}
+                        </p>
+                    </Field>
+                    <Field>
+                        <FieldLabel htmlFor="sell">قیمت فروش</FieldLabel>
 
-                    <Input
-                        type="number"
-                        defaultValue={product.price}
-                        placeholder="قیمت"
-                        {...register("price", {
-                            required: "قیمت الزامی است",
-                            min: { value: 1, message: "حداقل ۱" },
-                        })}
-                        onChange={(e) => {
-                            setPricePersian(num2persian(e.target.value));
-                        }}
-                    />
-                    {pricePersian && <p>{pricePersian} تومان</p>}
-                    <p className="text-red-500 text-sm">
-                        {errors.price?.message}
-                    </p>
-                    <Input
-                        type="number"
-                        defaultValue={product.buy}
-                        placeholder="قیمت خرید"
-                        {...register("buy", {
-                            required: "قیمت خرید الزامی است",
-                            min: { value: 1, message: "حداقل ۱" },
-                        })}
-                        onChange={(e) => {
-                            setBuyPersian(num2persian(e.target.value));
-                        }}
-                    />
-                    {buyPersian && <p>{buyPersian} تومان</p>}
-                    <p className="text-red-500 text-sm">
-                        {errors.buy?.message}
-                    </p>
+                        <Input
+                            type="number"
+                            id="sell"
+                            defaultValue={product.price}
+                            placeholder="قیمت"
+                            {...register("price", {
+                                required: "قیمت الزامی است",
+                                min: { value: 1, message: "حداقل ۱" },
+                            })}
+                            onChange={(e) => {
+                                setPricePersian(num2persian(e.target.value));
+                            }}
+                        />
+                        {pricePersian && <p>{pricePersian} تومان</p>}
+                        <p className="text-red-500 text-sm">
+                            {errors.price?.message}
+                        </p>
+                    </Field>
+                    <Field>
+                        <FieldLabel htmlFor="buy">قیمت خرید</FieldLabel>
+
+                        <Input
+                            type="number"
+                            id="buy"
+                            defaultValue={product.buy}
+                            placeholder="قیمت خرید"
+                            {...register("buy", {
+                                required: "قیمت خرید الزامی است",
+                                min: { value: 1, message: "حداقل ۱" },
+                            })}
+                            onChange={(e) => {
+                                setBuyPersian(num2persian(e.target.value));
+                            }}
+                        />
+                        {buyPersian && <p>{buyPersian} تومان</p>}
+                        <p className="text-red-500 text-sm">
+                            {errors.buy?.message}
+                        </p>
+                    </Field>
                     <Button
                         type="submit"
                         disabled={loading || isSubmitting}
