@@ -76,17 +76,26 @@ export default function Invoice() {
                 </Select>
                 <Button onClick={() => window.print()}>چاپ</Button>
             </div>
-            <div className="overflow-x-scroll  overflow-hidden flex justify-center bg-muted p-5 space-y-3 dark:bg-muted-foreground print:text-black print:bg-white print:p-0 print:m-0 print:overflow-visible">
+            <div
+                className="
+                        relative
+                        w-full min-h-screen
+                        overflow-hidden
+                        bg-muted p-5
+                        flex justify-center items-start
+                        dark:bg-muted-foreground
+                        print:text-black print:bg-white print:p-0 print:m-0 print:overflow-visible
+                    "
+            >
                 <Zoomable>
-
-                        {template === "classic" ? (
-                            <Classic invoice={viewModel} user={user}  />
-                        ) : template === "modern" ? (
-                            <Modern invoice={viewModel} user={user} />
-                        ) : (
-                            <Minimal invoice={viewModel} user={user} />
-                        )}
-                        </Zoomable>
+                    {template === "classic" ? (
+                        <Classic invoice={viewModel} user={user} />
+                    ) : template === "modern" ? (
+                        <Modern invoice={viewModel} user={user} />
+                    ) : (
+                        <Minimal invoice={viewModel} user={user} />
+                    )}
+                </Zoomable>
             </div>
         </>
     );

@@ -20,7 +20,7 @@ export default function Classic({ invoice, user }: invoiceProps) {
         : null;
     const brandingLogo = displayUser?.profile.logo;
     return (
-        <div className="w-[210mm] min-h-[297mm] mx-auto bg-white dark:bg-muted  print:dark:bg-white p-10 flex flex-col print:page-break-inside-avoid">
+        <div className="w-[210mm] min-h-[297mm] mx-auto shrink-0 bg-white dark:bg-muted  print:dark:bg-white p-10 flex flex-col print:page-break-inside-avoid">
             <header className="pb-8">
                 <div className="flex flex-col items-center">
                     {brandingLogo ? (

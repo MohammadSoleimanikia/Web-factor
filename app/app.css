@@ -244,3 +244,22 @@
         @apply text-3xl font-semibold tracking-tight my-5;
     }
 }
+@media print {
+    [data-slot="sidebar-container"],
+    [data-slot="sidebar-gap"],
+    [data-slot="sidebar"],
+    aside,
+    nav {
+        display: none !important;
+    }
+
+    body {
+        overflow: visible !important;
+    }
+
+    * {
+        position: static !important;
+        height: auto !important;
+        max-height: none !important;
+    }
+}
