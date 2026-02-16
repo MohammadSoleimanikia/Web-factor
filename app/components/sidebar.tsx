@@ -73,14 +73,14 @@ const userItems = [
 export function AppSidebar() {
     const logOut = useAuth((state: AuthContextType) => state.logOut);
     return (
-        <Sidebar className="print:hidden print:m-0" side="left">
+        <Sidebar className="print:hidden print:m-0"  dir="ltr" side="right">
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {productItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
+                                    <SidebarMenuButton asChild className="flex-row-reverse sm:flex-row">
                                         <NavLink to={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
@@ -95,7 +95,7 @@ export function AppSidebar() {
                 <Collapsible defaultOpen className="group/collapsible">
                     <SidebarGroup>
                         <SidebarGroupLabel asChild>
-                            <CollapsibleTrigger>
+                            <CollapsibleTrigger className="flex-row-reverse sm:flex-row">
                                 تنظیمات
                                 <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                             </CollapsibleTrigger>
@@ -107,7 +107,7 @@ export function AppSidebar() {
                                     <SidebarMenu>
                                         {userItems.map((item) => (
                                             <SidebarMenuItem key={item.title}>
-                                                <SidebarMenuButton asChild>
+                                                <SidebarMenuButton asChild className="flex-row-reverse sm:flex-row">
                                                     <NavLink to={item.url}>
                                                         <item.icon />
                                                         <span>
@@ -132,7 +132,7 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton>
+                                <SidebarMenuButton className="flex-row-reverse sm:flex-row">
                                     <User2 /> حساب کاربری
                                     <ChevronUp className="ml-auto" />
                                 </SidebarMenuButton>
