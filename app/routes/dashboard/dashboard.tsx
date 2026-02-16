@@ -1,7 +1,7 @@
+import { CircleDollarSign, Clock, Scroll } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import InvoiceAmount from "@/components/dashboard/invoiceAmount";
-import InvoiceNumber from "@/components/dashboard/invoiceNumber";
+import InvoiceStatCard from "@/components/dashboard/InvoiceStatCard";
 import { TopProductsChart } from "@/components/dashboard/topProductChart";
 import { TrendChart } from "@/components/dashboard/trendChart";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
@@ -55,22 +55,42 @@ export default function Dashboard() {
         <main className="text-right">
             <h1 className="text-2xl font-bold mb-4">داشبورد</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <InvoiceAmount
-                    title="درآمد کل"
+                {/* 💰 فروش کل */}
+                <InvoiceStatCard
+                    title="فروش کل"
                     value={dashboardData.total_revenue}
-                />
-                <InvoiceNumber
-                    title="تعداد کل فاکتور ها"
-                    value={dashboardData.total_invoice}
+                    unit="تومان"
+                    icon={CircleDollarSign}
+                    showPersianText
+                    className="border-l-4 border-teal-500 text-teal-600"
                 />
 
-                <InvoiceNumber
-                    title="تعداد فاکتور های در انتظار"
-                    value={dashboardData.pending_count}
+                {/* 📄 تعداد کل فاکتورها */}
+                <InvoiceStatCard
+                    title="تعداد کل فاکتورها"
+                    value={dashboardData.total_invoice}
+                    unit="عدد"
+                    icon={Scroll}
+                    className="border-l-4 border-slate-400 text-slate-600"
                 />
-                <InvoiceAmount
+
+                {/* ⏳ فاکتورهای در انتظار */}
+                <InvoiceStatCard
+                    title="تعداد فاکتورهای در انتظار"
+                    value={dashboardData.pending_count}
+                    unit="عدد"
+                    icon={Clock}
+                    className="border-l-4 border-amber-400 text-amber-600"
+                />
+
+                {/* 💸 در انتظار پرداخت */}
+                <InvoiceStatCard
                     title="در انتظار پرداخت"
                     value={dashboardData.outstanding_amount}
+                    unit="تومان"
+                    icon={CircleDollarSign}
+                    showPersianText
+                    className="border-l-4 border-sky-400 text-sky-600"
                 />
             </div>
 

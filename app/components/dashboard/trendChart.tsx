@@ -1,64 +1,114 @@
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-
-import { Card, CardContent } from "@/components/ui/card";
 import {
-    type ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "@/components/ui/chart";
+    CartesianGrid,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 
-const chartConfig = {
-    trend: {
-        label: "فروش کل",
-    },
-} satisfies ChartConfig;
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function TrendChart({
-    chartData,
-}: {
-    chartData: { date: string; total: number }[];
-}) {
+type TrendData = {
+    date: string;
+    total: number;
+};
+
+export function TrendChart({ chartData }: { chartData: TrendData[] }) {
+    const hasData = chartData?.some((d) => d.total > 0);
+
     return (
-        <Card>
+        <Card className="h-full">
+            <CardHeader className="pb-2">
+                <CardTitle className="text-base font-semibold text-slate-800">
+                    ترند فروش
+                </CardTitle>
+            </CardHeader>
+
             <CardContent>
-                <ChartContainer
-                    config={chartConfig}
-                    className="min-h-62.5 w-full"
-                >
-                    <LineChart data={chartData}>
-                        <CartesianGrid vertical={false} />
+                {hasData ? (
+                    <ResponsiveContainer width="100%" height={260}>
+                        <LineChart data={chartData}>
+                            <defs>
+                                <linearGradient
+                                    id="trendGradient"
+                                    x1="0"
+                                    y1="0"
+                                    x2="0"
+                                    y2="1"
+                                >
+                                    <stop
+                                        offset="0%"
+                                        stopColor="#14b8a6"
+                                        stopOpacity={0.4}
+                                    />
+                                    <stop
+                                        offset="100%"
+                                        stopColor="#14b8a6"
+                                        stopOpacity={0}
+                                    />
+                                </linearGradient>
+                            </defs>
 
-                        <XAxis
-                            dataKey="date"
-                            tickFormatter={(value) => value.slice(5)}
-                        />
+                            <CartesianGrid
+                                strokeDasharray="3 3"
+                                vertical={false}
+                                stroke="#e5e7eb"
+                            />
 
-                        <YAxis />
+                            <XAxis
+                                dataKey="date"
+                                tickFormatter={(value) => value.slice(5)}
+                                tick={{ fontSize: 12, fill: "#64748b" }}
+                                axisLine={false}
+                                tickLine={false}
+                            />
 
-                        <ChartTooltip
-                            content={
-                                <ChartTooltipContent
-                                    indicator="line"
-                                    labelKey="date"
-                                    nameKey="total"
-                                />
-                            }
-                        />
+                            <YAxis
+                                tick={{ fontSize: 12, fill: "#64748b" }}
+                                axisLine={false}
+                                tickLine={false}
+                            />
 
-                        <Line
-                            type="monotone"
-                            dataKey="total"
-                            name="فروش کل"
-                            stroke="var(--color-primary)"
-                            strokeWidth={3}
-                            dot={{ r: 4 }}
-                            activeDot={{ r: 6 }}
-                        />
-                    </LineChart>
-                </ChartContainer>
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: "8px",
+                                    border: "1px solid #e5e7eb",
+                                    fontSize: "12px",
+                                }}
+                                labelFormatter={(label) =>
+                                    `تاریخ: ${label.slice(0, 10)}`
+                                }
+                                formatter={(value: number) => [
+                                    value.toLocaleString("fa-IR"),
+                                    "فروش",
+                                ]}
+                            />
 
-                <p className="text-center mt-2 text-sm text-muted-foreground">
+                            <Line
+                                type="monotone"
+                                dataKey="total"
+                                stroke="#14b8a6"
+                                strokeWidth={3}
+                                dot={{ r: 4, fill: "#14b8a6" }}
+                                activeDot={{ r: 6 }}
+                                fill="url(#trendGradient)"
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                ) : (
+                    <div className="h-[260px] flex flex-col items-center justify-center text-slate-400 text-sm">
+                        <span className="text-lg">📉</span>
+                        <p>داده‌ای برای نمایش وجود ندارد</p>
+                        <p className="text-xs mt-1">
+                            بعد از ثبت فاکتور، ترند اینجا نمایش داده می‌شود
+                        </p>
+                    </div>
+                )}
+
+                <p className="text-center mt-3 text-sm text-muted-foreground">
                     ترند فروش هفتگی
                 </p>
             </CardContent>
