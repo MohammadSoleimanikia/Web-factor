@@ -21,7 +21,7 @@ export default function Zoomable({ children }: ZoomableProps) {
         <TransformWrapper
             ref={zoomRef}
             initialScale={1}
-            minScale={0.5}
+            minScale={0.1}
             maxScale={3}
             wheel={{ step: 0.1 }}
             pinch={{ step: 5 }}
