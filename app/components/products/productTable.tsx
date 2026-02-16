@@ -22,10 +22,13 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "../ui/pagination";
+import EditProductModal from "./editProductModal";
 export default function ProductTable({
+    onAdded,
     reload,
     searchQuery,
 }: {
+    onAdded?: () => void;
     reload: number;
     searchQuery: string;
 }) {
@@ -60,6 +63,7 @@ export default function ProductTable({
             await apiFetch(`/user/products/${id}/`, { method: "DELETE" });
             setProducts((prev) => prev.filter((p) => p.id !== id));
             toast.success("محصول حذف شد");
+            onAdded?.();
         } catch (err) {
             if (err instanceof Error) {
                 toast.error(err.message);
@@ -102,11 +106,12 @@ export default function ProductTable({
                                     <TableCell className="text-right whitespace-nowrap">
                                         {p.buy} تومان
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="space-x-2">
                                         <DeleteConfirm
                                             title={"کالا"}
                                             onConfirm={() => handleDelete(p.id)}
                                         />
+                                        <EditProductModal onAdded={onAdded} product={p} />
                                     </TableCell>
                                 </TableRow>
                             ))}

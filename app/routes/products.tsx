@@ -9,7 +9,7 @@ export default function Products() {
     return (
         <div className="space-y-4 p-4">
             <Header setSearchQuery={setSearchQuery} onAdded={() => setReload((prev) => prev + 1)} />
-            <ProductTable reload={reload} searchQuery={searchQuery}/>
+            <ProductTable reload={reload} searchQuery={searchQuery} onAdded={() => setReload((prev) => prev + 1)}/>
         </div>
     );
 }
