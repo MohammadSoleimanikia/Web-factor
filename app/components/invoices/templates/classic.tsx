@@ -2,7 +2,7 @@ import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 
 import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
 import { generateBrandingColors } from "@/lib/brandingColors";
-import { buildLogoUrl } from "@/lib/utils";
+import { buildLogoUrl, phoneFormatter } from "@/lib/utils";
 import useAuth from "@/store/auth";
 import type { InvoiceViewModel } from "@/types/invoice";
 import type { User } from "@/types/user";
@@ -12,7 +12,7 @@ type invoiceProps = {
 };
 export default function Classic({ invoice, user }: invoiceProps) {
     const { profile } = useAuth();
-console.log(invoice.descriptions)
+    console.log(invoice.descriptions);
     // Use passed user for public invoices, fallback to authenticated user profile
     const displayUser = user || profile;
     const colors = displayUser
@@ -173,7 +173,7 @@ console.log(invoice.descriptions)
                 {displayUser?.phone_number && (
                     <div className="flex gap-2">
                         <PhoneCall />
-                        {displayUser.phone_number}
+                        {phoneFormatter(displayUser.phone_number)}
                     </div>
                 )}
                 {displayUser?.profile.store_address && (

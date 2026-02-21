@@ -2,7 +2,7 @@ import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 
 import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
 import { generateBrandingColors } from "@/lib/brandingColors";
-import { buildLogoUrl } from "@/lib/utils";
+import { buildLogoUrl, phoneFormatter } from "@/lib/utils";
 import useAuth from "@/store/auth";
 import type { InvoiceViewModel } from "@/types/invoice";
 import type { User } from "@/types/user";
@@ -117,15 +117,7 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                     </Table>
                 </div>
                 <div className="mt-10 space-y-2">
-                    <p>
-                        <span className="font-semibold">وضعیت: </span>
-                        <span>{invoice.statusText}</span>
-                    </p>
-
-                    <p>
-                        <span className="font-semibold">روش پرداخت: </span>
-                        <span>{invoice.paymentText}</span>
-                    </p>
+                    
 
                     <div
                         style={{
@@ -160,7 +152,17 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                             </span>
                             <span>{invoice.totalText}</span>
                         </p>
+                        
                     </div>
+                    <p>
+                        <span className="font-semibold">وضعیت: </span>
+                        <span>{invoice.statusText}</span>
+                    </p>
+
+                    <p>
+                        <span className="font-semibold">روش پرداخت: </span>
+                        <span>{invoice.paymentText}</span>
+                    </p>
                     {invoice.descriptions !== "" && (
                     <div className="mt-5 border-2 border-dashed bg-slate-200">
                         <span className="font-semibold ">توضیحات: </span>
@@ -179,7 +181,7 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                 {displayUser?.phone_number && (
                     <div className="flex gap-2">
                         <PhoneCall />
-                        {displayUser.phone_number}
+                        {phoneFormatter(displayUser.phone_number)}
                     </div>
                 )}
                 {displayUser?.profile?.store_address && (

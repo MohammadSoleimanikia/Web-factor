@@ -2,7 +2,7 @@ import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 
 import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
 import { generateBrandingColors } from "@/lib/brandingColors";
-import { buildLogoUrl } from "@/lib/utils";
+import { buildLogoUrl, phoneFormatter } from "@/lib/utils";
 import useAuth from "@/store/auth";
 import type { InvoiceViewModel } from "@/types/invoice";
 import type { User } from "@/types/user";
@@ -111,7 +111,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                             </span>
                             <span>{invoice.totalText}</span>
                         </p>
-                        <p>
+                        <p className="mt-5">
                             {" "}
                             <span className="font-semibold">وضعیت: </span>{" "}
                             <span>{invoice.statusText}</span>{" "}
@@ -141,7 +141,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                     {displayUser?.phone_number && (
                         <div className="flex gap-2">
                             <PhoneCall />
-                            {displayUser.phone_number}
+                            {phoneFormatter(displayUser.phone_number)}
                         </div>
                     )}
                     {displayUser?.profile.store_address && (

@@ -24,3 +24,7 @@ export function buildLogoUrl(logo: string | null | undefined): string | null {
     // Otherwise, it's a relative media path - add the account prefix
     return `https://yasinhossini94.pythonanywhere.com/account${logo}`;
 }
+export function phoneFormatter(phone: string | undefined | null): string {
+    if (!phone) return "";
+    return phone.startsWith("+98") ? "0" + phone.slice(3) : phone;
+}

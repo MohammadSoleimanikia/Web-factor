@@ -5,17 +5,20 @@ import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
 import { formatPersianDateTime } from "@/lib/dateFormatter";
 import type { Invoice } from "@/types/invoice";
 
+import { phoneFormatter } from "./utils";
+
 type InvoiceViewModelProps = {
     invoice: Invoice;
 };
 export function buildInvoiceViewModel({ invoice }: InvoiceViewModelProps) {
+ 
     return {
         invoiceNumber: invoice.invoice_number,
         createdAt: formatPersianDateTime(invoice.created),
         customer: {
             name: invoice.customer_name,
             address: invoice.customer_address,
-            phone: invoice.customer_phone_number,
+            phone: phoneFormatter(invoice.customer_phone_number),
             email: invoice.customer_email ?? "",
         },
         items: (invoice.items || []).map((item: any) => {
@@ -26,8 +29,8 @@ export function buildInvoiceViewModel({ invoice }: InvoiceViewModelProps) {
                 total: Number(item.price) * item.quantity,
             };
         }),
-        added_value:invoice.added_value,
-        discount:invoice.discount,
+        added_value: invoice.added_value,
+        discount: invoice.discount,
         total: invoice.total_amount ?? 0,
         descriptions: invoice.descriptions,
         totalText: invoice.total_amount
