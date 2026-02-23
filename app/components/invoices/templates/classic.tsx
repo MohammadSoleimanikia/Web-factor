@@ -128,7 +128,7 @@ export default function Classic({ invoice, user }: invoiceProps) {
                             <span>{invoice.added_value}</span>
                         </p>
                     )}
-                    {invoice.added_value > 0 && (
+                    {invoice.discount > 0 && (
                         <p>
                             <span className="font-semibold pl-2">تخفیف:</span>
                             <span>{invoice.discount}</span>

@@ -117,8 +117,6 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                     </Table>
                 </div>
                 <div className="mt-10 space-y-2">
-                    
-
                     <div
                         style={{
                             borderColor: colors?.base,
@@ -133,7 +131,7 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                                 <span>{invoice.added_value}</span>
                             </p>
                         )}
-                        {invoice.added_value > 0 && (
+                        {invoice.discount > 0 && (
                             <p>
                                 <span className="font-semibold pl-2">
                                     تخفیف:
@@ -152,7 +150,6 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                             </span>
                             <span>{invoice.totalText}</span>
                         </p>
-                        
                     </div>
                     <p>
                         <span className="font-semibold">وضعیت: </span>
@@ -164,11 +161,11 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                         <span>{invoice.paymentText}</span>
                     </p>
                     {invoice.descriptions !== "" && (
-                    <div className="mt-5 border-2 border-dashed bg-slate-200">
-                        <span className="font-semibold ">توضیحات: </span>
-                        {invoice.descriptions}
-                    </div>
-                )}
+                        <div className="mt-5 border-2 border-dashed bg-slate-200">
+                            <span className="font-semibold ">توضیحات: </span>
+                            {invoice.descriptions}
+                        </div>
+                    )}
                 </div>
             </section>
             <footer className="mt-auto border-t-2 border-slate-300 text-sm pt-2 flex gap-5 justify-around">

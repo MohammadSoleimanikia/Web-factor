@@ -92,7 +92,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                                 <span>{invoice.added_value}</span>
                             </p>
                         )}
-                        {invoice.added_value > 0 && (
+                        {invoice.discount > 0 && (
                             <p>
                                 <span className="font-semibold pl-2">
                                     تخفیف:
@@ -125,11 +125,11 @@ export default function Modern({ invoice, user }: invoiceProps) {
                         </p>
                     </div>
                     {invoice.descriptions !== "" && (
-                    <div className="mt-5 border-2 border-dashed bg-slate-200">
-                        <span className="font-semibold ">توضیحات: </span>
-                        {invoice.descriptions}
-                    </div>
-                )}
+                        <div className="mt-5 border-2 border-dashed bg-slate-200">
+                            <span className="font-semibold ">توضیحات: </span>
+                            {invoice.descriptions}
+                        </div>
+                    )}
                 </div>
                 <footer className="mt-auto border-t-2 border-slate-300 text-sm pt-2 flex gap-5 justify-around">
                     {displayUser?.profile.insta_link && (
