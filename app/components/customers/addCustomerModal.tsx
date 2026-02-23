@@ -42,32 +42,22 @@ export default function AddCustomerModal({
             toast.success("مشتری با موفقیت افزوده شد");
             reset();
             onAdded?.();
-        } catch (err: unknown) {
+        } catch (err: any) {
             console.log("BACKEND ERROR 👉", err);
 
-            if (typeof err === "object" && err !== null) {
-                Object.entries(err).forEach(([field, messages]) => {
-                    if (Array.isArray(messages)) {
-                        setError(field as keyof CustomerCreate, {
-                            type: "server",
-                            message: messages[0],
-                        });
-                    }
+            // اگر بک‌اند message فرستاد
+            if (err?.message) {
+                setError("root", {
+                    type: "server",
+                    message: err.message,
                 });
+                return;
             }
-            if (
-                typeof err === "object" &&
-                err !== null &&
-                "non_field_errors" in err
-            ) {
-                const e = err as { non_field_errors?: string[] };
-                if (e.non_field_errors?.length) {
-                    setError("root", {
-                        type: "server",
-                        message: e.non_field_errors[0],
-                    });
-                }
-            }
+
+            setError("root", {
+                type: "server",
+                message: "خطایی رخ داد، لطفاً دوباره تلاش کنید",
+            });
         } finally {
             setLoading(false);
         }

@@ -16,7 +16,7 @@ import { apiFetch } from "@/lib/api";
 import type { Product, ProductCreate } from "@/types/product";
 
 import { Button } from "../ui/button";
-import { Field,  FieldLabel } from "../ui/field";
+import { Field, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
@@ -53,17 +53,18 @@ export default function EditProductModal({
         } catch (err: any) {
             console.error(err);
 
-            if (err?.non_field_errors?.length) {
+            if (err?.message) {
                 setError("root", {
-                    type: "custom",
-                    message: "نام کالا نباید تکراری باشد",
+                    type: "server",
+                    message: err.message,
                 });
-            } else {
-                setError("root", {
-                    type: "custom",
-                    message: "خطای ناشناخته‌ای رخ داد",
-                });
+                return;
             }
+
+            setError("root", {
+                type: "server",
+                message: "خطایی رخ داد، لطفاً دوباره تلاش کنید",
+            });
         } finally {
             setLoading(false);
         }

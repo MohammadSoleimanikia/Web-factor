@@ -106,19 +106,19 @@ export default function EditProfileModal({
             setOpen(false);
         } catch (err: any) {
             console.error(err);
-            if (err?.non_field_errors?.length) {
+
+            if (err?.message) {
                 setError("root", {
-                    type: "custom",
-                    message: err.non_field_errors[0],
+                    type: "server",
+                    message: err.message,
                 });
-            } else if (err?.detail) {
-                setError("root", { type: "custom", message: err.detail });
-            } else {
-                setError("root", {
-                    type: "custom",
-                    message: "خطای ناشناخته‌ای رخ داد",
-                });
+                return;
             }
+
+            setError("root", {
+                type: "server",
+                message: "خطایی رخ داد، لطفاً دوباره تلاش کنید",
+            });
         } finally {
             setLoading(false);
         }
