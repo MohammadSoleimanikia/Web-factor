@@ -12,7 +12,6 @@ type invoiceProps = {
 };
 export default function Classic({ invoice, user }: invoiceProps) {
     const { profile } = useAuth();
-    console.log(invoice.descriptions);
     // Use passed user for public invoices, fallback to authenticated user profile
     const displayUser = user || profile;
     const colors = displayUser
