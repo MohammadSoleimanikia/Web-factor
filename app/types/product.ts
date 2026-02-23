@@ -10,6 +10,7 @@ export type ProductCreate = {
     description: string;
     buy:number;
     price: number;
+    barcode?: string;
 };
 export type PaginatedProductList = {
     count: number;

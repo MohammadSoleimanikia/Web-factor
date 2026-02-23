@@ -23,7 +23,6 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
     const [pricePersian, setPricePersian] = useState("");
     const [buyPersian, setBuyPersian] = useState("");
 
-
     const {
         register,
         handleSubmit,
@@ -46,7 +45,7 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
         } catch (err: any) {
             console.error(err);
 
-            if (err?.non_field_errors?.length) {
+            if (err?.message?.length) {
                 setError("root", {
                     type: "custom",
                     message: "نام کالا نباید تکراری باشد",
@@ -104,7 +103,24 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
                     <p className="text-red-500 text-sm">
                         {errors.description?.message}
                     </p>
-
+                    <Input
+                        type="text"
+                        placeholder="بارکد کالا"
+                        {...register("barcode", {
+                            minLength: {
+                                value: 4,
+                                message: "بارکد نامعتبر است",
+                            },
+                            maxLength: {
+                                value: 64,
+                                message: "بارکد خیلی طولانی است",
+                            },
+                        })}
+                    />
+                    
+                    <p className="text-red-500 text-sm">
+                        {errors.barcode?.message}
+                    </p>
                     <Input
                         type="number"
                         placeholder="قیمت"
