@@ -88,13 +88,15 @@ export default function Invoice() {
                     "
             >
                 <Zoomable>
-                    {template === "classic" ? (
-                        <Classic invoice={viewModel} user={user} />
-                    ) : template === "modern" ? (
-                        <Modern invoice={viewModel} user={user} />
-                    ) : (
-                        <Minimal invoice={viewModel} user={user} />
-                    )}
+                    <div className="w-screen h-screen">
+                        {template === "classic" ? (
+                            <Classic invoice={viewModel} user={user} />
+                        ) : template === "modern" ? (
+                            <Modern invoice={viewModel} user={user} />
+                        ) : (
+                            <Minimal invoice={viewModel} user={user} />
+                        )}
+                    </div>
                 </Zoomable>
             </div>
         </>
