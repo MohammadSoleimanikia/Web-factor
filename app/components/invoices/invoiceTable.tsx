@@ -26,7 +26,13 @@ import {
 } from "../ui/pagination";
 import InvoiceActions from "./invoiceActions";
 import InvoiceSkeleton from "./invoiceSkeleton";
-export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
+export default function InvoiceTable({
+    searchQuery,
+    status,
+}: {
+    searchQuery: string;
+    status: string;
+}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
@@ -42,20 +48,34 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
             setLoading(true);
 
             try {
+                const params = new URLSearchParams({
+                    page: String(page),
+                    page_size: String(pageSize),
+                });
+
+                if (searchQuery) {
+                    params.append("customer_name", searchQuery);
+                }
+
+                if (status && status !== "all") {
+                    params.append("status", status);
+                }
+
                 const data = await apiFetch<PaginatedInvoiceList>(
-                    `/user/invoices/?page=${page}&page_size=${pageSize}&search=${searchQuery}`,
+                    `/user/invoices/?${params.toString()}`,
                 );
+
                 setInvoices(data.results);
                 setCount(data.count);
             } catch (err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         };
 
         fetchInvoices();
-    }, [page, searchQuery]);
+    }, [page, searchQuery, status]);
 
     const handleDelete = async (id: string, status: string | undefined) => {
         if (status === "paid") {
@@ -144,7 +164,6 @@ export default function InvoiceTable({ searchQuery }: { searchQuery: string }) {
                                                         "bg-yellow-100 text-yellow-900":
                                                             invoice.status ===
                                                             "pending",
-                                                        
                                                     },
                                                 )}
                                             >
