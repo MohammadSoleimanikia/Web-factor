@@ -168,6 +168,9 @@ export default function Modern({ invoice, user }: invoiceProps) {
             >
                 <div className="mt-4 space-y-20">
                     <div className="flex flex-col items-center">
+                        <p className="text-2xl text-center font-bold">
+                            <span>{invoice.title}</span>
+                        </p>
                         {brandingLogo ? (
                             <img
                                 src={

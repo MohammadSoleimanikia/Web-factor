@@ -66,6 +66,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
             status: "pending",
             payment_mode: "cash",
             descriptions: "",
+            title: "",
             added_value: 0,
             discount: 0,
         },
@@ -112,6 +113,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                         customer_email: invoice.customer_email ?? "",
                         customer_address: invoice.customer_address ?? "",
                         descriptions: invoice.descriptions ?? "",
+                        title: invoice.title ?? "",
                         status: invoice.status ?? "pending",
                         payment_mode: invoice.payment_mode ?? "cash",
                     });
@@ -174,10 +176,19 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
             {/* Product Selection */}
             {!isEdit && (
                 <>
+                    <div className="space-y-3 ">
+                        <Label htmlFor="title">عنوان فاکتور</Label>
+                        <Input {...register("title")} id="title" />
+                        {errors.title && (
+                            <span className="text-red-500">
+                                {errors.title.message}
+                            </span>
+                        )}
+                    </div>
                     <div className="flex flex-col gap-2 sm:w-6/12">
                         <Label htmlFor="barcode">انتخاب با بارکد</Label>
                         <Input
-                        autoFocus={true}
+                            autoFocus={true}
                             type="text"
                             id="barcode"
                             placeholder="بارکد رو وارد کن"
@@ -225,6 +236,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                             }}
                         />
                     </div>
+
                     <Controller
                         control={control}
                         name="items"
@@ -499,6 +511,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                     )}
                 </div>
             </div>
+
             <div className="space-y-3 ">
                 <Label htmlFor="descriptions">توضیحات</Label>
                 <Input {...register("descriptions")} id="descriptions" />
@@ -606,7 +619,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                                 {...field}
                                 type="number"
                                 min={0}
-                                step={0.01}
+                                step={1}
                                 onChange={(e) =>
                                     field.onChange(e.target.valueAsNumber)
                                 }

@@ -33,6 +33,7 @@ export function buildInvoiceViewModel({ invoice }: InvoiceViewModelProps) {
         discount: invoice.discount,
         total: invoice.total_amount ?? 0,
         descriptions: invoice.descriptions,
+        title:invoice.title,
         totalText: invoice.total_amount
             ? num2persian(invoice.total_amount)
             : "صفر",

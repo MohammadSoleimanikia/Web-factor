@@ -16,6 +16,7 @@ export type Invoice = {
     customer_email?: string | null;
     customer_address?: string | null;
     descriptions?: string | null;
+    title?: string | null;
     public_token: string;
     status?: "pending" | "paid" | "cancelled";
     payment_mode?: "cash" | "card" | "bank" | "others";
@@ -50,6 +51,7 @@ export type PublicInvoice = {
         customer_email?: string | null;
         customer_address?: string | null;
         descriptions?: string | null;
+        title?: string | null;
         public_token: string;
         status?: "pending" | "paid" | "cancelled";
         payment_mode?: "cash" | "card" | "bank" | "others";
@@ -110,6 +112,7 @@ export type InvoiceViewModel = {
     added_value: number;
     discount: number;
     descriptions: string| null | undefined;
+    title: string | null | undefined;
     totalText: string;
     statusText: string;
     paymentText: string;
