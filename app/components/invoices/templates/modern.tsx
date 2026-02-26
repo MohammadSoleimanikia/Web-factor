@@ -174,9 +174,9 @@ export default function Modern({ invoice, user }: invoiceProps) {
                                 className="w-36"
                             />
                         ) : (
-                            <h2 className="text-3xl font-bold">
-                                {displayUser?.profile.store_name}
-                            </h2>
+                            <div className="flex justify-center items-center text-slate-200 font-semibold size-32 border-2 border-dashed">
+                                محل قرارگیری لوگو
+                            </div>
                         )}
                         {displayUser && brandingLogo && (
                             <p className="ml-4 text-xl font-light">

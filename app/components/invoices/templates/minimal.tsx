@@ -65,10 +65,9 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                             alt="Logo"
                             className="w-36 "
                         />
-                    ) : (
-                        <h2 className="text-3xl  font-bold">
-                            {displayUser?.profile?.store_name || "فاکتور"}
-                        </h2>
+                    ) : (<div className="flex justify-center items-center text-slate-500 font-semibold size-32 border-2 border-dashed"> 
+                        محل قرارگیری لوگو
+                    </div>
                     )}
                     {brandingLogo && displayUser?.profile?.store_name && (
                         <p className="ml-4 text-xl text-nowrap font-light">
