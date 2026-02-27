@@ -21,22 +21,23 @@ export function TrendChart({ chartData }: { chartData: TrendData[] }) {
     return (
         <Card className="h-full">
             <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold text-slate-800 dark:text-slate-200">
+                <CardTitle className="text-base font-semibold  text-slate-800 dark:text-slate-200">
                     ترند فروش
                 </CardTitle>
             </CardHeader>
 
             <CardContent>
                 {hasData ? (
-                    <ResponsiveContainer width="100%" height={260}>
-                        <LineChart data={chartData}>
-                            <defs>
+                    <ResponsiveContainer width="100%" height={260} >
+                        <LineChart data={chartData} >
+                            <defs >
                                 <linearGradient
                                     id="trendGradient"
                                     x1="0"
                                     y1="0"
                                     x2="0"
                                     y2="1"
+                                    
                                 >
                                     <stop
                                         offset="0%"
@@ -54,29 +55,34 @@ export function TrendChart({ chartData }: { chartData: TrendData[] }) {
                             <CartesianGrid
                                 strokeDasharray="3 3"
                                 vertical={false}
-                                stroke="#e5e7eb"
+                                stroke="rgb(55 65 81 / 0.5)"
+                                
                             />
 
                             <XAxis
+                            
                                 dataKey="date"
                                 tickFormatter={(value) => value.slice(5)}
-                                tick={{ fontSize: 12, fill: "#64748b" }}
+                                tick={{ fontSize: 12, fill: "rgb(148 163 184)" }}
                                 axisLine={false}
                                 tickLine={false}
                             />
 
                             <YAxis
-                                tick={{ fontSize: 12, fill: "#64748b" }}
+                            
+                                tick={{ fontSize: 12, fill: "rgb(148 163 184)" }}
                                 axisLine={false}
                                 tickLine={false}
                             />
 
                             <Tooltip
+                            
                                 contentStyle={{
-                                    backgroundColor: "#ffffff",
+                                    backgroundColor: "rgb(30 41 59)",
                                     borderRadius: "8px",
-                                    border: "1px solid #e5e7eb",
+                                    border: "1px solid rgb(55 65 81)",
                                     fontSize: "12px",
+                                    color: "rgb(226 232 240)"
                                 }}
                                 labelFormatter={(label) =>
                                     `تاریخ: ${label.slice(0, 10)}`
@@ -88,6 +94,7 @@ export function TrendChart({ chartData }: { chartData: TrendData[] }) {
                             />
 
                             <Line
+                            
                                 type="monotone"
                                 dataKey="total"
                                 stroke="#14b8a6"
