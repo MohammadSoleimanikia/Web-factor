@@ -121,7 +121,12 @@ export default function ProfileCard() {
                     <div className="bg-muted rounded-sm p-2">
                         {profile.profile.logo ? (
                             <img
-                                src={buildLogoUrl(profile.profile.logo) || ""}
+                                src={
+                                    buildLogoUrl(
+                                        profile.profile.logo,
+                                        reload,
+                                    ) || ""
+                                }
                                 alt="Logo"
                                 className="w-16 h-16 object-contain"
                             />
