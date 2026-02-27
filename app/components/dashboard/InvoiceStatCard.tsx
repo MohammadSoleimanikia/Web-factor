@@ -26,6 +26,8 @@ export default function InvoiceStatCard({
     showPersianText = false,
     className,
 }: InvoiceStatCardProps) {
+    const formattedValue = value.toLocaleString();
+
     return (
         <Card className={`flex flex-col justify-between ${className ?? ""}`}>
             <CardHeader className="flex-row items-center justify-between space-y-0">
@@ -40,7 +42,7 @@ export default function InvoiceStatCard({
 
             <CardContent className="space-y-1">
                 <div className="flex items-end gap-2">
-                    <p className="text-3xl font-bold">{value}</p>
+                    <p className="text-3xl font-bold">{formattedValue}</p>
                     <span className="text-sm text-muted-foreground">
                         {unit}
                     </span>
