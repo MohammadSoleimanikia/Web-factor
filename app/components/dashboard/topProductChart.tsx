@@ -63,6 +63,16 @@ export function TopProductsChart({
                                     <ChartTooltipContent indicator="line" />
                                 }
                             />
+                            <XAxis
+                                dataKey="quantity"
+                                type="number"
+                                hide
+                                label={{
+                                    value: "تعداد",
+                                    position: "insideBottomRight",
+                                    offset: -5,
+                                }}
+                            />
                             <Bar
                                 dataKey="quantity"
                                 layout="vertical"
@@ -81,7 +91,7 @@ export function TopProductsChart({
                                 <LabelList
                                     dataKey="quantity"
                                     position="right"
-                                    offset={8}
+                                    offset={15}
                                     className="fill-foreground text-base"
                                     fontSize={12}
                                 />
@@ -93,12 +103,13 @@ export function TopProductsChart({
                         <span className="text-lg">📉</span>
                         <p>داده‌ای برای نمایش وجود ندارد</p>
                         <p className="text-xs mt-1">
-                            بعد از ثبت فاکتور، کالا های پرفروش اینجا نمایش داده می‌شود
+                            بعد از ثبت فاکتور، کالا های پرفروش اینجا نمایش داده
+                            می‌شود
                         </p>
                     </div>
                 )}
                 <p className="text-center mt-2 text-sm text-muted-foreground">
-                    کالاهای پرفروش
+                    تعدادکالاهای پرفروش 
                 </p>
             </CardContent>
         </Card>
