@@ -43,7 +43,7 @@ export default function InvoiceStatCard({
             <CardContent className="space-y-1">
                 <div className="flex items-end gap-2">
                     <p className="text-3xl font-bold">{formattedValue}</p>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm ">
                         {unit}
                     </span>
                 </div>
