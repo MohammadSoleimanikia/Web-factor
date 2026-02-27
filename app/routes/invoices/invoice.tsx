@@ -49,23 +49,7 @@ export default function Invoice() {
         const fetchUser = async () => {
             try {
                 const result = await apiFetch<User>(`/account/profile/`);
-                // Construct logo URL - match the same logic as buildLogoUrl for consistency
-                let logoUrl: string | null | undefined = result.profile?.logo;
-                if (logoUrl && !logoUrl.startsWith("http")) {
-                    if (logoUrl.startsWith("/account")) {
-                        logoUrl = `https://yasinhossini94.pythonanywhere.com${logoUrl}`;
-                    } else {
-                        logoUrl = `https://yasinhossini94.pythonanywhere.com/account${logoUrl}`;
-                    }
-                }
-                const processedUser = {
-                    ...result,
-                    profile: {
-                        ...result.profile,
-                        logo: logoUrl,
-                    },
-                };
-                setUser(processedUser);
+                setUser(result);
             } catch (err: any) {
                 console.error(err);
             }
