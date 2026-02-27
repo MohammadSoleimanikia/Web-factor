@@ -94,9 +94,13 @@ export async function apiFetch<T>(
     // 🌐 If no cache or not GET, fetch from API
     const token = getStoredToken();
 
+    // Build headers but avoid forcing Content-Type when body is FormData
+    const providedHeaders = (options.headers as Record<string, string>) || {};
+    const isFormData = options.body instanceof FormData;
+
     const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-        ...(options.headers as Record<string, string>),
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
+        ...providedHeaders,
     };
 
     if (token?.access) {

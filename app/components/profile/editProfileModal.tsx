@@ -10,7 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { getStoredToken } from "@/lib/authStorage";
+import { apiFetch } from "@/lib/api";
 import type { User, UserUpdate } from "@/types/user";
 
 import { Button } from "../ui/button";
@@ -81,25 +81,10 @@ export default function EditProfileModal({
             if (logoFile !== null) {
                 formData.append("logo", logoFile);
             }
-            const token = getStoredToken();
-            const headers: Record<string, string> = {};
-            if (token?.access) {
-                headers.Authorization = `Bearer ${token.access}`;
-            }
-
-            const response = await fetch(
-                "https://yasinhossini94.pythonanywhere.com/account/profile/",
-                {
-                    method: "PATCH",
-                    headers,
-                    body: formData,
-                },
-            );
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
+            await apiFetch("/account/profile/", {
+                method: "PATCH",
+                body: formData,
+            });
             toast.success("پروفایل با موفقیت ویرایش شد!");
 
             setReload((prev) => prev + 1);
