@@ -21,7 +21,7 @@ export function TrendChart({ chartData }: { chartData: TrendData[] }) {
     return (
         <Card className="h-full">
             <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold text-slate-800">
+                <CardTitle className="text-base font-semibold text-slate-800 dark:text-slate-200">
                     ترند فروش
                 </CardTitle>
             </CardHeader>
