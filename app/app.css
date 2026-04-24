@@ -127,11 +127,11 @@
     --border: #26343a;
     --input: #1e2a2e;
     --ring: #2a8e9e;
-    --chart-1: #4cb7c5;
-    --chart-2: #0b4a63;
-    --chart-3: #8fd3b8;
-    --chart-4: #f3d7a5;
-    --chart-5: #b6cdf0;
+    --chart-1: #3b82f6; /* blue */
+    --chart-2: #22c55e; /* green */
+    --chart-3: #f59e0b; /* amber */
+    --chart-4: #ef4444; /* red */
+    --chart-5: #8b5cf6; /* violet */
     --sidebar: #0f1416;
     --sidebar-foreground: #e9f2f4;
     --sidebar-primary: #2a8e9e;

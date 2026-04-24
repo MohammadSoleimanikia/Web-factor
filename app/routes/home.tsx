@@ -1,7 +1,8 @@
 import About from "@/components/home/about";
 import Footer from "@/components/home/footer";
 import Header from "@/components/home/header";
-import Hero from "~/components/home/hero";
+import Hero from "@/components/home/hero";
+
 
 
 export function meta() {
@@ -13,7 +14,7 @@ export function meta() {
 
 export default function Home() {
     return (
-        <main className="mx-auto px-4 sm:px-10 md:px-20 lg:px-32">
+        <main className="mx-auto ">
             <Header />
             <Hero />
             <About />
