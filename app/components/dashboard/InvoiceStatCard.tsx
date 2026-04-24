@@ -41,7 +41,7 @@ export default function InvoiceStatCard({
             </CardHeader>
 
             <CardContent className="space-y-1">
-                <div className="flex items-end gap-2">
+                <div className="flex items-baseline gap-2 ">
                     <p className="text-3xl font-bold">{formattedValue}</p>
                     <span className="text-sm ">
                         {unit}
