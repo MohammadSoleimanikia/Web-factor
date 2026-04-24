@@ -177,7 +177,7 @@ export default function InvoiceTable({
                                         {invoice.status ? (
                                             <Badge
                                                 className={clsx(
-                                                    "bg-slate-600", // یا هر چی badge لازم داره
+                                                    "bg-slate-600", 
                                                     {
                                                         "bg-green-100 text-green-900":
                                                             invoice.status ===
