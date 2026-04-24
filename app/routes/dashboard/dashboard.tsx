@@ -1,6 +1,5 @@
 import { CircleDollarSign, Clock, Scroll } from "lucide-react";
 import { useEffect, useState } from "react";
-
 import InvoiceStatCard from "@/components/dashboard/InvoiceStatCard";
 import { TopProductsChart } from "@/components/dashboard/topProductChart";
 import { TrendChart } from "@/components/dashboard/trendChart";
@@ -121,7 +120,6 @@ export default function Dashboard() {
         ));
     };
     if (loading) return <LoadingSpinner />;
-
     return (
         <main className="text-right">
             <h1 className="text-2xl font-bold mb-4">داشبورد</h1>

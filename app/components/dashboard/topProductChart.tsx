@@ -1,15 +1,14 @@
 "use client";
+import { TrendingUp } from "lucide-react";
+import { Cell, LabelList, Pie, PieChart } from "recharts"; 
 
 import {
-    Bar,
-    BarChart,
-    CartesianGrid,
-    LabelList,
-    XAxis,
-    YAxis,
-} from "recharts";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import {
     type ChartConfig,
     ChartContainer,
@@ -17,101 +16,75 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A bar chart with a custom label";
+export const description = "A pie chart with a label list";
+
 
 const chartConfig = {
-    topProducts: {
-        label: "کالا های پرفروش",
-    },
 } satisfies ChartConfig;
 
-export function TopProductsChart({
-    chartData,
-}: {
-    chartData: { product__name: string; quantity: number }[];
-}) {
+type TopProduct = {
+    product__name: string;
+    quantity: number;
+};
+
+type TopProductsChartProps = {
+    chartData: TopProduct[];
+};
+
+const getFillColor = (index: number) => {
+    return `var(--chart-${(index % 5) + 1})`;
+};
+
+export function TopProductsChart({ chartData }: TopProductsChartProps) {
     return (
-        <Card className="h-full">
-            <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold text-slate-800 f">
-                    کالاهای پرفروش{" "}
-                </CardTitle>
+        <Card className="flex flex-col">
+            <CardHeader className="items-center pb-0">
+                <CardTitle>محصولات پرفروش</CardTitle>
+              
             </CardHeader>
-            <CardContent>
-                {chartData && chartData.length > 0 ? (
-                    <ChartContainer className="h-fit" config={chartConfig}>
-                        <BarChart
-                            accessibilityLayer
+            <CardContent className="flex-1 pb-0">
+                <ChartContainer
+                    config={chartConfig}
+                    className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[250px]"
+                >
+                    <PieChart>
+                        <ChartTooltip
+                            content={
+                                <ChartTooltipContent
+                                    nameKey="quantity"
+                                    hideLabel
+                                />
+                            }
+                        />
+                        <Pie
                             data={chartData}
-                            layout="vertical"
-                            className="border-b-2 "
+                            dataKey="quantity" 
+                            nameKey="product__name"
+                            cx="50%" 
+                            cy="50%"
+                            outerRadius="100%" 
+                            labelLine={false} 
                         >
-                            <CartesianGrid horizontal={false} />
-                            <YAxis
-                                dataKey="product__name"
-                                type="category"
-                                tickLine={false}
-                                tickMargin={10}
-                                axisLine={false}
-                                tickFormatter={(value) => value.slice(0, 3)}
-                                hide
-                            />
-                            <XAxis dataKey="quantity" type="number" hide />
-                            <ChartTooltip
-                                cursor={false}
-                                content={
-                                    <ChartTooltipContent indicator="line" />
-                                }
-                            />
-                            <XAxis
-                                dataKey="quantity"
-                                type="number"
-                                hide
-                                label={{
-                                    value: "تعداد",
-                                    position: "insideBottomRight",
-                                    offset: -5,
-                                }}
-                            />
-                            <Bar
-                                dataKey="quantity"
-                                layout="vertical"
-                                fill="var(--color-primary)"
-                                name={"تعداد"}
-                                radius={4}
-                                barSize={32}
-                            >
-                                <LabelList
-                                    dataKey="product__name"
-                                    position="center"
-                                    offset={8}
-                                    className="fill-(--color-muted) text-base"
-                                    fontSize={12}
+                           
+                            {chartData.map((entry, index) => (
+                                <Cell
+                                    key={`cell-${index}`}
+                                    fill={getFillColor(index)} 
                                 />
-                                <LabelList
-                                    dataKey="quantity"
-                                    position="right"
-                                    offset={15}
-                                    className="fill-foreground text-base"
-                                    fontSize={12}
-                                />
-                            </Bar>
-                        </BarChart>
-                    </ChartContainer>
-                ) : (
-                    <div className="h-[260px] flex flex-col items-center justify-center text-slate-400 text-sm">
-                        <span className="text-lg">📉</span>
-                        <p>داده‌ای برای نمایش وجود ندارد</p>
-                        <p className="text-xs mt-1">
-                            بعد از ثبت فاکتور، کالا های پرفروش اینجا نمایش داده
-                            می‌شود
-                        </p>
-                    </div>
-                )}
-                <p className="text-center mt-2 text-sm text-muted-foreground">
-                    تعدادکالاهای پرفروش 
-                </p>
+                            ))}
+
+                            <LabelList
+                                dataKey="product__name" 
+                                className="fill-background"
+                                stroke="none"
+                                fontSize={12}
+                                formatter={(value: string) => value}
+                            />
+                        </Pie>
+                    </PieChart>
+                </ChartContainer>
             </CardContent>
+            
         </Card>
     );
 }
