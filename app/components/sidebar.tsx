@@ -78,12 +78,12 @@ export function AppSidebar() {
         "bg-linear-to-r from-sidebar-primary/30 to-sidebar-accent/40 hover:from-sidebar-primary/45 hover:to-sidebar-accent/55 data-[active=true]:from-sidebar-primary data-[active=true]:to-sidebar-accent data-[active=true]:text-white";
     return (
         <Sidebar
-            className="print:hidden print:m-0 border-l"
+            className="print:hidden print:m-0 border-l "
             dir="ltr"
             side="right"
         >
             <SidebarHeader>
-                <img src="/logo.svg" alt="Logo" className="w-full mx-auto" />
+                <img src="/logo.svg" alt="Logo" className="w-4/6 mx-auto " />
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
@@ -91,9 +91,9 @@ export function AppSidebar() {
                         <SidebarMenu>
                             {productItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                     <SidebarMenuButton
+                                    <SidebarMenuButton
                                         asChild
-                                        className={`flex-row-reverse sm:flex-row  ${sidebarButtonGradientClass}`}
+                                        className={`flex-row-reverse sm:flex-row   ${sidebarButtonGradientClass}`}
                                         isActive={path === item.url}
                                     >
                                         <NavLink to={item.url}>
@@ -107,11 +107,11 @@ export function AppSidebar() {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
-                <Collapsible defaultOpen className="group/collapsible">
+                <Collapsible className="group/collapsible">
                     <SidebarGroup>
                         <SidebarGroupLabel asChild>
-                            <CollapsibleTrigger className="flex-row-reverse sm:flex-row">
-                                تنظیمات
+                            <CollapsibleTrigger className=" flex-row-reverse sm:flex-row">
+                                <span className="text-base">تنظیمات</span>
                                 <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                             </CollapsibleTrigger>
                         </SidebarGroupLabel>
@@ -124,7 +124,7 @@ export function AppSidebar() {
                                             <SidebarMenuItem key={item.title}>
                                                 <SidebarMenuButton
                                                     asChild
-                                                     className={`flex-row-reverse sm:flex-row ${sidebarButtonGradientClass}`}
+                                                    className={`flex-row-reverse sm:flex-row ${sidebarButtonGradientClass}`}
                                                     isActive={path === item.url}
                                                 >
                                                     <NavLink to={item.url}>
