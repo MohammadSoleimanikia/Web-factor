@@ -1,7 +1,8 @@
 import { useCacheStore } from "@/store/cacheStore";
 
 import { getStoredToken } from "./authStorage";
-const API_BASE_URL = "https://yasinhossini94.pythonanywhere.com";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+console.log(API_BASE_URL)
 
 async function refreshToken() {
     const token = getStoredToken();
