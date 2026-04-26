@@ -29,8 +29,8 @@ export default function Hero() {
                                 <img
                                     src={
                                         theme == "dark"
-                                            ? "/hero/dark.png"
-                                            : "/hero/light.png"
+                                            ? "/hero/dark.webp"
+                                            : "/hero/light.webp"
                                     }
                                     alt="Dashboard image"
                                     className="rounded-xl object-cover w-full lg:hover:scale-120 transition-all duration-300"
