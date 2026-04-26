@@ -1,0 +1,20 @@
+# robots.txt for Invoice Maker App
+# Generated: April 2026
+
+# Allow all search engines to crawl
+User-agent: *
+Allow: /
+
+# Block crawling in development/staging (safe guard)
+# Uncomment if needed:
+# Disallow: /_dev/
+# Disallow: /_internal/
+
+# Prevent crawling of admin and private routes
+Disallow: /admin/
+Disallow: /dashboard/settings/
+Disallow: /api/private/
+
+# Crawl delay to reduce server load (optional)
+Crawl-delay: 1
+
