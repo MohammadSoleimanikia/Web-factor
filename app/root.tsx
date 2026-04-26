@@ -16,8 +16,6 @@ import { Toaster } from "@/components/ui/sonner";
 import type { Route } from "./+types/root";
 import { TooltipProvider } from "./components/ui/tooltip";
 
-
-
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="fa" dir="rtl" suppressHydrationWarning>
@@ -27,12 +25,46 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+                
+                {/* ⚡ بهینه‌سازی فونت‌ها */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                
+                {/* ⚡⚡ حیاتی: preload با fetchpriority بالا */}
+                <link
+                    rel="preload"
+                    href="/fonts/Vazir.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                    fetchPriority="high"
+                />
+                
+                {/* پیش‌بارگذاری فونت ارقام با اولویت پایین‌تر */}
+                <link
+                    rel="preload"
+                    href="/fonts/Vazir-FD-WOL.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                
+                {/* ⚡ کاهش CSS رندر بلاک کننده */}
+                <link 
+                    rel="preload" 
+                    href="/assets/root-3sitnf4R.css" 
+                    as="style" 
+                    fetchPriority="high"
+                />
+                
                 <Meta />
                 <Links />
             </head>
             <body suppressHydrationWarning>
                 <DirectionProvider dir="rtl">
-                    <TooltipProvider>{children}</TooltipProvider>
+                    <TooltipProvider>
+                        {children}
+                    </TooltipProvider>
                 </DirectionProvider>
                 <ScrollRestoration />
                 <Scripts />
@@ -45,7 +77,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
     return (
         <ThemeProvider>
-            <div className=" font-vazir">
+            <div className="font-vazir">
                 <Outlet />
             </div>
         </ThemeProvider>

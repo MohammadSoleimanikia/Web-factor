@@ -4,35 +4,38 @@
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
-    font-family: "vazir";
+    font-family: "Vazir";
     src: url("/fonts/Vazir.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
+    font-display: swap;  
+    ascent-override: 90%;  
+    descent-override: 30%;
 }
 
 @font-face {
-    font-family: "vazir";
+    font-family: "Vazir";
     src: url("/fonts/Vazir-Light.woff2") format("woff2");
     font-weight: 200;
     font-style: normal;
+    font-display: swap;
+    ascent-override: 90%;
+    descent-override: 30%;
 }
-/* farsi digits font */
+
+
 @font-face {
-    font-family: "vazir";
+    font-family: "Vazir";
     src: url("/fonts/Vazir-FD-WOL.woff2") format("woff2");
     font-weight: 400;
-    unicode-range: U+0030-0039;
+    font-display: swap;
+    unicode-range: U+0030-0039; 
+    size-adjust: 95%;  
 }
+
 
 .font-vazir {
-    font-family: "vazir", sans-serif;
-}
-
-@font-face {
-    font-family: "VazirText";
-    src: url("/fonts/Vazir.ttf") format("truetype");
-    font-weight: 400;
-    unicode-range: U+0600-06FF; /* حروف فارسی */
+    font-family: "Vazir", system-ui, -apple-system, sans-serif;
 }
 
 @media print {
