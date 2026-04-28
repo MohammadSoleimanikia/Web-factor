@@ -30,20 +30,16 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { useInvoiceData } from "@/hooks/useInvoiceData";
 import { apiFetch } from "@/lib/api";
 import { type InvoiceFormType, InvoiceSchema } from "@/schemas/invoice.schema";
-import type { Customer, PaginatedCustomerList } from "@/types/customer";
 import type { Invoice } from "@/types/invoice";
-import type { PaginatedProductList, Product } from "@/types/product";
 
 import { Combobox } from "../ui/comboBox";
 import LoadingSpinner from "../ui/loadingSpinner";
 import { Switch } from "../ui/switch";
 
 export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [customers, setCustomers] = useState<Customer[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [vatEnabled, setVatEnabled] = useState(false);
     const isEdit = Boolean(invoiceID);
     const Navigate = useNavigate();
@@ -71,6 +67,10 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
             discount: 0,
         },
     });
+    const { products, customers, isLoading } = useInvoiceData({
+        invoiceID,
+        reset,
+    });
     const watchedItems = watch("items");
     const addedValue = watch("added_value");
     const customerOptions = customers.map((c) => ({
@@ -78,55 +78,8 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
         id: c.id,
     }));
 
-    // Fetch all products
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                setIsLoading(true);
+    // Fetch all data
 
-                const [productsRes, customersRes] = await Promise.all([
-                    apiFetch<PaginatedProductList>(
-                        "/user/products/?page_size=1000",
-                    ),
-                    apiFetch<PaginatedCustomerList>(
-                        "/account/customers/?page_size=1000",
-                    ),
-                ]);
-
-                setProducts(productsRes.results);
-                setCustomers(customersRes.results);
-
-                if (invoiceID) {
-                    const invoice = await apiFetch<Invoice>(
-                        `/user/invoices/${invoiceID}/`,
-                    );
-
-                    reset({
-                        items: invoice.items.map((item) => ({
-                            product_id: item.product.id,
-                            quantity: item.quantity,
-                            price: item.price,
-                        })),
-                        customer_name: invoice.customer_name ?? "",
-                        customer_phone_number:
-                            invoice.customer_phone_number ?? "",
-                        customer_email: invoice.customer_email ?? "",
-                        customer_address: invoice.customer_address ?? "",
-                        descriptions: invoice.descriptions ?? "",
-                        title: invoice.title ?? "",
-                        status: invoice.status ?? "pending",
-                        payment_mode: invoice.payment_mode ?? "cash",
-                    });
-                }
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadData();
-    }, [invoiceID, reset]);
     // calculate VAT
     useEffect(() => {
         if (!vatEnabled) {
@@ -179,10 +132,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
                 <>
                     <div className="space-y-3 ">
                         <Label htmlFor="title">عنوان فاکتور</Label>
-                        <Input 
-                            {...register("title")}
-                            id="title"
-                        />
+                        <Input {...register("title")} id="title" />
                         {errors.title && (
                             <span className="text-red-500">
                                 {errors.title.message}
@@ -456,10 +406,7 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3">
                     <Label htmlFor="customer_name">نام مشتری</Label>
-                    <Input
-                        {...register("customer_name")}
-                        id="customer_name"
-                    />
+                    <Input {...register("customer_name")} id="customer_name" />
                     {errors.customer_name && (
                         <span className="text-red-500">
                             {errors.customer_name.message}
