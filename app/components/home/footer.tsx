@@ -4,7 +4,7 @@ export default function Footer(){
         <div className="flex gap-2 items-center">
             <img src="/logo.svg" className="size-32" alt="logo of page" />
             <h2>فاکتوریار</h2>
-            <p > 2026 </p>
+            <p > 1405 </p>
         </div>
     </footer>
 }
