@@ -32,9 +32,9 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
-    const { register, handleSubmit, setError, formState } =
+    const { register, handleSubmit, setError, formState:{errors} } =
         useForm<PhoneForm>();
-    const { errors } = formState as any;
+    
 
     const logIn = useAuth((state) => state.logIn);
     const navigate = useNavigate();
