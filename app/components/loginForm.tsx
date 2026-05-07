@@ -51,7 +51,6 @@ export function LoginForm({
     const {
         register: registerOtp,
         handleSubmit: handleSubmitOtp,
-        setError: setOtpError,
         formState: { errors: otpErrors },
     } = useForm<OtpFormType>({
         resolver: zodResolver(otpFormSchema),
