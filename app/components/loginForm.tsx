@@ -32,9 +32,12 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
-    const { register, handleSubmit, setError, formState:{errors} } =
-        useForm<PhoneForm>();
-    
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors },
+    } = useForm<PhoneForm>();
 
     const logIn = useAuth((state) => state.logIn);
     const navigate = useNavigate();
@@ -51,6 +54,7 @@ export function LoginForm({
     async function onSubmitPhone(data: PhoneForm) {
         try {
             setLoadingOtpRequest(true);
+            
             // request backend to send OTP to phone
             const res = await apiFetch<RequestOtpResponse>(
                 "/account/request_otp/",
@@ -90,7 +94,15 @@ export function LoginForm({
         }
     }
 
-    async function onSubmitOtp(e?: React.FormEvent) {
+    const handleOtpChange=(value:string)=>{
+        console.log("change value",value)
+        setOtp(value);
+        console.log("change otp",otp)
+        if(value.length === 6 && !loadingVerify){
+            onSubmitOtp(value);
+        }
+    }
+    async function onSubmitOtp(otpValue:string,e?: React.FormEvent) {
         e?.preventDefault();
         if (!phone) {
             setError("phone_number", { message: "شماره تلفن یافت نشد" });
@@ -100,9 +112,10 @@ export function LoginForm({
 
         try {
             setLoadingVerify(true);
+            
             const result = await apiFetch<Token>("/account/register/", {
                 method: "POST",
-                body: JSON.stringify({ phone_number: phone, otp_code: otp }),
+                body: JSON.stringify({ phone_number: phone, otp_code: otpValue }),
             });
             // assume backend returns user/session data similar to previous flow
             logIn(result);
@@ -190,7 +203,7 @@ export function LoginForm({
                             </FieldGroup>
                         </form>
                     ) : (
-                        <form className="p-6 md:p-8" onSubmit={onSubmitOtp}>
+                        <form className="p-6 md:p-8" onSubmit={()=>onSubmitOtp(otp)}>
                             <FieldGroup>
                                 <div className="flex flex-col items-center gap-2 text-center">
                                     <h1 className="text-2xl font-bold">
@@ -211,9 +224,7 @@ export function LoginForm({
                                         <InputOTP
                                             maxLength={6}
                                             value={otp}
-                                            onChange={(v: any) =>
-                                                setOtp(String(v || ""))
-                                            }
+                                            onChange={handleOtpChange}
                                         >
                                             <InputOTPGroup>
                                                 <InputOTPSlot index={5} />
