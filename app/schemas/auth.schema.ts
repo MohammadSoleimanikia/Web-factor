@@ -19,7 +19,7 @@ export const SignupSchema = z
             .string()
             .regex(
                 /^09[0-9]{9}$/,
-                "شماره موبایل باید با 09 شروع شده و 11 رقم باشد"
+                "شماره موبایل باید با 09 شروع شده و 11 رقم باشد",
             ),
 
         insta_link: z.string().min(3, "کوتاه است لینک").or(z.literal("")),
@@ -42,7 +42,7 @@ export const SignupSchema = z
     })
     .refine((data) => data.password === data.confirmPassword, {
         path: ["confirmPassword"],
-        message: "رمز عبور و تائید یکسان نیستند",
+        message: "رمز عبور و تأیید یکسان نیستند",
     });
 
 export type SignupFormType = z.infer<typeof SignupSchema>;

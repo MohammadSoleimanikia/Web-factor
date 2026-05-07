@@ -187,7 +187,7 @@ export function SignupForm({
                             <FieldGroup>
                                 <div className="flex flex-col items-center gap-2 text-center">
                                     <h1 className="text-2xl font-bold">
-                                        تایید شماره
+                                        تأیید شماره
                                     </h1>
                                     <p className="text-sm">
                                         کدی به {phone} ارسال شد
@@ -195,8 +195,8 @@ export function SignupForm({
                                 </div>
 
                                 <Field>
-                                    <FieldLabel>کد تایید</FieldLabel>
-                                    <p>کد تائید تست:</p>
+                                    <FieldLabel>کد تأیید</FieldLabel>
+                                    <p>کد تأیید تست:</p>
                                     <h2 className="text-center text-lg font-semibold">
                                         {displayOTP}
                                     </h2>
@@ -229,7 +229,7 @@ export function SignupForm({
                                         {loadingVerify ? (
                                             <span>در حال بررسی...</span>
                                         ) : (
-                                            "تایید و ورود"
+                                            "تأیید و ورود"
                                         )}
                                     </Button>
                                     <Button

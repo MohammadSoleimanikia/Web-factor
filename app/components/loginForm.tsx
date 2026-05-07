@@ -34,7 +34,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
     const { register, handleSubmit, setError, formState } =
         useForm<PhoneForm>();
-    const { errors} = formState as any;
+    const { errors } = formState as any;
 
     const logIn = useAuth((state) => state.logIn);
     const navigate = useNavigate();
@@ -52,10 +52,13 @@ export function LoginForm({
         try {
             setLoadingOtpRequest(true);
             // request backend to send OTP to phone
-            const res = await apiFetch<RequestOtpResponse>("/account/request_otp/", {
-                method: "POST",
-                body: JSON.stringify({ phone_number: data.phone_number }),
-            });
+            const res = await apiFetch<RequestOtpResponse>(
+                "/account/request_otp/",
+                {
+                    method: "POST",
+                    body: JSON.stringify({ phone_number: data.phone_number }),
+                },
+            );
 
             // test !! remove after adding sms verification
             setDisplayOTP(res?.Code);
@@ -140,7 +143,7 @@ export function LoginForm({
                                         تلفن
                                     </label>
                                     <Input
-                                    placeholder="09345677891"
+                                        placeholder="09345677891"
                                         {...register("phone_number", {
                                             required: "شماره تلفن الزامی است",
                                             pattern: {
@@ -191,7 +194,7 @@ export function LoginForm({
                             <FieldGroup>
                                 <div className="flex flex-col items-center gap-2 text-center">
                                     <h1 className="text-2xl font-bold">
-                                        تایید شماره
+                                        تأیید شماره
                                     </h1>
                                     <p className="text-sm">
                                         کدی به {phone} ارسال شد
@@ -199,8 +202,8 @@ export function LoginForm({
                                 </div>
 
                                 <Field>
-                                    <FieldLabel>کد تایید</FieldLabel>
-                                    <p>کد تائید تست:</p>
+                                    <FieldLabel>کد تأیید</FieldLabel>
+                                    <p>کد تأیید تست:</p>
                                     <h2 className="text-center text-lg font-semibold">
                                         {displayOTP}
                                     </h2>
@@ -233,7 +236,7 @@ export function LoginForm({
                                         {loadingVerify ? (
                                             <span>در حال بررسی...</span>
                                         ) : (
-                                            "تایید و ورود"
+                                            "تأیید و ورود"
                                         )}
                                     </Button>
                                     <Button
