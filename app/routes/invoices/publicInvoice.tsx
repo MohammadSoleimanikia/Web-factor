@@ -15,9 +15,10 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import Zoomable from "@/components/zoomable";
+import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
-import type { Invoice, PublicInvoice } from "@/types/invoice";
+import type {  PublicInvoice } from "@/types/invoice";
 import type { User } from "@/types/user";
 
 export default function PublicInvoice() {
@@ -42,7 +43,7 @@ export default function PublicInvoice() {
                     `/api/public/invoices/${invoiceToken}/`,
                 );
 
-
+                console.log(response)
                 // Extract invoice from nested structure
                 const invoiceData = response.invoice;
 

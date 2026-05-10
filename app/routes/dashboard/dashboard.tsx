@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import { CircleDollarSign, Clock, Scroll } from "lucide-react";
 import { useEffect, useState } from "react";
+
 import InvoiceStatCard from "@/components/dashboard/InvoiceStatCard";
 import { TopProductsChart } from "@/components/dashboard/topProductChart";
 import { TrendChart } from "@/components/dashboard/trendChart";
@@ -14,11 +16,10 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { invoiceStatusFa } from "@/constants/invoice";
+import type { Invoice, PaginatedInvoiceList } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
 import { useCacheStore } from "@/store/cacheStore";
 import type { DashboardData } from "@/types/dashboardData";
-import type { Invoice, PaginatedInvoiceList } from "@/types/invoice";
-import clsx from "clsx";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);

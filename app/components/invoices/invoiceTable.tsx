@@ -12,9 +12,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { invoiceStatusFa } from "@/constants/invoice";
+import type { Invoice, PaginatedInvoiceList } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
 import { useCacheStore } from "@/store/cacheStore";
-import type { Invoice, PaginatedInvoiceList } from "@/types/invoice";
 
 import { Badge } from "../ui/badge";
 import {
@@ -69,6 +69,7 @@ export default function InvoiceTable({
                 );
 
                 setInvoices(data.results);
+                
                 setCount(data.count);
             } catch (err) {
                 console.log(err);

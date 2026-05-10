@@ -14,9 +14,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import Zoomable from "@/components/zoomable";
+import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
-import type { Invoice } from "@/types/invoice";
 import type { User } from "@/types/user";
 export default function Invoice() {
     const { id } = useParams<{ id: string }>();

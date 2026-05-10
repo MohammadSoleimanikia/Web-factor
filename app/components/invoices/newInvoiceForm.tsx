@@ -30,10 +30,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { useInvoiceData } from "@/hooks/useInvoiceData";
 import { apiFetch } from "@/lib/api";
 import { type InvoiceFormType, InvoiceSchema } from "@/schemas/invoice.schema";
-import type { Invoice } from "@/types/invoice";
 
 import { Combobox } from "../ui/comboBox";
 import LoadingSpinner from "../ui/loadingSpinner";

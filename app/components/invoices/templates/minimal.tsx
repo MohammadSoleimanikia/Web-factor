@@ -6,10 +6,10 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import { generateBrandingColors } from "@/lib/brandingColors";
 import { buildLogoUrl, phoneFormatter } from "@/lib/utils";
 import useAuth from "@/store/auth";
-import type { InvoiceViewModel } from "@/types/invoice";
 import type { User } from "@/types/user";
 type invoiceProps = {
     invoice: InvoiceViewModel;

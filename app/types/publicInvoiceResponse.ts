@@ -1,4 +1,5 @@
-import type { Invoice } from "./invoice";
+import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
+
 import type { User } from "./user";
 
 /**

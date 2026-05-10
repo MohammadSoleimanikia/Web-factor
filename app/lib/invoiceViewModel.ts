@@ -2,8 +2,8 @@
 import num2persian from "num2persian";
 
 import { invoiceStatusFa, paymentModeFa } from "@/constants/invoice";
+import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { formatPersianDateTime } from "@/lib/dateFormatter";
-import type { Invoice } from "@/types/invoice";
 
 import { phoneFormatter } from "./utils";
 
