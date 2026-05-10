@@ -14,6 +14,9 @@ type TemplateSelectorProps = {
     template: "classic" | "modern" | "minimal";
     setTemplate: Dispatch<SetStateAction<TemplateType>>;
 };
+/**
+ * a dropdown selector for selecting the template type
+ */
 export const TemplateSelector = ({ template,setTemplate }: TemplateSelectorProps) => {
     return (
         <Select
