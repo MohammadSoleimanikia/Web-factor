@@ -28,7 +28,7 @@ export default function Invoice() {
                 setInvoice(result);
             } catch (err: any) {
                 console.error(err);
-                setError("Failed to load invoice");
+                setError("بارگذاری فاکتور ناموفق بود!");
             } finally {
                 setLoading(false);
             }
@@ -48,8 +48,8 @@ export default function Invoice() {
         fetchUser();
     }, []);
     if (loading) return <LoadingSpinner />;
-    if (error) return <div>Error: {error}</div>;
-    if (!invoice) return <div>Invoice not found</div>;
+    if (error) return <div>خطا: {error}</div>;
+    if (!invoice) return <div>فاکتور پیدا نشد</div>;
 
     return (
         <>
