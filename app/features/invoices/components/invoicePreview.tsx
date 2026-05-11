@@ -1,8 +1,8 @@
-import Classic from "@/components/invoices/templates/classic";
-import Minimal from "@/components/invoices/templates/minimal";
-import Modern from "@/components/invoices/templates/modern";
 import Zoomable from "@/components/zoomable";
 import type { User } from "@/features/auth/types/user.type";
+import Classic from "@/features/invoices/components/templates/classic";
+import Minimal from "@/features/invoices/components/templates/minimal";
+import Modern from "@/features/invoices/components/templates/modern";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
 
 import type { Invoice } from "../types/invoicePreview.type";

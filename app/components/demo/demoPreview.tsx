@@ -4,7 +4,7 @@ import { BUTTON_LABELS, MESSAGES } from "@/constants/i18n";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
 import { useInvoiceStore } from "@/store/demoInvoice";
 
-import Minimal from "../invoices/templates/minimal";
+import Minimal from "../../features/invoices/components/templates/minimal";
 import { Button } from "../ui/button";
 import { FormActions } from "../ui/form-fields";
 

@@ -2,12 +2,12 @@ import { SearchIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import {
     InputGroup,
     InputGroupButton,
     InputGroupInput,
-} from "../ui/input-group";
+} from "../../../components/ui/input-group";
 import {
     Select,
     SelectContent,
@@ -16,7 +16,7 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "../ui/select";
+} from "../../../components/ui/select";
 
 export default function Header({
     setSearchQuery,

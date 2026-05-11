@@ -17,18 +17,24 @@ type DeleteConfirmProps = {
     onConfirm: () => void;
     title?: string;
     trigger?: React.ReactNode;
+    disabled?: boolean;
 };
 
 export default function DeleteConfirm({
     onConfirm,
     title,
     trigger,
+    disabled = false,
 }: DeleteConfirmProps) {
     return (
         <AlertDialog>
-            <AlertDialogTrigger asChild>
+            <AlertDialogTrigger disabled={disabled} asChild>
                 {trigger ?? (
-                    <Button variant="destructive" size="icon">
+                    <Button
+                        disabled={disabled}
+                        variant="destructive"
+                        size="icon"
+                    >
                         <Trash className="w-4 h-4" />
                     </Button>
                 )}

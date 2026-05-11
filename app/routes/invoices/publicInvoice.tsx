@@ -2,9 +2,6 @@ import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import Classic from "@/components/invoices/templates/classic";
-import Minimal from "@/components/invoices/templates/minimal";
-import Modern from "@/components/invoices/templates/modern";
 import { useTheme } from "@/components/themeProvider";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +13,9 @@ import {
 } from "@/components/ui/select";
 import Zoomable from "@/components/zoomable";
 import type { User } from "@/features/auth/types/user.type";
+import Classic from "@/features/invoices/components/templates/classic";
+import Minimal from "@/features/invoices/components/templates/minimal";
+import Modern from "@/features/invoices/components/templates/modern";
 import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";

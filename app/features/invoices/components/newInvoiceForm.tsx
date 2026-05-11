@@ -35,9 +35,9 @@ import { useInvoiceData } from "@/hooks/useInvoiceData";
 import { apiFetch } from "@/lib/api";
 import { type InvoiceFormType, InvoiceSchema } from "@/schemas/invoice.schema";
 
-import { Combobox } from "../ui/comboBox";
-import LoadingSpinner from "../ui/loadingSpinner";
-import { Switch } from "../ui/switch";
+import { Combobox } from "../../../components/ui/comboBox";
+import LoadingSpinner from "../../../components/ui/loadingSpinner";
+import { Switch } from "../../../components/ui/switch";
 
 export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
     const [vatEnabled, setVatEnabled] = useState(false);
