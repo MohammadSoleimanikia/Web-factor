@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+// src/components/products/productTable.tsx
+import { useState } from "react";
 import { toast } from "sonner";
 
 import ProductsSkeleton from "@/components/products/productsSkeleton";
@@ -10,8 +11,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { apiFetch } from "@/lib/api";
-import type { PaginatedProductList, Product } from "@/types/product";
+import { useDeleteProduct } from "@/features/products/hooks/useDeleteProduct";
+import { useProducts } from "@/features/products/hooks/useProducts";
+import type { Product } from "@/types/product";
 
 import DeleteConfirm from "../ui/deleteConfirm";
 import {
@@ -23,158 +25,151 @@ import {
     PaginationPrevious,
 } from "../ui/pagination";
 import EditProductModal from "./editProductModal";
-export default function ProductTable({
-    onAdded,
-    reload,
-    searchQuery,
-}: {
+
+interface ProductTableProps {
     onAdded?: () => void;
-    reload: number;
-    searchQuery: string;
-}) {
-    const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState<Product[]>([]);
+    searchQuery: string; // ✅ reload رو حذف کردیم
+}
+
+export default function ProductTable({
+    searchQuery,
+}: ProductTableProps) {
     const [page, setPage] = useState(1);
     const pageSize = 10;
-    const [count, setCount] = useState(0);
+
+    // ✅ استفاده از هوک جدید useProducts
+    const { products, count, isLoading, isFetching, error, refetch } =
+        useProducts({
+            page,
+            pageSize,
+            search: searchQuery,
+        });
+
+    // ✅ استفاده از هوک delete
+    const { deleteProduct, isDeleting } = useDeleteProduct();
+
     const totalPages = Math.ceil(count / pageSize);
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            setLoading(true);
-
-            try {
-                const data = await apiFetch<PaginatedProductList>(
-                    `/user/products/?page=${page}&page_size=${pageSize}&search=${searchQuery}`,
-                );
-                setProducts(data.results);
-                setCount(data.count);
-            } catch (err) {
-                console.log(err);
-            }
-
-            setLoading(false);
-        };
-
-        fetchProducts();
-    }, [reload, page, searchQuery]);
     const handleDelete = async (id: number) => {
         try {
-            await apiFetch(`/user/products/${id}/`, { method: "DELETE" });
-            setProducts((prev) => prev.filter((p) => p.id !== id));
+            await deleteProduct(id);
             toast.success("محصول حذف شد");
-            onAdded?.();
+            refetch()
         } catch (err) {
-            if (err instanceof Error) {
-                toast.error(err.message);
-            } else {
-                toast.error(
-                    "کالایی که در فاکتور استفاده شده را نمی‌توان حذف کرد",
-                );
-            }
+            console.log(err)
+            // handled in hook
         }
     };
+
+    if (isLoading) {
+        return <ProductsSkeleton />;
+    }
+
+    if (error) {
+        return (
+            <div className="text-center py-10">
+                <div className="text-red-500">خطا در بارگذاری محصولات</div>
+                <button
+                    onClick={() => refetch()}
+                    className="mt-2 text-blue-500 hover:underline"
+                >
+                    تلاش مجدد
+                </button>
+            </div>
+        );
+    }
+
     return (
         <>
-            {loading ? (
-                <ProductsSkeleton />
-            ) : (
-                <>
-                    <Table className="my-5">
-                        <TableHeader className="bg-muted rounded-sm">
-                            <TableRow>
-                                <TableHead>نام</TableHead>
-                                <TableHead>توضیحات</TableHead>
-                                <TableHead>قیمت فروش</TableHead>
-                                <TableHead>قیمت خرید</TableHead>
-                                <TableHead>عملیات</TableHead>
-                            </TableRow>
-                        </TableHeader>
+            <Table className="my-5">
+                <TableHeader className="bg-muted rounded-sm">
+                    <TableRow>
+                        <TableHead>نام</TableHead>
+                        <TableHead>توضیحات</TableHead>
+                        <TableHead>قیمت فروش</TableHead>
+                        <TableHead>قیمت خرید</TableHead>
+                        <TableHead>عملیات</TableHead>
+                    </TableRow>
+                </TableHeader>
 
-                        <TableBody>
-                            {products?.map((p: Product) => (
-                                <TableRow key={p.id}>
-                                    <TableCell className="text-right">
-                                        {p.name}
-                                    </TableCell>
-                                    <TableCell>
-                                        {p.description || "-"}
-                                    </TableCell>
-                                    <TableCell className="text-right whitespace-nowrap">
-                                        {p.price} تومان
-                                    </TableCell>
-                                    <TableCell className="text-right whitespace-nowrap">
-                                        {p.buy} تومان
-                                    </TableCell>
-                                    <TableCell className="space-x-2">
-                                        <DeleteConfirm
-                                            title={"کالا"}
-                                            onConfirm={() => handleDelete(p.id)}
-                                        />
-                                        <EditProductModal onAdded={onAdded} product={p} />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                <TableBody>
+                    {products?.map((product: Product) => (
+                        <TableRow key={product.id}>
+                            <TableCell className="text-right">
+                                {product.name}
+                            </TableCell>
+                            <TableCell>{product.description || "-"}</TableCell>
+                            <TableCell className="text-right whitespace-nowrap">
+                                {product.price.toLocaleString()} تومان
+                            </TableCell>
+                            <TableCell className="text-right whitespace-nowrap">
+                                {product.buy.toLocaleString()} تومان
+                            </TableCell>
+                            <TableCell className="space-x-2">
+                                <DeleteConfirm
+                                    title="کالا"
+                                    onConfirm={() => handleDelete(product.id)}
+                                    disabled={isDeleting}
+                                />
+                                <EditProductModal
+                                    product={product}
+                                />
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
 
-                    {totalPages > 1 && (
-                        <Pagination className="mt-4" dir="rtl">
-                            <PaginationContent>
-                                {/* Next (on right in RTL) */}
-                                <PaginationItem>
-                                    <PaginationNext
-                                        onClick={() =>
-                                            page < totalPages &&
-                                            setPage(page + 1)
-                                        }
-                                        className={
-                                            page === totalPages
-                                                ? "pointer-events-none opacity-50"
-                                                : ""
-                                        }
-                                    />
-                                </PaginationItem>
+            {totalPages > 1 && (
+                <Pagination className="mt-4" dir="rtl">
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationNext
+                                onClick={() =>
+                                    page < totalPages && setPage(page + 1)
+                                }
+                                className={
+                                    page === totalPages
+                                        ? "pointer-events-none opacity-50"
+                                        : ""
+                                }
+                            />
+                        </PaginationItem>
 
-                                {/* Page numbers reversed for RTL */}
-                                {Array.from({ length: totalPages })
-                                    .reverse()
-                                    .map((_, i) => {
-                                        const pageNumber = totalPages - i;
+                        {Array.from({ length: totalPages })
+                            .reverse()
+                            .map((_, i) => {
+                                const pageNumber = totalPages - i;
+                                return (
+                                    <PaginationItem key={pageNumber}>
+                                        <PaginationLink
+                                            isActive={page === pageNumber}
+                                            onClick={() => setPage(pageNumber)}
+                                        >
+                                            {pageNumber}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                );
+                            })}
 
-                                        return (
-                                            <PaginationItem key={pageNumber}>
-                                                <PaginationLink
-                                                    isActive={
-                                                        page === pageNumber
-                                                    }
-                                                    onClick={() =>
-                                                        setPage(pageNumber)
-                                                    }
-                                                >
-                                                    {pageNumber}
-                                                </PaginationLink>
-                                            </PaginationItem>
-                                        );
-                                    })}
+                        <PaginationItem>
+                            <PaginationPrevious
+                                onClick={() => page > 1 && setPage(page - 1)}
+                                className={
+                                    page === 1
+                                        ? "pointer-events-none opacity-50"
+                                        : ""
+                                }
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            )}
 
-                                {/* Previous (on left in RTL) */}
-                                <PaginationItem>
-                                    <PaginationPrevious
-                                        onClick={() =>
-                                            page > 1 && setPage(page - 1)
-                                        }
-                                        className={
-                                            page === 1
-                                                ? "pointer-events-none opacity-50"
-                                                : ""
-                                        }
-                                    />
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination>
-                    )}
-                </>
+            {isFetching && !isLoading && (
+                <div className="text-center text-sm text-muted-foreground mt-2">
+                    در حال بروزرسانی...
+                </div>
             )}
         </>
     );
