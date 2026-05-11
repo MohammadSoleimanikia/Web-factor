@@ -1,7 +1,6 @@
 import { Check, Eye, MoreHorizontalIcon, SquarePen, Trash } from "lucide-react";
 import { Link } from "react-router";
 
-import SharePublicLinkDialog from "./sharePublicLinkDialog";
 import { Button } from "../../../components/ui/button";
 import DeleteConfirm from "../../../components/ui/deleteConfirm";
 import {
@@ -11,6 +10,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
+import SharePublicLinkDialog from "./sharePublicLinkDialog";
 
 type InvoiceActionsProps = {
     invoiceId: string;
