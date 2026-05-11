@@ -31,6 +31,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
+import { useProducts } from "@/features/products/hooks/useProducts";
 import { useInvoiceData } from "@/hooks/useInvoiceData";
 import { apiFetch } from "@/lib/api";
 import { type InvoiceFormType, InvoiceSchema } from "@/schemas/invoice.schema";
@@ -67,7 +68,8 @@ export default function NewInvoiceForm({ invoiceID }: { invoiceID?: string }) {
             discount: 0,
         },
     });
-    const { products, customers, isLoading } = useInvoiceData({
+    const { products } = useProducts({});
+    const { customers, isLoading } = useInvoiceData({
         invoiceID,
         reset,
     });
