@@ -21,7 +21,6 @@ import type {
     PaginatedInvoiceList,
 } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
-import { useCacheStore } from "@/store/cacheStore";
 import type { DashboardData } from "@/types/dashboardData";
 
 export default function Dashboard() {
@@ -51,7 +50,6 @@ export default function Dashboard() {
     useEffect(() => {
         const init = async () => {
             try {
-                const cacheStore = useCacheStore.getState();
 
                 cacheStore.invalidateCache([
                     "/user/dashboard/",

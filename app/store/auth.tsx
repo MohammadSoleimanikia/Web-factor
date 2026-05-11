@@ -5,7 +5,6 @@ import type { User } from "@/features/auth/types/user.type";
 import type { AuthContextType } from "@/types/authContext";
 import type { Token } from "@/types/token";
 
-import { useCacheStore } from "./cacheStore";
 
 const BASE_URL = "https://yasinhossini94.pythonanywhere.com/account";
 const useAuth = create<AuthContextType>()(
@@ -15,7 +14,6 @@ const useAuth = create<AuthContextType>()(
             profile: null,
             logIn: (token: Token) => set({ token }),
             logOut: () => {
-                useCacheStore.getState().clearAllCache();
                 set({ token: null, profile: null });
             },
             setProfile: (profile: User) => {
