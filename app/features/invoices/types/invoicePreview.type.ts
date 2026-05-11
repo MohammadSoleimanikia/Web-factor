@@ -1,5 +1,5 @@
+import type { User } from "@/features/auth/types/user.type";
 import type { Product } from "@/types/product";
-import type { User } from "@/types/user";
 
 /**
  * Private Invoice Item with full Product details

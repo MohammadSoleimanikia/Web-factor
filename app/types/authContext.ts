@@ -1,5 +1,6 @@
+import type { User } from "@/features/auth/types/user.type";
+
 import type { Token } from "./token";
-import type { User } from "./user";
 
 export type AuthContextType = {
     token: null | Token;

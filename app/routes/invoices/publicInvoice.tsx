@@ -15,11 +15,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import Zoomable from "@/components/zoomable";
+import type { User } from "@/features/auth/types/user.type";
 import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
-import type {  PublicInvoice } from "@/types/invoice";
-import type { User } from "@/types/user";
+import type { PublicInvoice } from "@/types/invoice";
 
 export default function PublicInvoice() {
     const { invoiceToken } = useParams<{ invoiceToken: string }>();
@@ -43,10 +43,9 @@ export default function PublicInvoice() {
                     `/api/public/invoices/${invoiceToken}/`,
                 );
 
-                console.log(response)
+                console.log(response);
                 // Extract invoice from nested structure
                 const invoiceData = response.invoice;
-
 
                 if (!invoiceData || !invoiceData.id) {
                     console.error("Invoice data is invalid:", invoiceData);
@@ -97,12 +96,13 @@ export default function PublicInvoice() {
         return (
             <div className="flex items-center justify-center min-h-screen flex-col gap-4">
                 <div className="text-red-500 text-center">
-                    <p className="font-semibold">فاکتوری با این لینک موجود نمی باشد</p>
+                    <p className="font-semibold">
+                        فاکتوری با این لینک موجود نمی باشد
+                    </p>
                     <p className="text-sm text-gray-600 mt-2">
                         توکن: {invoiceToken}
                     </p>
                 </div>
-                
             </div>
         );
     }

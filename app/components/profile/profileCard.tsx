@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
+import type { User } from "@/features/auth/types/user.type";
 import { apiFetch } from "@/lib/api";
 import { buildLogoUrl } from "@/lib/utils";
 import useAuth from "@/store/auth";
-import type { User } from "@/types/user";
 
 import LoadingSpinner from "../ui/loadingSpinner";
 import EditProfileModal from "./editProfileModal";

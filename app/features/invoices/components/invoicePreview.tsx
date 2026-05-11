@@ -2,20 +2,20 @@ import Classic from "@/components/invoices/templates/classic";
 import Minimal from "@/components/invoices/templates/minimal";
 import Modern from "@/components/invoices/templates/modern";
 import Zoomable from "@/components/zoomable";
+import type { User } from "@/features/auth/types/user.type";
 import { buildInvoiceViewModel } from "@/lib/invoiceViewModel";
-import type { User } from "@/types/user";
 
 import type { Invoice } from "../types/invoicePreview.type";
 
 type InvoicePreviewProps = {
     template: "classic" | "modern" | "minimal";
     invoice: Invoice;
-    user: User|null;
+    user: User | null;
 };
 export default function InvoicePreview({
     template,
     invoice,
-    user
+    user,
 }: InvoicePreviewProps) {
     const viewModel = buildInvoiceViewModel({ invoice });
     return (

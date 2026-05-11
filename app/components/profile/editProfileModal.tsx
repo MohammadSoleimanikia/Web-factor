@@ -10,8 +10,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import type { UserUpdate } from "@/features/auth/types/user.type";
+import type { User } from "@/features/auth/types/user.type";
 import { apiFetch } from "@/lib/api";
-import type { User, UserUpdate } from "@/types/user";
 
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";

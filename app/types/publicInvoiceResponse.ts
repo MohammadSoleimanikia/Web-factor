@@ -1,6 +1,5 @@
+import type { User } from "@/features/auth/types/user.type";
 import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
-
-import type { User } from "./user";
 
 /**
  * Public API Response returned from `/api/public/invoices/{token}/`

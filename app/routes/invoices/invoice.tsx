@@ -3,11 +3,11 @@ import { useParams } from "react-router";
 
 import { Button } from "@/components/ui/button";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
+import type { User } from "@/features/auth/types/user.type";
 import InvoicePreview from "@/features/invoices/components/invoicePreview";
 import { TemplateSelector } from "@/features/invoices/components/templateSelector";
 import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
-import type { User } from "@/types/user";
 export type TemplateType = "classic" | "modern" | "minimal";
 export default function Invoice() {
     const { id } = useParams<{ id: string }>();
