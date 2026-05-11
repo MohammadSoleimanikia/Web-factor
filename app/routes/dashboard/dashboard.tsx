@@ -51,11 +51,7 @@ export default function Dashboard() {
         const init = async () => {
             try {
 
-                cacheStore.invalidateCache([
-                    "/user/dashboard/",
-                    "/user/invoices/?page=1&page_size=5",
-                    "/user/invoices/?page=1&page_size=5&status=pending",
-                ]);
+                
 
                 const [dashboardData, recentData, pendingData] =
                     await Promise.all([
