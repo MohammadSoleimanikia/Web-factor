@@ -12,13 +12,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import type { Product, ProductCreate } from "@/features/products/types/product";
 import { apiFetch } from "@/lib/api";
-import type { Product, ProductCreate } from "@/types/product";
 
-import { Button } from "../ui/button";
-import { Field, FieldLabel } from "../ui/field";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import { Button } from "../../../components/ui/button";
+import { Field, FieldLabel } from "../../../components/ui/field";
+import { Input } from "../../../components/ui/input";
+import { Textarea } from "../../../components/ui/textarea";
 
 export default function EditProductModal({
     onAdded,

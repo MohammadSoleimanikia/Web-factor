@@ -6,14 +6,12 @@ import {
     InputGroupAddon,
     InputGroupButton,
     InputGroupInput,
-} from "../ui/input-group";
+} from "../../../components/ui/input-group";
 import AddProductModal from "./addProductModal";
 
 export default function Header({
-    onAdded,
     setSearchQuery,
 }: {
-    onAdded: () => void;
     setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 }) {
     const [searchInput, setSearchInput] = useState("");
@@ -21,7 +19,7 @@ export default function Header({
         <header className="mx-5">
             <h1 className="title">کالا ها</h1>
             <div className="flex justify-between gap-3">
-                <AddProductModal onAdded={onAdded} />
+                <AddProductModal />
                 {/* search btn */}
                 <InputGroup>
                     <InputGroupInput

@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import ProductsSkeleton from "@/components/products/productsSkeleton";
 import {
     Table,
     TableBody,
@@ -11,11 +10,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import ProductsSkeleton from "@/features/products/components/productsSkeleton";
 import { useDeleteProduct } from "@/features/products/hooks/useDeleteProduct";
 import { useProducts } from "@/features/products/hooks/useProducts";
-import type { Product } from "@/types/product";
+import type { Product } from "@/features/products/types/product";
 
-import DeleteConfirm from "../ui/deleteConfirm";
+import DeleteConfirm from "../../../components/ui/deleteConfirm";
 import {
     Pagination,
     PaginationContent,
@@ -23,21 +23,17 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "../ui/pagination";
+} from "../../../components/ui/pagination";
 import EditProductModal from "./editProductModal";
 
 interface ProductTableProps {
-    onAdded?: () => void;
-    searchQuery: string; // ✅ reload رو حذف کردیم
+    searchQuery: string;
 }
 
-export default function ProductTable({
-    searchQuery,
-}: ProductTableProps) {
+export default function ProductTable({ searchQuery }: ProductTableProps) {
     const [page, setPage] = useState(1);
     const pageSize = 10;
 
-    // ✅ استفاده از هوک جدید useProducts
     const { products, count, isLoading, isFetching, error, refetch } =
         useProducts({
             page,
@@ -45,7 +41,6 @@ export default function ProductTable({
             search: searchQuery,
         });
 
-    // ✅ استفاده از هوک delete
     const { deleteProduct, isDeleting } = useDeleteProduct();
 
     const totalPages = Math.ceil(count / pageSize);
@@ -54,9 +49,9 @@ export default function ProductTable({
         try {
             await deleteProduct(id);
             toast.success("محصول حذف شد");
-            refetch()
+            refetch();
         } catch (err) {
-            console.log(err)
+            console.log(err);
             // handled in hook
         }
     };
@@ -111,9 +106,7 @@ export default function ProductTable({
                                     onConfirm={() => handleDelete(product.id)}
                                     disabled={isDeleting}
                                 />
-                                <EditProductModal
-                                    product={product}
-                                />
+                                <EditProductModal product={product} />
                             </TableCell>
                         </TableRow>
                     ))}

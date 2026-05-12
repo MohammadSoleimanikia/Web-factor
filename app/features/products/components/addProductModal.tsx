@@ -11,15 +11,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { apiFetch } from "@/lib/api";
-import type { ProductCreate } from "@/types/product";
+import { useCreateProduct } from "@/features/products/hooks/useCreateProduct";
+import type { ProductCreate } from "@/features/products/types/product";
 
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Textarea } from "../../../components/ui/textarea";
 
-export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
-    const [loading, setLoading] = useState(false);
+export default function AddProductModal() {
     const [pricePersian, setPricePersian] = useState("");
     const [buyPersian, setBuyPersian] = useState("");
 
@@ -30,19 +29,14 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
         setError,
         formState: { errors, isSubmitting },
     } = useForm<ProductCreate>();
-
+    const { createProduct, isCreating } = useCreateProduct();
     const onSubmit = async (data: ProductCreate) => {
         try {
-            setLoading(true);
-            await apiFetch("/user/products/", {
-                method: "POST",
-                body: JSON.stringify(data),
-            });
-
+            await createProduct(data);
             toast.success("کالا با موفقیت افزوده شد");
             reset();
-            onAdded?.();
             setPricePersian("");
+            setBuyPersian("");
         } catch (err: any) {
             console.error(err);
 
@@ -57,8 +51,6 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
                     message: "خطای ناشناخته‌ای رخ داد",
                 });
             }
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -155,10 +147,10 @@ export default function AddProductModal({ onAdded }: { onAdded?: () => void }) {
                     </p>
                     <Button
                         type="submit"
-                        disabled={loading || isSubmitting}
+                        disabled={isCreating || isSubmitting}
                         className="w-full"
                     >
-                        {loading ? "در حال ارسال..." : "افزودن کالا"}
+                        {isCreating ? "در حال ارسال..." : "افزودن کالا"}
                     </Button>
                     <p className="text-red-500 text-sm">
                         {" "}
