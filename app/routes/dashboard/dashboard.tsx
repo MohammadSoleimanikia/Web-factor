@@ -16,6 +16,7 @@ import InvoiceStatCard from "@/features/dashboard/components/InvoiceStatCard";
 import { TopProductsChart } from "@/features/dashboard/components/topProductChart";
 import { TrendChart } from "@/features/dashboard/components/trendChart";
 import { useDashboardStats } from "@/features/dashboard/hooks/useDashboardStats";
+import { useRecentInvoices } from "@/features/dashboard/hooks/useRecentInvoices";
 import { invoiceStatusFa } from "@/features/invoices/constants/invoice";
 import type {
     Invoice,
@@ -24,25 +25,19 @@ import type {
 import { apiFetch } from "@/lib/api";
 
 export default function Dashboard() {
-    const [recentInvoices, setRecentInvoices] = useState<Invoice[]>([]);
     const [pendingInvoices, setPendingInvoices] = useState<Invoice[]>([]);
     const { data: dashboardData, isLoading: statsLoading } =
         useDashboardStats();
-
+    const { data: recentData, isLoading: recentLoading } = useRecentInvoices(5);
     const isLoading = statsLoading;
     useEffect(() => {
         const init = async () => {
             try {
-                const [recentData, pendingData] = await Promise.all([
-                    apiFetch<PaginatedInvoiceList>(
-                        "/user/invoices/?page=1&page_size=5",
-                    ),
+                const [pendingData] = await Promise.all([
                     apiFetch<PaginatedInvoiceList>(
                         "/user/invoices/?page=1&page_size=5&status=pending",
                     ),
                 ]);
-
-                setRecentInvoices(recentData.results);
                 setPendingInvoices(pendingData.results);
             } catch (err) {
                 console.error("error fetching dashboard data", err);
@@ -92,7 +87,7 @@ export default function Dashboard() {
             </TableRow>
         ));
     };
-    if (isLoading) return <LoadingSpinner />;
+    if (isLoading || recentLoading) return <LoadingSpinner />;
     return (
         <main className="text-right">
             <h1 className="text-2xl font-bold mb-4">داشبورد</h1>
@@ -151,8 +146,10 @@ export default function Dashboard() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {renderInvoiceRows(
-                                recentInvoices,
+                            {
+                            
+                            renderInvoiceRows(
+                                recentData?.results ?? [],
                                 "فاکتوری ثبت نشده است",
                             )}
                         </TableBody>
@@ -185,11 +182,9 @@ export default function Dashboard() {
                 {dashboardData?.trends && (
                     <TrendChart chartData={dashboardData?.trends} />
                 )}
-                {
-                    dashboardData?.top_products &&
+                {dashboardData?.top_products && (
                     <TopProductsChart chartData={dashboardData?.top_products} />
-                    
-                }
+                )}
             </div>
         </main>
     );
