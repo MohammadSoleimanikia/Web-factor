@@ -1,8 +1,9 @@
-type Trends = {
+
+export type Trends = {
     date: string;
     total: number;
 };
-type TopProducts = {
+export type TopProducts = {
     product__name: string;
     quantity: number;
 };

@@ -2,9 +2,9 @@ import clsx from "clsx";
 import { CircleDollarSign, Clock, Scroll } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import InvoiceStatCard from "@/components/dashboard/InvoiceStatCard";
-import { TopProductsChart } from "@/components/dashboard/topProductChart";
-import { TrendChart } from "@/components/dashboard/trendChart";
+import InvoiceStatCard from "@/features/dashboard/components/InvoiceStatCard";
+import { TopProductsChart } from "@/features/dashboard/components/topProductChart";
+import { TrendChart } from "@/features/dashboard/components/trendChart";
 import { Badge } from "@/components/ui/badge";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
 import {
@@ -21,7 +21,7 @@ import type {
     PaginatedInvoiceList,
 } from "@/features/invoices/types/invoicePreview.type";
 import { apiFetch } from "@/lib/api";
-import type { DashboardData } from "@/types/dashboardData";
+import type { DashboardData } from "@/features/dashboard/types/dashboard.type";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -50,9 +50,6 @@ export default function Dashboard() {
     useEffect(() => {
         const init = async () => {
             try {
-
-                
-
                 const [dashboardData, recentData, pendingData] =
                     await Promise.all([
                         apiFetch<DashboardData>("/user/dashboard/"),

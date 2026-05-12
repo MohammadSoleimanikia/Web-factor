@@ -7,7 +7,7 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
-} from "../ui/card";
+} from "../../../components/ui/card";
 
 type InvoiceStatCardProps = {
     title: string;
@@ -22,7 +22,7 @@ export default function InvoiceStatCard({
     title,
     value,
     unit,
-    icon: Icon,/*change name to use as component*/
+    icon: Icon /*change name to use as component*/,
     showPersianText = false,
     className,
 }: InvoiceStatCardProps) {
@@ -43,9 +43,7 @@ export default function InvoiceStatCard({
             <CardContent className="space-y-1">
                 <div className="flex items-baseline gap-2 ">
                     <p className="text-3xl font-bold">{formattedValue}</p>
-                    <span className="text-sm ">
-                        {unit}
-                    </span>
+                    <span className="text-sm ">{unit}</span>
                 </div>
 
                 {showPersianText && (
