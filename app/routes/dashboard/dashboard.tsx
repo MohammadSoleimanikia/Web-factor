@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { CircleDollarSign, Clock, Scroll } from "lucide-react";
-import { useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
@@ -16,36 +15,19 @@ import InvoiceStatCard from "@/features/dashboard/components/InvoiceStatCard";
 import { TopProductsChart } from "@/features/dashboard/components/topProductChart";
 import { TrendChart } from "@/features/dashboard/components/trendChart";
 import { useDashboardStats } from "@/features/dashboard/hooks/useDashboardStats";
+import { usePendingInvoices } from "@/features/dashboard/hooks/usePendingInvoices";
 import { useRecentInvoices } from "@/features/dashboard/hooks/useRecentInvoices";
 import { invoiceStatusFa } from "@/features/invoices/constants/invoice";
-import type {
-    Invoice,
-    PaginatedInvoiceList,
-} from "@/features/invoices/types/invoicePreview.type";
-import { apiFetch } from "@/lib/api";
+import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 
 export default function Dashboard() {
-    const [pendingInvoices, setPendingInvoices] = useState<Invoice[]>([]);
     const { data: dashboardData, isLoading: statsLoading } =
         useDashboardStats();
     const { data: recentData, isLoading: recentLoading } = useRecentInvoices(5);
-    const isLoading = statsLoading;
-    useEffect(() => {
-        const init = async () => {
-            try {
-                const [pendingData] = await Promise.all([
-                    apiFetch<PaginatedInvoiceList>(
-                        "/user/invoices/?page=1&page_size=5&status=pending",
-                    ),
-                ]);
-                setPendingInvoices(pendingData.results);
-            } catch (err) {
-                console.error("error fetching dashboard data", err);
-            }
-        };
+    const { data: pendingData, isLoading: pendingLoading } =
+        usePendingInvoices(5);
 
-        init();
-    }, []);
+    const isLoading = statsLoading || recentLoading || pendingLoading;
 
     const renderInvoiceRows = (invoices: Invoice[], emptyMessage: string) => {
         if (!invoices.length) {
@@ -146,9 +128,7 @@ export default function Dashboard() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {
-                            
-                            renderInvoiceRows(
+                            {renderInvoiceRows(
                                 recentData?.results ?? [],
                                 "فاکتوری ثبت نشده است",
                             )}
@@ -171,7 +151,7 @@ export default function Dashboard() {
                         </TableHeader>
                         <TableBody>
                             {renderInvoiceRows(
-                                pendingInvoices,
+                                pendingData?.results ?? [],
                                 "فاکتور در انتظار پرداخت موجود نیست",
                             )}
                         </TableBody>
