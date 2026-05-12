@@ -6,7 +6,7 @@ import {
     MultiSelectTrigger,
     MultiSelectValue,
 } from "@/components/ui/multi-select";
-import type { Product } from "@/types/product";
+import type { Product } from "@/features/products/types/product";
 
 import { Label } from "../../../components/ui/label";
 
@@ -26,7 +26,6 @@ export default function MultiSelectProducts({
             <Label>انتخاب کالاها</Label>
 
             <MultiSelect
-            
                 values={selectedItems.map(String)}
                 onValuesChange={(vals) => {
                     setSelectedItems(vals.map(Number));
