@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { CircleDollarSign, Clock, Scroll } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
@@ -11,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import InvoiceStatCard from "@/features/dashboard/components/InvoiceStatCard";
+import StatsCards from "@/features/dashboard/components/statsCards";
 import { TopProductsChart } from "@/features/dashboard/components/topProductChart";
 import { TrendChart } from "@/features/dashboard/components/trendChart";
 import { useDashboardStats } from "@/features/dashboard/hooks/useDashboardStats";
@@ -69,49 +68,11 @@ export default function Dashboard() {
             </TableRow>
         ));
     };
-    if (isLoading ) return <LoadingSpinner />;
+    if (isLoading) return <LoadingSpinner />;
     return (
         <main className="text-right">
             <h1 className="text-2xl font-bold mb-4">داشبورد</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* 💰 فروش کل */}
-                <InvoiceStatCard
-                    title="فروش کل"
-                    value={dashboardData?.total_revenue || 0}
-                    unit="تومان"
-                    icon={CircleDollarSign}
-                    showPersianText
-                    className="border-l-4 border-teal-500 text-teal-600"
-                />
-
-                {/* 📄 تعداد کل فاکتورها */}
-                <InvoiceStatCard
-                    title="تعداد کل فاکتورها"
-                    value={dashboardData?.total_invoice || 0}
-                    unit="عدد"
-                    icon={Scroll}
-                    className="border-l-4 border-slate-400 text-slate-600"
-                />
-
-                {/* ⏳ فاکتورهای در انتظار */}
-                <InvoiceStatCard
-                    title="تعداد فاکتورهای در انتظار"
-                    value={dashboardData?.pending_count || 0}
-                    unit="عدد"
-                    icon={Clock}
-                    className="border-l-4 border-amber-400 text-amber-600"
-                />
-
-                {/* 💸 در انتظار پرداخت */}
-                <InvoiceStatCard
-                    title="در انتظار پرداخت"
-                    value={dashboardData?.outstanding_amount || 0}
-                    unit="تومان"
-                    icon={CircleDollarSign}
-                    showPersianText
-                    className="border-l-4 border-sky-400 text-sky-600"
-                />
-            </div>
+            <StatsCards dashboardData={dashboardData} />
 
             <div className="mt-5 grid grid-cols-1 xl:grid-cols-2 gap-4">
                 <section className="rounded-xl border bg-card p-4 shadow-sm">
