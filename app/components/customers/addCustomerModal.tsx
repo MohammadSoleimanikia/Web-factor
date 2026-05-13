@@ -9,13 +9,13 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/features/shared/components/ui/dialog";
 import { apiFetch } from "@/lib/api";
 import type { CustomerCreate } from "@/types/customer";
 
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import LoadingSpinner from "../ui/loadingSpinner";
+import { Button } from "../../features/shared/components/ui/button";
+import { Input } from "../../features/shared/components/ui/input";
+import LoadingSpinner from "../../features/shared/components/ui/loadingSpinner";
 
 export default function AddCustomerModal({
     onAdded,

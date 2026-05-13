@@ -23,7 +23,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarSeparator,
-} from "@/components/ui/sidebar";
+} from "@/features/shared/components/ui/sidebar";
 import useAuth from "@/store/auth";
 import type { AuthContextType } from "@/types/authContext";
 

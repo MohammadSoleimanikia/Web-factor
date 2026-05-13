@@ -1,7 +1,7 @@
 import { Moon, Sun } from "lucide-react";
 
-import { useTheme } from "../themeProvider";
-import { Button } from "../ui/button";
+import { useTheme } from "../../features/shared/components/themeProvider";
+import { Button } from "../../features/shared/components/ui/button";
 export default function ThemeToggler() {
     const { setTheme, theme } = useTheme();
     const buttonLabel =

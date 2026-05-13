@@ -8,7 +8,12 @@ import {
     YAxis,
 } from "recharts";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/features/shared/components/ui/card";
 
 type TrendData = {
     date: string;
@@ -28,16 +33,15 @@ export function TrendChart({ chartData }: { chartData: TrendData[] }) {
 
             <CardContent>
                 {hasData ? (
-                    <ResponsiveContainer width="100%" height={260} >
-                        <LineChart data={chartData} >
-                            <defs >
+                    <ResponsiveContainer width="100%" height={260}>
+                        <LineChart data={chartData}>
+                            <defs>
                                 <linearGradient
                                     id="trendGradient"
                                     x1="0"
                                     y1="0"
                                     x2="0"
                                     y2="1"
-                                    
                                 >
                                     <stop
                                         offset="0%"
@@ -56,33 +60,35 @@ export function TrendChart({ chartData }: { chartData: TrendData[] }) {
                                 strokeDasharray="3 3"
                                 vertical={false}
                                 stroke="rgb(55 65 81 / 0.5)"
-                                
                             />
 
                             <XAxis
-                            
                                 dataKey="date"
                                 tickFormatter={(value) => value.slice(5)}
-                                tick={{ fontSize: 12, fill: "rgb(148 163 184)" }}
+                                tick={{
+                                    fontSize: 12,
+                                    fill: "rgb(148 163 184)",
+                                }}
                                 axisLine={false}
                                 tickLine={false}
                             />
 
                             <YAxis
-                            
-                                tick={{ fontSize: 12, fill: "rgb(148 163 184)" }}
+                                tick={{
+                                    fontSize: 12,
+                                    fill: "rgb(148 163 184)",
+                                }}
                                 axisLine={false}
                                 tickLine={false}
                             />
 
                             <Tooltip
-                            
                                 contentStyle={{
                                     backgroundColor: "rgb(30 41 59)",
                                     borderRadius: "8px",
                                     border: "1px solid rgb(55 65 81)",
                                     fontSize: "12px",
-                                    color: "rgb(226 232 240)"
+                                    color: "rgb(226 232 240)",
                                 }}
                                 labelFormatter={(label) =>
                                     `تاریخ: ${label.slice(0, 10)}`
@@ -94,7 +100,6 @@ export function TrendChart({ chartData }: { chartData: TrendData[] }) {
                             />
 
                             <Line
-                            
                                 type="monotone"
                                 dataKey="total"
                                 stroke="#14b8a6"

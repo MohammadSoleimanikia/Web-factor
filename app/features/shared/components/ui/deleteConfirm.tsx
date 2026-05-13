@@ -10,9 +10,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from "@/features/shared/components/ui/alert-dialog";
 
-import { Button } from "../ui/button";
+import { Button } from "./button";
 type DeleteConfirmProps = {
     onConfirm: () => void;
     title?: string;

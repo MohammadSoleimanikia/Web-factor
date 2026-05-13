@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/features/shared/components/ui/button";
 
 import ThemeToggler from "./themeToggler";
 

@@ -8,11 +8,11 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/features/shared/components/ui/table";
 import { apiFetch } from "@/lib/api";
 import type { Customer, PaginatedCustomerList } from "@/types/customer";
 
-import DeleteConfirm from "../ui/deleteConfirm";
+import DeleteConfirm from "../../features/shared/components/ui/deleteConfirm";
 import {
     Pagination,
     PaginationContent,
@@ -20,7 +20,7 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "../ui/pagination";
+} from "../../features/shared/components/ui/pagination";
 import CustomersSkeleton from "./customersSkeleton";
 export default function CustomersTable({ reload }: { reload: number }) {
     const [loading, setLoading] = useState(true);

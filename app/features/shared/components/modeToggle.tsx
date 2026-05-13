@@ -1,12 +1,12 @@
 import { Moon, Sun } from "lucide-react";
 
-import { useTheme } from "@/components/themeProvider";
+import { useTheme } from "@/features/shared/components/themeProvider";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/features/shared/components/ui/dropdown-menu";
 
 import { SidebarMenuButton } from "./ui/sidebar";
 
@@ -30,7 +30,10 @@ export function ModeToggle() {
                         <span className="sr-only">تغییر حالت تاریک و روشن</span>
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 flex flex-col" align="start">
+                <DropdownMenuContent
+                    className="w-56 flex flex-col"
+                    align="start"
+                >
                     <div className="px-2 py-1.5 text-sm font-semibold flex justify-end">
                         {theme === "system"
                             ? " سیستم"
@@ -39,13 +42,22 @@ export function ModeToggle() {
                               : " روشن"}
                     </div>
                     <div className="h-px bg-border" />
-                    <DropdownMenuItem className="flex justify-end" onClick={() => setTheme("light")}>
+                    <DropdownMenuItem
+                        className="flex justify-end"
+                        onClick={() => setTheme("light")}
+                    >
                         حالت روشن
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex justify-end"  onClick={() => setTheme("dark")}>
+                    <DropdownMenuItem
+                        className="flex justify-end"
+                        onClick={() => setTheme("dark")}
+                    >
                         حالت تاریک
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex justify-end" onClick={() => setTheme("system")}>
+                    <DropdownMenuItem
+                        className="flex justify-end"
+                        onClick={() => setTheme("system")}
+                    >
                         سیستم
                     </DropdownMenuItem>
                 </DropdownMenuContent>

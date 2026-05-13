@@ -1,10 +1,10 @@
 // InvoiceTableRows.tsx
 import clsx from "clsx";
 
-import { Badge } from "@/components/ui/badge";
-import { TableCell, TableRow } from "@/components/ui/table";
 import { invoiceStatusFa } from "@/features/invoices/constants/invoice";
 import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
+import { Badge } from "@/features/shared/components/ui/badge";
+import { TableCell, TableRow } from "@/features/shared/components/ui/table";
 
 interface InvoiceTableRowsProps {
     invoices: Invoice[];

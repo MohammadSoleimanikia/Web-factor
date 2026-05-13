@@ -5,7 +5,7 @@ import { apiFetch } from "@/lib/api";
 import { buildLogoUrl } from "@/lib/utils";
 import useAuth from "@/store/auth";
 
-import LoadingSpinner from "../ui/loadingSpinner";
+import LoadingSpinner from "../../features/shared/components/ui/loadingSpinner";
 import EditProfileModal from "./editProfileModal";
 
 export default function ProfileCard() {

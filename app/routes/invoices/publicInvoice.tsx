@@ -2,16 +2,16 @@ import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import { useTheme } from "@/components/themeProvider";
-import { Button } from "@/components/ui/button";
+import { useTheme } from "@/features/shared/components/themeProvider";
+import { Button } from "@/features/shared/components/ui/button";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
-import Zoomable from "@/components/zoomable";
+} from "@/features/shared/components/ui/select";
+import Zoomable from "@/features/shared/components/zoomable";
 import type { User } from "@/features/auth/types/user.type";
 import Classic from "@/features/invoices/components/templates/classic";
 import Minimal from "@/features/invoices/components/templates/minimal";

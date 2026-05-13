@@ -11,14 +11,14 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/features/shared/components/ui/table";
 import { invoiceStatusFa } from "@/features/invoices/constants/invoice";
 import { useDeleteInvoice } from "@/features/invoices/hooks/useDeleteInvoice";
 import { useInvoices } from "@/features/invoices/hooks/useInvoices";
 import { useMarkInvoiceAsPaid } from "@/features/invoices/hooks/useMarkInvoiceAsPaid";
 import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 
-import { Badge } from "../../../components/ui/badge";
+import { Badge } from "../../shared/components/ui/badge";
 import {
     Pagination,
     PaginationContent,
@@ -26,7 +26,7 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "../../../components/ui/pagination";
+} from "../../shared/components/ui/pagination";
 import InvoiceActions from "./invoiceActions";
 import InvoiceSkeleton from "./invoiceSkeleton";
 

@@ -1,11 +1,16 @@
 import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 
-import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table";
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableRow,
+} from "@/features/shared/components/ui/table";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/features/shared/components/ui/tooltip";
 import type { User } from "@/features/auth/types/user.type";
 import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import { generateBrandingColors } from "@/lib/brandingColors";

@@ -10,13 +10,13 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/features/shared/components/ui/dialog";
 import { useCreateProduct } from "@/features/products/hooks/useCreateProduct";
 import type { ProductCreate } from "@/features/products/types/product";
 
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
-import { Textarea } from "../../../components/ui/textarea";
+import { Button } from "../../shared/components/ui/button";
+import { Input } from "../../shared/components/ui/input";
+import { Textarea } from "../../shared/components/ui/textarea";
 
 export default function AddProductModal() {
     const [pricePersian, setPricePersian] = useState("");

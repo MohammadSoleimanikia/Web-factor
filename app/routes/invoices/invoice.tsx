@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 
-import { Button } from "@/components/ui/button";
-import LoadingSpinner from "@/components/ui/loadingSpinner";
+import { Button } from "@/features/shared/components/ui/button";
+import LoadingSpinner from "@/features/shared/components/ui/loadingSpinner";
 import { useUser } from "@/features/auth/hooks/useUser";
 import InvoicePreview from "@/features/invoices/components/invoicePreview";
 import { TemplateSelector } from "@/features/invoices/components/templateSelector";

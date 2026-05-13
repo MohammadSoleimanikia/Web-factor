@@ -6,7 +6,7 @@ import {
     InputGroupAddon,
     InputGroupButton,
     InputGroupInput,
-} from "../../../components/ui/input-group";
+} from "../../shared/components/ui/input-group";
 import AddProductModal from "./addProductModal";
 
 export default function Header({

@@ -1,11 +1,11 @@
+import type { PaginatedInvoiceList } from "@/features/invoices/types/invoicePreview.type";
 import {
     Table,
     TableBody,
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
-import type { PaginatedInvoiceList } from "@/features/invoices/types/invoicePreview.type";
+} from "@/features/shared/components/ui/table";
 
 import { InvoiceTableRows } from "./invoiceTableRows";
 
@@ -28,8 +28,8 @@ export default function RecentInvoicesTable({
                 </TableHeader>
                 <TableBody>
                     <InvoiceTableRows
-                    emptyMessage="فاکتوری ثبت نشده است"
-                    invoices={recentData?.results ?? []}
+                        emptyMessage="فاکتوری ثبت نشده است"
+                        invoices={recentData?.results ?? []}
                     />
                 </TableBody>
             </Table>

@@ -4,21 +4,21 @@ import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/features/shared/components/ui/button";
+import { Card, CardContent } from "@/features/shared/components/ui/card";
 import {
     Field,
     FieldDescription,
     FieldGroup,
     FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+} from "@/features/shared/components/ui/field";
+import { Input } from "@/features/shared/components/ui/input";
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSeparator,
     InputOTPSlot,
-} from "@/components/ui/input-otp";
+} from "@/features/shared/components/ui/input-otp";
 import { apiFetch } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import useAuth from "@/store/auth";

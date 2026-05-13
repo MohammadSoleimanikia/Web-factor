@@ -1,4 +1,4 @@
-import { useTheme } from "@/components/themeProvider";
+import { useTheme } from "@/features/shared/components/themeProvider";
 import { NavLink } from "react-router";
 export default function Hero() {
     const { theme } = useTheme();

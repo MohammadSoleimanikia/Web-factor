@@ -3,11 +3,14 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { FormActions, FormSection } from "@/components/ui/form-fields";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { SelectField } from "@/components/ui/select-field";
+import { Button } from "@/features/shared/components/ui/button";
+import {
+    FormActions,
+    FormSection,
+} from "@/features/shared/components/ui/form-fields";
+import { Input } from "@/features/shared/components/ui/input";
+import { Label } from "@/features/shared/components/ui/label";
+import { SelectField } from "@/features/shared/components/ui/select-field";
 import {
     Table,
     TableBody,
@@ -15,13 +18,13 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/features/shared/components/ui/table";
 import {
     BUTTON_LABELS,
     LABELS,
     MESSAGES,
     PLACEHOLDERS,
-} from "@/constants/i18n";
+} from "@/features/shared/constants/i18n";
 import {
     invoiceStatusOptions,
     paymentModeOptions,

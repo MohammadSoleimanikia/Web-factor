@@ -11,14 +11,14 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/features/shared/components/ui/dialog";
 import type { Product, ProductCreate } from "@/features/products/types/product";
 import { apiFetch } from "@/lib/api";
 
-import { Button } from "../../../components/ui/button";
-import { Field, FieldLabel } from "../../../components/ui/field";
-import { Input } from "../../../components/ui/input";
-import { Textarea } from "../../../components/ui/textarea";
+import { Button } from "../../shared/components/ui/button";
+import { Field, FieldLabel } from "../../shared/components/ui/field";
+import { Input } from "../../shared/components/ui/input";
+import { Textarea } from "../../shared/components/ui/textarea";
 
 export default function EditProductModal({
     onAdded,

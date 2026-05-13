@@ -1,6 +1,6 @@
 "use client";
 import { TrendingUp } from "lucide-react";
-import { Cell, LabelList, Pie, PieChart } from "recharts"; 
+import { Cell, LabelList, Pie, PieChart } from "recharts";
 
 import {
     Card,
@@ -8,19 +8,17 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card";
+} from "@/features/shared/components/ui/card";
 import {
     type ChartConfig,
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/features/shared/components/ui/chart";
 
 export const description = "A pie chart with a label list";
 
-
-const chartConfig = {
-} satisfies ChartConfig;
+const chartConfig = {} satisfies ChartConfig;
 
 type TopProduct = {
     product__name: string;
@@ -40,7 +38,6 @@ export function TopProductsChart({ chartData }: TopProductsChartProps) {
         <Card className="flex flex-col">
             <CardHeader className="items-center pb-0">
                 <CardTitle>محصولات پرفروش</CardTitle>
-              
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
@@ -58,23 +55,22 @@ export function TopProductsChart({ chartData }: TopProductsChartProps) {
                         />
                         <Pie
                             data={chartData}
-                            dataKey="quantity" 
+                            dataKey="quantity"
                             nameKey="product__name"
-                            cx="50%" 
+                            cx="50%"
                             cy="50%"
-                            outerRadius="100%" 
-                            labelLine={false} 
+                            outerRadius="100%"
+                            labelLine={false}
                         >
-                           
                             {chartData.map((entry, index) => (
                                 <Cell
                                     key={`cell-${index}`}
-                                    fill={getFillColor(index)} 
+                                    fill={getFillColor(index)}
                                 />
                             ))}
 
                             <LabelList
-                                dataKey="product__name" 
+                                dataKey="product__name"
                                 className="fill-background"
                                 stroke="none"
                                 fontSize={12}
@@ -84,7 +80,6 @@ export function TopProductsChart({ chartData }: TopProductsChartProps) {
                     </PieChart>
                 </ChartContainer>
             </CardContent>
-            
         </Card>
     );
 }

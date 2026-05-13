@@ -1,13 +1,13 @@
 import React from "react";
 
+import type { PaginatedInvoiceList } from "@/features/invoices/types/invoicePreview.type";
 import {
     Table,
     TableBody,
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
-import type { PaginatedInvoiceList } from "@/features/invoices/types/invoicePreview.type";
+} from "@/features/shared/components/ui/table";
 
 import { InvoiceTableRows } from "./invoiceTableRows";
 

@@ -9,15 +9,15 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/features/shared/components/ui/dialog";
 import type { UserUpdate } from "@/features/auth/types/user.type";
 import type { User } from "@/features/auth/types/user.type";
 import { apiFetch } from "@/lib/api";
 
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Textarea } from "../ui/textarea";
+import { Button } from "../../features/shared/components/ui/button";
+import { Input } from "../../features/shared/components/ui/input";
+import { Label } from "../../features/shared/components/ui/label";
+import { Textarea } from "../../features/shared/components/ui/textarea";
 export default function EditProfileModal({
     profile,
     setReload,

@@ -9,13 +9,13 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/features/shared/components/ui/table";
 import ProductsSkeleton from "@/features/products/components/productsSkeleton";
 import { useDeleteProduct } from "@/features/products/hooks/useDeleteProduct";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import type { Product } from "@/features/products/types/product";
 
-import DeleteConfirm from "../../../components/ui/deleteConfirm";
+import DeleteConfirm from "../../shared/components/ui/deleteConfirm";
 import {
     Pagination,
     PaginationContent,
@@ -23,7 +23,7 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "../../../components/ui/pagination";
+} from "../../shared/components/ui/pagination";
 import EditProductModal from "./editProductModal";
 
 interface ProductTableProps {

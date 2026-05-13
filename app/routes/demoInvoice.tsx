@@ -1,5 +1,5 @@
 import DemoInvoiceForm from "@/components/demo/demoNewInvoice";
-import { PAGE_TITLES } from "@/constants/i18n";
+import { PAGE_TITLES } from "@/features/shared/constants/i18n";
 
 /**
  * Demo Invoice Creation Route

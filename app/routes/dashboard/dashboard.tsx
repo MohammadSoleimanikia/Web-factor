@@ -1,4 +1,3 @@
-import LoadingSpinner from "@/components/ui/loadingSpinner";
 import PendingInvoicesTable from "@/features/dashboard/components/pendingInvoicesTable";
 import RecentInvoicesTable from "@/features/dashboard/components/recentInvoicesTable";
 import StatsCards from "@/features/dashboard/components/statsCards";
@@ -7,6 +6,7 @@ import { TrendChart } from "@/features/dashboard/components/trendChart";
 import { useDashboardStats } from "@/features/dashboard/hooks/useDashboardStats";
 import { usePendingInvoices } from "@/features/dashboard/hooks/usePendingInvoices";
 import { useRecentInvoices } from "@/features/dashboard/hooks/useRecentInvoices";
+import LoadingSpinner from "@/features/shared/components/ui/loadingSpinner";
 
 export default function Dashboard() {
     const { data: dashboardData, isLoading: statsLoading } =

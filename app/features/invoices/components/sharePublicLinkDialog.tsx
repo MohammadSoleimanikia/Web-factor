@@ -2,7 +2,7 @@ import { Copy, Share2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/features/shared/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -10,8 +10,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "@/features/shared/components/ui/dialog";
+import { Input } from "@/features/shared/components/ui/input";
 
 type SharePublicLinkDialogProps = {
     invoiceToken: string;
@@ -32,7 +32,12 @@ export default function SharePublicLinkDialog({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="icon" title="اشتراک لینک عمومی" className="rounded-none">
+                <Button
+                    variant="outline"
+                    size="icon"
+                    title="اشتراک لینک عمومی"
+                    className="rounded-none"
+                >
                     <Share2 className="w-4 h-4" />
                 </Button>
             </DialogTrigger>

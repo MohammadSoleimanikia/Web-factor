@@ -6,9 +6,8 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
+} from "@/features/shared/components/ui/select";
 import type { TemplateType } from "@/routes/invoices/invoice";
-
 
 type TemplateSelectorProps = {
     template: "classic" | "modern" | "minimal";
@@ -17,7 +16,10 @@ type TemplateSelectorProps = {
 /**
  * a dropdown selector for selecting the template type
  */
-export const TemplateSelector = ({ template,setTemplate }: TemplateSelectorProps) => {
+export const TemplateSelector = ({
+    template,
+    setTemplate,
+}: TemplateSelectorProps) => {
     return (
         <Select
             value={template}

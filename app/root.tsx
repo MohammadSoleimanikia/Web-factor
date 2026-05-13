@@ -11,12 +11,12 @@ import {
     ScrollRestoration,
 } from "react-router";
 
-import { ThemeProvider } from "@/components/themeProvider";
-import { DirectionProvider } from "@/components/ui/direction";
-import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/features/shared/components/themeProvider";
+import { DirectionProvider } from "@/features/shared/components/ui/direction";
+import { Toaster } from "@/features/shared/components/ui/sonner";
 
 import type { Route } from "./+types/root";
-import { TooltipProvider } from "./components/ui/tooltip";
+import { TooltipProvider } from "./features/shared/components/ui/tooltip";
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -80,13 +80,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
     const queryClient = new QueryClient({
-        defaultOptions:{
-            queries:{
-                staleTime:5*60*1000, //5 min
-                retry:2, // 2 times after getting error
-                refetchOnWindowFocus:false
-            }
-        }
+        defaultOptions: {
+            queries: {
+                staleTime: 5 * 60 * 1000, //5 min
+                retry: 2, // 2 times after getting error
+                refetchOnWindowFocus: false,
+            },
+        },
     });
     return (
         <ThemeProvider>

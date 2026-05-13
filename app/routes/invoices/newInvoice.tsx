@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useParams } from "react-router";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/features/shared/components/ui/button";
 import NewInvoiceForm from "@/features/invoices/components/newInvoiceForm";
 export default function NewInvoice() {
     const { id } = useParams<{ id: string }>();

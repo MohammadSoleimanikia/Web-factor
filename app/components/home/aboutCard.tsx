@@ -5,7 +5,7 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card";
+} from "@/features/shared/components/ui/card";
 type AboutCardProps = {
     title: string;
     url: string;
@@ -25,11 +25,9 @@ export default function AboutCard({ title, url, description }: AboutCardProps) {
                         alt="about section picture"
                         className="size-10 md:size-16 lg:size-20"
                     />
-                <CardTitle>{title}</CardTitle>
+                    <CardTitle>{title}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    {description}
-                </CardContent>
+                <CardContent>{description}</CardContent>
             </Card>
         </motion.div>
     );

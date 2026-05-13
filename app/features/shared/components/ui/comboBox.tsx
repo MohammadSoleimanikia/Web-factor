@@ -3,7 +3,7 @@
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/features/shared/components/ui/button";
 import {
     Command,
     CommandEmpty,
@@ -11,12 +11,12 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from "@/components/ui/command";
+} from "@/features/shared/components/ui/command";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/features/shared/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 type ComboItem = {
@@ -81,7 +81,7 @@ export function Combobox({
                                             "me-2 h-4 w-4",
                                             value === item.value
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                         )}
                                     />
                                     {item.label}
