@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import type { CustomerCreate } from "@/features/clients/types/customer";
 import {
     Dialog,
     DialogContent,
@@ -11,61 +10,48 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/features/shared/components/ui/dialog";
-import { apiFetch } from "@/lib/api";
 
 import { Button } from "../../shared/components/ui/button";
 import { Input } from "../../shared/components/ui/input";
 import LoadingSpinner from "../../shared/components/ui/loadingSpinner";
-
-export default function AddCustomerModal({
-    onAdded,
-}: {
-    onAdded?: () => void;
-}) {
-    const [loading, setLoading] = useState(false);
-
+import { useCreateCustomer } from "../hooks/useCreateCustomer";
+import type { CustomerCreate } from "../types/customer";
+export default function AddCustomerModal() {
+    // refetch after adding a new customers.
+    const [open, setOpen] = useState(false);
     const {
         register,
         handleSubmit,
         reset,
         setError,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<CustomerCreate>();
-
+    const { mutateAsync: createCustomer, isPending } = useCreateCustomer();
     const onSubmit = async (data: CustomerCreate) => {
         try {
-            setLoading(true);
-            await apiFetch("/account/customers/", {
-                method: "POST",
-                body: JSON.stringify(data),
-            });
-
+            await createCustomer(data);
             toast.success("مشتری با موفقیت افزوده شد");
             reset();
-            onAdded?.();
+            setOpen(false);
         } catch (err: any) {
             console.log("BACKEND ERROR 👉", err);
 
-            // اگر بک‌اند message فرستاد
             if (err?.message) {
                 setError("root", {
                     type: "server",
                     message: err.message,
                 });
-                return;
+            } else {
+                setError("root", {
+                    type: "server",
+                    message: "خطایی رخ داد، لطفاً دوباره تلاش کنید",
+                });
             }
-
-            setError("root", {
-                type: "server",
-                message: "خطایی رخ داد، لطفاً دوباره تلاش کنید",
-            });
-        } finally {
-            setLoading(false);
         }
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button>افزودن مشتری</Button>
             </DialogTrigger>
@@ -121,10 +107,10 @@ export default function AddCustomerModal({
                     </p>
                     <Button
                         type="submit"
-                        disabled={loading || isSubmitting}
+                        disabled={isPending}
                         className="w-full"
                     >
-                        {loading ? (
+                        {isPending ? (
                             <LoadingSpinner text="در حال ارسال..." />
                         ) : (
                             "افزودن مشتری"
