@@ -5,12 +5,8 @@ export type Customer = {
     email: string;
     address: string;
 };
-export type CustomerCreate = {
-    name: string;
-    phone_number: string;
-    email?: string;
-    address?: string;
-};
+// we can just use Omit <Customer , "id") instead of this.
+export type CustomerCreate = Omit <Customer , "id">
 
 export type PaginatedCustomerList = {
     count: number;
