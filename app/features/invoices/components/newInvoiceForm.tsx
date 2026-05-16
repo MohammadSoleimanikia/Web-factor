@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 import { useCustomers } from "@/features/customers/hooks/useCustomers";
@@ -9,7 +8,6 @@ import {
     type InvoiceFormType,
     InvoiceSchema,
 } from "@/features/invoices/schema/invoice.schema";
-import type { Invoice } from "@/features/invoices/types/invoicePreview.type";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import { Button } from "@/features/shared/components/ui/button";
 import { Input } from "@/features/shared/components/ui/input";
@@ -37,20 +35,19 @@ import {
     TableHeader,
     TableRow,
 } from "@/features/shared/components/ui/table";
-import { apiFetch } from "@/lib/api";
 
 import { Combobox } from "../../shared/components/ui/comboBox";
 import LoadingSpinner from "../../shared/components/ui/loadingSpinner";
 import { Switch } from "../../shared/components/ui/switch";
+import { useCreateInvoice } from "../hooks/useCreateInvoice";
 
 export default function NewInvoiceForm() {
     const [vatEnabled, setVatEnabled] = useState(false);
-    const Navigate = useNavigate();
     const {
         control,
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         watch,
         setValue,
     } = useForm<InvoiceFormType>({
@@ -69,6 +66,7 @@ export default function NewInvoiceForm() {
             discount: 0,
         },
     });
+    const { mutateAsync: createInvoice, isPending } = useCreateInvoice();
     const { products } = useProducts({});
     const { data, isLoading } = useCustomers({});
     const customers = data?.results;
@@ -96,23 +94,15 @@ export default function NewInvoiceForm() {
 
         setValue("added_value", Math.floor(totalPrice * 0.1)); //10%
     }, [vatEnabled, watchedItems, setValue]);
+
     const onSubmit = async (data: InvoiceFormType) => {
         try {
-            const response = await apiFetch<Invoice>("/user/invoices/", {
-                method: "POST",
-                body: JSON.stringify(data),
-            });
-
-            toast.success("فاکتور با موفقیت ساخته شد!");
-
-            // After success, navigate to invoice detail/preview page
-            Navigate(`/invoices/${response.id}`);
+            await createInvoice(data);
         } catch (error) {
             console.error("error:", error);
-            toast.error("خطا در ساخت فاکتور. لطفا دوباره تلاش کنید.");
         }
     };
-    if (isLoading) {
+    if (isLoading ) {
         return <LoadingSpinner />;
     }
     return (
@@ -550,8 +540,8 @@ export default function NewInvoiceForm() {
                 </div>
             </div>
 
-            <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "در حال ساخت..." : "ساخت فاکتور"}
+            <Button type="submit" disabled={isPending}>
+                {isPending ? "در حال ساخت..." : "ساخت فاکتور"}
             </Button>
         </form>
     );
