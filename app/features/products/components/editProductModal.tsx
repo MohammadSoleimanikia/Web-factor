@@ -1,9 +1,9 @@
 import { PenIcon } from "lucide-react";
 import num2persian from "num2persian";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
+import type { Product, ProductCreate } from "@/features/products/types/product";
 import {
     Dialog,
     DialogContent,
@@ -12,66 +12,49 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/features/shared/components/ui/dialog";
-import type { Product, ProductCreate } from "@/features/products/types/product";
-import { apiFetch } from "@/lib/api";
 
 import { Button } from "../../shared/components/ui/button";
 import { Field, FieldLabel } from "../../shared/components/ui/field";
 import { Input } from "../../shared/components/ui/input";
 import { Textarea } from "../../shared/components/ui/textarea";
+import { useUpdateProduct } from "../hooks/useUpdateProduct";
 
-export default function EditProductModal({
-    onAdded,
-    product,
-}: {
-    onAdded?: () => void;
-    product: Product;
-}) {
-    const [loading, setLoading] = useState(false);
+export default function EditProductModal({ product }: { product: Product }) {
+    const [open, setOpen] = useState(false);
     const [pricePersian, setPricePersian] = useState("");
     const [buyPersian, setBuyPersian] = useState("");
 
     const {
         register,
         handleSubmit,
-        reset,
-        setError,
-        formState: { errors, isSubmitting },
-    } = useForm<ProductCreate>();
+        formState: { errors },
+    } = useForm<ProductCreate>({
+        defaultValues: {
+            description: product.description,
+            price: product.price,
+            buy: product.buy,
+        },
+    });
+
+    const { mutateAsync: updateProduct, isPending } = useUpdateProduct();
+
+    // مقداردهی اولیه قیمت‌ها به فارسی
+    useEffect(() => {
+        setPricePersian(num2persian(String(product.price)));
+        setBuyPersian(num2persian(String(product.buy)));
+    }, [product]);
 
     const onSubmit = async (data: ProductCreate) => {
         try {
-            setLoading(true);
-            await apiFetch(`/user/products/${product.id}/`, {
-                method: "PATCH",
-                body: JSON.stringify(data),
-            });
-            toast.success("کالا با موفقیت ویرایش شد");
-            reset();
-            onAdded?.();
-            setPricePersian("");
-        } catch (err: any) {
-            console.error(err);
-
-            if (err?.message) {
-                setError("root", {
-                    type: "server",
-                    message: err.message,
-                });
-                return;
-            }
-
-            setError("root", {
-                type: "server",
-                message: "خطایی رخ داد، لطفاً دوباره تلاش کنید",
-            });
-        } finally {
-            setLoading(false);
+            await updateProduct({ id: product.id, data });
+            setOpen(false);
+        } catch (err) {
+            console.log(err)
         }
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline" size="icon">
                     <PenIcon />
@@ -92,9 +75,8 @@ export default function EditProductModal({
                     <Field>
                         <FieldLabel htmlFor="description">توضیحات</FieldLabel>
                         <Textarea
-                            placeholder="توضیحات"
                             id="description"
-                            defaultValue={product.description}
+                            placeholder="توضیحات"
                             {...register("description", {
                                 minLength: {
                                     value: 2,
@@ -106,17 +88,18 @@ export default function EditProductModal({
                                 },
                             })}
                         />
-                        <p className="text-red-500 text-sm">
-                            {errors.description?.message}
-                        </p>
+                        {errors.description && (
+                            <p className="text-red-500 text-sm">
+                                {errors.description.message}
+                            </p>
+                        )}
                     </Field>
-                    <Field>
-                        <FieldLabel htmlFor="sell">قیمت فروش</FieldLabel>
 
+                    <Field>
+                        <FieldLabel htmlFor="price">قیمت فروش</FieldLabel>
                         <Input
                             type="number"
-                            id="sell"
-                            defaultValue={product.price}
+                            id="price"
                             placeholder="قیمت"
                             {...register("price", {
                                 required: "قیمت الزامی است",
@@ -127,17 +110,18 @@ export default function EditProductModal({
                             }}
                         />
                         {pricePersian && <p>{pricePersian} تومان</p>}
-                        <p className="text-red-500 text-sm">
-                            {errors.price?.message}
-                        </p>
+                        {errors.price && (
+                            <p className="text-red-500 text-sm">
+                                {errors.price.message}
+                            </p>
+                        )}
                     </Field>
+
                     <Field>
                         <FieldLabel htmlFor="buy">قیمت خرید</FieldLabel>
-
                         <Input
                             type="number"
                             id="buy"
-                            defaultValue={product.buy}
                             placeholder="قیمت خرید"
                             {...register("buy", {
                                 required: "قیمت خرید الزامی است",
@@ -148,21 +132,20 @@ export default function EditProductModal({
                             }}
                         />
                         {buyPersian && <p>{buyPersian} تومان</p>}
-                        <p className="text-red-500 text-sm">
-                            {errors.buy?.message}
-                        </p>
+                        {errors.buy && (
+                            <p className="text-red-500 text-sm">
+                                {errors.buy.message}
+                            </p>
+                        )}
                     </Field>
+
                     <Button
                         type="submit"
-                        disabled={loading || isSubmitting}
+                        disabled={isPending}
                         className="w-full"
                     >
-                        {loading ? "در حال ارسال..." : "افزودن کالا"}
+                        {isPending ? "در حال ارسال..." : "ویرایش کالا"}
                     </Button>
-                    <p className="text-red-500 text-sm">
-                        {" "}
-                        {errors.root?.message}
-                    </p>
                 </form>
             </DialogContent>
         </Dialog>
