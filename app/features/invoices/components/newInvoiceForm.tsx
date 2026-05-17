@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { toast } from "sonner";
 
 import { useCustomers } from "@/features/customers/hooks/useCustomers";
@@ -12,45 +13,22 @@ import { useProducts } from "@/features/products/hooks/useProducts";
 import { Button } from "@/features/shared/components/ui/button";
 import { Input } from "@/features/shared/components/ui/input";
 import { Label } from "@/features/shared/components/ui/label";
-import {
-    MultiSelect,
-    MultiSelectContent,
-    MultiSelectGroup,
-    MultiSelectItem,
-    MultiSelectTrigger,
-    MultiSelectValue,
-} from "@/features/shared/components/ui/multi-select";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/features/shared/components/ui/select";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/features/shared/components/ui/table";
 
-import { Combobox } from "../../shared/components/ui/comboBox";
 import LoadingSpinner from "../../shared/components/ui/loadingSpinner";
-import { Switch } from "../../shared/components/ui/switch";
 import { useCreateInvoice } from "../hooks/useCreateInvoice";
+import CustomerComboBox from "./invoiceForm/customerComboBox";
+import CustomerDetailsFields from "./invoiceForm/customerDetailsFields";
+import InvoiceStatusSelect from "./invoiceForm/invoiceStatusSelect";
+import ItemsTable from "./invoiceForm/itemsTable";
+import InvoicePaymentMethodSelect from "./invoiceForm/paymentMethodSelect";
+import ProductBarcodeInput from "./invoiceForm/productBarcodeInput";
+import ProductMultiSelect from "./invoiceForm/productMultiSelect";
+import VatAndDiscountSection from "./invoiceForm/vatAndDiscountSection";
 
 export default function NewInvoiceForm() {
     const [vatEnabled, setVatEnabled] = useState(false);
-    const {
-        control,
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-        setValue,
-    } = useForm<InvoiceFormType>({
+
+    const methods = useForm<InvoiceFormType>({
         resolver: zodResolver(InvoiceSchema),
         defaultValues: {
             items: [],
@@ -66,16 +44,20 @@ export default function NewInvoiceForm() {
             discount: 0,
         },
     });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+        setValue,
+    } = methods;
     const { mutateAsync: createInvoice, isPending } = useCreateInvoice();
-    const { products } = useProducts({});
-    const { data, isLoading } = useCustomers({});
+    // make page size high cause we want to search into all of the products and customers
+    const { products } = useProducts({ pageSize: 1000 });
+    const { data, isLoading } = useCustomers({ pageSize: 1000 });
     const customers = data?.results;
     const watchedItems = watch("items");
     const addedValue = watch("added_value");
-    const customerOptions = customers?.map((c) => ({
-        value: c.name,
-        id: c.id,
-    }));
 
     // Fetch all data
 
@@ -95,6 +77,19 @@ export default function NewInvoiceForm() {
         setValue("added_value", Math.floor(totalPrice * 0.1)); //10%
     }, [vatEnabled, watchedItems, setValue]);
 
+    const handleProductAdd = (product: any) => {
+        const existing = watchedItems.find((i) => i.product_id === product.id);
+        if (existing) {
+            toast("محصول قبلا اضافه شده", { icon: "⚠️" });
+            return;
+        }
+        setValue("items", [
+            ...watchedItems,
+            { product_id: product.id, quantity: 1, price: product.price },
+        ]);
+        toast.success(`${product.name} اضافه شد`);
+    };
+
     const onSubmit = async (data: InvoiceFormType) => {
         try {
             await createInvoice(data);
@@ -102,447 +97,67 @@ export default function NewInvoiceForm() {
             console.error("error:", error);
         }
     };
-    if (isLoading ) {
+    if (isLoading) {
         return <LoadingSpinner />;
     }
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Product Selection */}
+        <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* عنوان فاکتور */}
+                <div className="space-y-3">
+                    <Label htmlFor="title">عنوان فاکتور</Label>
+                    <Input {...register("title")} id="title" />
+                    {errors.title && (
+                        <span className="text-red-500">
+                            {errors.title.message}
+                        </span>
+                    )}
+                </div>
 
-            <div className="space-y-3 ">
-                <Label htmlFor="title">عنوان فاکتور</Label>
-                <Input {...register("title")} id="title" />
-                {errors.title && (
-                    <span className="text-red-500">{errors.title.message}</span>
-                )}
-            </div>
-            <div className="flex flex-col gap-2 sm:w-6/12">
-                <Label htmlFor="barcode">انتخاب کالا با بارکد</Label>
-                <Input
-                    autoFocus={true}
-                    type="text"
-                    id="barcode"
-                    placeholder="بارکد رو وارد کن"
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            e.preventDefault();
-                            const barcode = e.currentTarget.value.trim();
-                            if (!barcode) return;
+                {/* انتخاب محصولات */}
+                <div className="space-y-6 grid sm:grid-cols-2 gap-4">
+                    <ProductBarcodeInput
+                        products={products}
+                        onProductAdd={handleProductAdd}
+                    />
+                    <ProductMultiSelect products={products} />
+                </div>
 
-                            const product = products.find(
-                                (p) => p.barcode === barcode,
-                            );
-                            if (!product) {
-                                toast.error("محصولی با این بارکد پیدا نشد");
-                                return;
-                            }
+                {/* جدول محصولات */}
+                {watchedItems.length > 0 && <ItemsTable products={products} />}
 
-                            // چک کنیم محصول قبلا اضافه نشده باشه
-                            const existing = watchedItems.find(
-                                (i) => i.product_id === product.id,
-                            );
-                            if (existing) {
-                                toast("محصول قبلا اضافه شده", {
-                                    icon: "⚠️",
-                                });
-                                return;
-                            }
+                {/* اطلاعات مشتری */}
+                <CustomerComboBox customers={customers} />
+                <CustomerDetailsFields />
 
-                            // اضافه کردن محصول به فرم
-                            setValue("items", [
-                                ...watchedItems,
-                                {
-                                    product_id: product.id,
-                                    quantity: 1,
-                                    price: product.price,
-                                },
-                            ]);
+                {/* توضیحات */}
+                <div className="space-y-3">
+                    <Label htmlFor="descriptions">توضیحات</Label>
+                    <Input {...register("descriptions")} id="descriptions" />
+                    {errors.descriptions && (
+                        <span className="text-red-500">
+                            {errors.descriptions.message}
+                        </span>
+                    )}
+                </div>
 
-                            e.currentTarget.value = ""; // ریست input
-                            toast.success(`${product.name} اضافه شد`);
-                        }
-                    }}
+                {/* وضعیت و روش پرداخت */}
+                <div className="flex gap-5">
+                    <InvoiceStatusSelect />
+                    <InvoicePaymentMethodSelect />
+                </div>
+
+                {/* ارزش افزوده و تخفیف */}
+                <VatAndDiscountSection
+                    vatEnabled={vatEnabled}
+                    onVatToggle={setVatEnabled}
+                    addedValue={addedValue}
                 />
-            </div>
 
-            <Controller
-                control={control}
-                name="items"
-                render={({ field }) => (
-                    <div className="flex flex-col gap-2">
-                        <Label>انتخاب با نام کالا</Label>
-                        <MultiSelect
-                            values={field.value.map((item) =>
-                                String(item.product_id),
-                            )}
-                            onValuesChange={(vals) => {
-                                const newItems = vals.map((val) => {
-                                    const existing = field.value.find(
-                                        (i) => i.product_id === Number(val),
-                                    );
-                                    if (existing) return existing;
-                                    const product = products.find(
-                                        (p) => p.id === Number(val),
-                                    );
-                                    return {
-                                        product_id: Number(val),
-                                        quantity: 1,
-                                        price: product?.price ?? 0,
-                                    };
-                                });
-                                field.onChange(newItems);
-                            }}
-                        >
-                            <MultiSelectTrigger className="w-full hover:bg-primary-foreground bg-primary-foreground">
-                                <MultiSelectValue
-                                    placeholder="کالا رو جستجو کن"
-                                    overflowBehavior="wrap"
-                                />
-                            </MultiSelectTrigger>
-
-                            <MultiSelectContent search>
-                                <MultiSelectGroup>
-                                    {products.map((product) => (
-                                        <MultiSelectItem
-                                            key={product.id}
-                                            value={String(product.id)}
-                                        >
-                                            {product.name}
-                                        </MultiSelectItem>
-                                    ))}
-                                </MultiSelectGroup>
-                            </MultiSelectContent>
-                        </MultiSelect>
-                        {errors.items && (
-                            <span className="text-red-500">
-                                {errors.items.message ||
-                                    "حداقل یک آیتم الزامی است"}
-                            </span>
-                        )}
-                    </div>
-                )}
-            />
-            {/* Items Table */}
-            {watchedItems.length > 0 && (
-                <div>
-                    <Label>کالاها</Label>
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="bg-muted">
-                                <TableHead>نام کالا</TableHead>
-                                <TableHead>مقدار</TableHead>
-                                <TableHead>قیمت</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {watchedItems.map((item, index) => {
-                                const product = products.find(
-                                    (p) => p.id === item.product_id,
-                                );
-                                return (
-                                    <TableRow key={item.product_id}>
-                                        <TableCell>
-                                            {product?.name || "Unknown"}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Controller
-                                                control={control}
-                                                name={`items.${index}.quantity`}
-                                                render={({ field }) => (
-                                                    <Input
-                                                        {...field}
-                                                        type="number"
-                                                        min={1}
-                                                        value={
-                                                            field.value ?? ""
-                                                        }
-                                                        onChange={(e) =>
-                                                            field.onChange(
-                                                                e.target
-                                                                    .valueAsNumber,
-                                                            )
-                                                        }
-                                                    />
-                                                )}
-                                            />
-
-                                            {errors.items?.[index]
-                                                ?.quantity && (
-                                                <span className="text-red-500">
-                                                    {
-                                                        errors.items[index]
-                                                            .quantity.message
-                                                    }
-                                                </span>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Controller
-                                                control={control}
-                                                name={`items.${index}.price`}
-                                                render={({ field }) => (
-                                                    <Input
-                                                        {...field}
-                                                        type="number"
-                                                        min={0}
-                                                        step="1"
-                                                        value={
-                                                            field.value ?? ""
-                                                        }
-                                                        onChange={(e) =>
-                                                            field.onChange(
-                                                                e.target
-                                                                    .valueAsNumber,
-                                                            )
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                            {errors.items?.[index]?.price && (
-                                                <span className="text-red-500">
-                                                    {
-                                                        errors.items[index]
-                                                            .price.message
-                                                    }
-                                                </span>
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </div>
-            )}
-
-            {/* search customer */}
-            <Controller
-                control={control}
-                name="id"
-                render={({ field }) => (
-                    <div className="space-y-2 sm:w-6/12">
-                        <Label>انتخاب و جستجوی مشتری</Label>
-                        {customerOptions && (
-                            <Combobox
-                                items={customerOptions?.map((c) => ({
-                                    value: c.value,
-                                    label: c.value,
-                                }))}
-                                value={
-                                    field.value
-                                        ? customers?.find(
-                                              (c) => c.id === field.value,
-                                          )?.name
-                                        : undefined
-                                }
-                                onChange={(val) => {
-                                    const selectedCustomer = customers?.find(
-                                        (c) => c.name === val,
-                                    );
-
-                                    if (!selectedCustomer) return;
-
-                                    field.onChange(selectedCustomer.id);
-
-                                    setValue(
-                                        "customer_name",
-                                        selectedCustomer.name,
-                                    );
-                                    setValue(
-                                        "customer_phone_number",
-                                        selectedCustomer.phone_number || "",
-                                    );
-                                    setValue(
-                                        "customer_email",
-                                        selectedCustomer.email || "",
-                                    );
-                                    setValue(
-                                        "customer_address",
-                                        selectedCustomer.address || "",
-                                    );
-                                }}
-                                placeholder="مشتری را انتخاب کن"
-                                searchPlaceholder="جستجوی مشتری..."
-                            />
-                        )}
-                        {errors.id && (
-                            <span className="text-red-500">
-                                {errors.id.message}
-                            </span>
-                        )}
-                    </div>
-                )}
-            />
-            {/* Customer Details */}
-            <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-3">
-                    <Label htmlFor="customer_name">نام مشتری</Label>
-                    <Input {...register("customer_name")} id="customer_name" />
-                    {errors.customer_name && (
-                        <span className="text-red-500">
-                            {errors.customer_name.message}
-                        </span>
-                    )}
-                </div>
-                <div className="space-y-3">
-                    <Label htmlFor="customer_phone_number">شماره تلفن</Label>
-                    <Input
-                        {...register("customer_phone_number")}
-                        id="customer_phone_number"
-                    />
-                    {errors.customer_phone_number && (
-                        <span className="text-red-500">
-                            {errors.customer_phone_number.message}
-                        </span>
-                    )}
-                </div>
-                <div className="space-y-3">
-                    <Label htmlFor="customer_email">ایمیل</Label>
-                    <Input
-                        {...register("customer_email")}
-                        id="customer_email"
-                        type="email"
-                    />
-                    {errors.customer_email && (
-                        <span className="text-red-500">
-                            {errors.customer_email.message}
-                        </span>
-                    )}
-                </div>
-                <div className="space-y-3">
-                    <Label htmlFor="customer_address">آدرس</Label>
-                    <Input
-                        {...register("customer_address")}
-                        id="customer_address"
-                    />
-                    {errors.customer_address && (
-                        <span className="text-red-500">
-                            {errors.customer_address.message}
-                        </span>
-                    )}
-                </div>
-            </div>
-
-            <div className="space-y-3 ">
-                <Label htmlFor="descriptions">توضیحات</Label>
-                <Input {...register("descriptions")} id="descriptions" />
-                {errors.descriptions && (
-                    <span className="text-red-500">
-                        {errors.descriptions.message}
-                    </span>
-                )}
-            </div>
-            <div className="flex gap-5">
-                <div>
-                    {/* Status */}
-                    <div className="space-y-3 ">
-                        <Label htmlFor="status">وضعیت پرداخت</Label>
-                        <Controller
-                            control={control}
-                            name="status"
-                            render={({ field }) => (
-                                <Select
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                >
-                                    <SelectTrigger className=" text-right px-3 py-2 border rounded-md">
-                                        <SelectValue placeholder="وضعیت پرداخت" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="pending">
-                                            در انتظار
-                                        </SelectItem>
-                                        <SelectItem value="paid">
-                                            پرداخت شده
-                                        </SelectItem>
-                                        <SelectItem value="cancelled">
-                                            لغو شده
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            )}
-                        />
-                        {errors.status && (
-                            <span className="text-red-500">
-                                {errors.status.message}
-                            </span>
-                        )}
-                    </div>
-                </div>
-                {/* Payment Method */}
-                <div className="space-y-3">
-                    <Label htmlFor="payment_mode">روش پرداخت</Label>
-                    <Controller
-                        control={control}
-                        name="payment_mode"
-                        render={({ field }) => (
-                            <Select
-                                value={field.value}
-                                onValueChange={field.onChange}
-                            >
-                                <SelectTrigger className="text-right px-3 py-2 border rounded-md">
-                                    <SelectValue placeholder="روش پرداخت" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="cash">نقد</SelectItem>
-                                    <SelectItem value="card">کارت</SelectItem>
-                                    <SelectItem value="bank">بانک</SelectItem>
-                                    <SelectItem value="others">سایر</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        )}
-                    />
-                    {errors.payment_mode && (
-                        <span className="text-red-500">
-                            {errors.payment_mode.message}
-                        </span>
-                    )}
-                </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-                {/* ارزش افزوده */}
-                <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                        <Switch
-                            checked={vatEnabled}
-                            onCheckedChange={setVatEnabled}
-                        />
-                        <Label>ارزش افزوده (۱۰٪)</Label>
-                    </div>
-
-                    {vatEnabled && (
-                        <span className="text-sm text-muted-foreground">
-                            مبلغ ارزش افزوده:{" "}
-                            <strong>{addedValue?.toLocaleString() ?? 0}</strong>{" "}
-                            تومان
-                        </span>
-                    )}
-                </div>
-
-                {/* تخفیف */}
-                <div className="flex flex-col">
-                    <Label htmlFor="discount">تخفیف</Label>
-                    <Controller
-                        control={control}
-                        name="discount"
-                        render={({ field }) => (
-                            <Input
-                                {...field}
-                                type="number"
-                                min={0}
-                                step={1}
-                                onChange={(e) =>
-                                    field.onChange(e.target.valueAsNumber)
-                                }
-                            />
-                        )}
-                    />
-                </div>
-            </div>
-
-            <Button type="submit" disabled={isPending}>
-                {isPending ? "در حال ساخت..." : "ساخت فاکتور"}
-            </Button>
-        </form>
+                <Button type="submit" disabled={isPending}>
+                    {isPending ? "در حال ساخت..." : "ساخت فاکتور"}
+                </Button>
+            </form>
+        </FormProvider>
     );
 }
