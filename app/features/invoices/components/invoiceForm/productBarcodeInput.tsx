@@ -35,7 +35,7 @@ export default function ProductBarcodeInput({
     };
 
     return (
-        <div className="flex flex-col gap-2 sm:w-6/12">
+        <div className="flex flex-col gap-2">
             <Label htmlFor="barcode">انتخاب کالا با بارکد</Label>
             <Input
                 autoFocus
