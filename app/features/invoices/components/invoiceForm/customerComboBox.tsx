@@ -7,9 +7,9 @@ import { Label } from "@/features/shared/components/ui/label";
 import type { InvoiceFormType } from "../../schema/invoice.schema";
 
 type CustomerComboboxProps = {
-    customers: Customer[];
+    customers?: Customer[];
 };
-export default function CustomerComboBox({ customers }: CustomerComboboxProps) {
+export default function CustomerComboBox({ customers=[] }: CustomerComboboxProps) {
     const {
         control,
         formState: { errors },
