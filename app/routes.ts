@@ -13,24 +13,18 @@ export default [
         route("signup", "routes/signUp.tsx"),
         route("demo", "routes/demoInvoice.tsx"),
         route("demo-invoice/preview", "routes/demoInvoicePreview.tsx"),
-        
     ]),
     // layout
     layout("routes/dashboard/protected.tsx", [
         layout("routes/dashboard/dashboardLayout.tsx", [
             route("dashboard", "routes/dashboard/dashboard.tsx"),
             route("products", "routes/products.tsx"),
-            
-            
+
             route("invoices", "routes/invoices/invoices.tsx"),
 
-            route("invoices/new", "routes/invoices/newInvoice.tsx", {
-                id: "invoice-new",
-            }),
+            route("invoices/new", "routes/invoices/newInvoice.tsx"),
 
-            route("invoices/edit/:id", "routes/invoices/newInvoice.tsx", {
-                id: "invoice-edit",
-            }),
+            route("invoices/edit/:id", "routes/invoices/editInvoice.tsx"),
 
             route("invoices/:id", "routes/invoices/invoice.tsx"),
 

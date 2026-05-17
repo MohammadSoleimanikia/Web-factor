@@ -1,0 +1,205 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
+import { toast } from "sonner";
+
+import { useCustomers } from "@/features/customers/hooks/useCustomers";
+import {
+    type InvoiceFormType,
+    InvoiceSchema,
+} from "@/features/invoices/schema/invoice.schema";
+import { useProducts } from "@/features/products/hooks/useProducts";
+import { Button } from "@/features/shared/components/ui/button";
+import { Input } from "@/features/shared/components/ui/input";
+import { Label } from "@/features/shared/components/ui/label";
+
+import LoadingSpinner from "../../shared/components/ui/loadingSpinner";
+import { useInvoice } from "../hooks/useInvoice"; 
+import { useUpdateInvoice } from "../hooks/useUpdateInvoice"; 
+import CustomerComboBox from "./invoiceForm/customerComboBox";
+import CustomerDetailsFields from "./invoiceForm/customerDetailsFields";
+import InvoiceStatusSelect from "./invoiceForm/invoiceStatusSelect";
+import ItemsTable from "./invoiceForm/itemsTable";
+import InvoicePaymentMethodSelect from "./invoiceForm/paymentMethodSelect";
+import ProductBarcodeInput from "./invoiceForm/productBarcodeInput";
+import ProductMultiSelect from "./invoiceForm/productMultiSelect";
+import VatAndDiscountSection from "./invoiceForm/vatAndDiscountSection";
+
+type EditInvoiceFormProps = {
+    invoiceId: string;
+};
+
+export default function EditInvoiceForm({ invoiceId }: EditInvoiceFormProps) {
+    const [vatEnabled, setVatEnabled] = useState(false);
+
+    const { invoice: invoiceData, isLoading: isInvoiceLoading } =
+        useInvoice(invoiceId);
+
+    const methods = useForm<InvoiceFormType>({
+        resolver: zodResolver(InvoiceSchema),
+        defaultValues: {
+            items: [],
+            customer_name: "",
+            customer_phone_number: "",
+            customer_email: "",
+            customer_address: "",
+            status: "pending",
+            payment_mode: "cash",
+            descriptions: "",
+            title: "",
+            added_value: 0,
+            discount: 0,
+        },
+    });
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+        setValue,
+        reset,
+    } = methods;
+
+    const { mutateAsync: updateInvoice, isPending } = useUpdateInvoice(); // تغییر به updateInvoice
+    const { products } = useProducts({ pageSize: 1000 });
+    const { data: customersData, isLoading: isCustomersLoading } = useCustomers(
+        { pageSize: 1000 },
+    );
+    const customers = customersData?.results;
+    const watchedItems = watch("items");
+    const addedValue = watch("added_value");
+
+    useEffect(() => {
+        if (invoiceData) {
+            const formattedItems = invoiceData.items.map((item: any) => ({
+                product_id: item.product.id,
+                quantity: item.quantity,
+                price: item.price,
+            }));
+
+            reset({
+                title: invoiceData.title || "",
+                items: formattedItems,
+                customer_name: invoiceData.customer_name || "",
+                customer_phone_number: invoiceData.customer_phone_number || "",
+                customer_email: invoiceData.customer_email || "",
+                customer_address: invoiceData.customer_address || "",
+                status: invoiceData.status || "pending",
+                payment_mode: invoiceData.payment_mode || "cash",
+                descriptions: invoiceData.descriptions || "",
+                discount: invoiceData.discount || 0,
+                added_value: invoiceData.added_value || 0,
+            });
+
+            if (invoiceData.added_value && invoiceData.added_value > 0) {
+                setVatEnabled(true);
+            }
+        }
+    }, [invoiceData, reset]);
+
+    useEffect(() => {
+        if (!vatEnabled) {
+            setValue("added_value", 0);
+            return;
+        }
+
+        const totalPrice = watchedItems.reduce((sum, item) => {
+            const price = Number(item.price) || 0;
+            const qty = Number(item.quantity) || 0;
+            return sum + price * qty;
+        }, 0);
+
+        setValue("added_value", Math.floor(totalPrice * 0.1)); // 10%
+    }, [vatEnabled, watchedItems, setValue]);
+
+    const handleProductAdd = (product: any) => {
+        const existing = watchedItems.find((i) => i.product_id === product.id);
+        if (existing) {
+            toast("محصول قبلا اضافه شده", { icon: "⚠️" });
+            return;
+        }
+        setValue("items", [
+            ...watchedItems,
+            { product_id: product.id, quantity: 1, price: product.price },
+        ]);
+        toast.success(`${product.name} اضافه شد`);
+    };
+
+    const onSubmit = async (data: InvoiceFormType) => {
+    try {
+        await updateInvoice({
+            id: invoiceId,
+            data: data,
+        });
+    } catch (error) {
+        console.error("error:", error);
+    }
+};
+
+    if (isInvoiceLoading || isCustomersLoading) {
+        return <LoadingSpinner />;
+    }
+
+    return (
+        <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* عنوان فاکتور */}
+                <div className="space-y-3">
+                    <Label htmlFor="title">عنوان فاکتور</Label>
+                    <Input {...register("title")} id="title" />
+                    {errors.title && (
+                        <span className="text-red-500">
+                            {errors.title.message}
+                        </span>
+                    )}
+                </div>
+
+                {/* انتخاب محصولات */}
+                <div className="space-y-6 grid sm:grid-cols-2 gap-4">
+                    <ProductBarcodeInput
+                        products={products}
+                        onProductAdd={handleProductAdd}
+                    />
+                    <ProductMultiSelect products={products} />
+                </div>
+
+                {/* جدول محصولات */}
+                {watchedItems.length > 0 && <ItemsTable products={products} />}
+
+                {/* اطلاعات مشتری */}
+                <CustomerComboBox customers={customers} />
+                <CustomerDetailsFields />
+
+                {/* توضیحات */}
+                <div className="space-y-3">
+                    <Label htmlFor="descriptions">توضیحات</Label>
+                    <Input {...register("descriptions")} id="descriptions" />
+                    {errors.descriptions && (
+                        <span className="text-red-500">
+                            {errors.descriptions.message}
+                        </span>
+                    )}
+                </div>
+
+                {/* وضعیت و روش پرداخت */}
+                <div className="flex gap-5">
+                    <InvoiceStatusSelect />
+                    <InvoicePaymentMethodSelect />
+                </div>
+
+                {/* ارزش افزوده و تخفیف */}
+                <VatAndDiscountSection
+                    vatEnabled={vatEnabled}
+                    onVatToggle={setVatEnabled}
+                    addedValue={addedValue}
+                />
+
+                <Button type="submit" disabled={isPending}>
+                    {isPending ? "در حال ویرایش..." : "ویرایش فاکتور"}
+                </Button>
+            </form>
+        </FormProvider>
+    );
+}
