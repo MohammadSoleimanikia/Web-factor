@@ -40,7 +40,7 @@ export function Combobox({
     onChange,
     placeholder = "انتخاب کنید...",
     searchPlaceholder = "جستجو...",
-    emptyText = "موردی پیدا نشد",
+    emptyText = "مشتری ای موجود نمی باشد. ",
     className,
 }: ComboboxProps) {
     const [open, setOpen] = React.useState(false);
