@@ -5,8 +5,6 @@ import type { User } from "@/features/auth/types/user.type";
 import type { AuthContextType } from "@/types/authContext";
 import type { Token } from "@/types/token";
 
-
-const BASE_URL = "https://yasinhossini94.pythonanywhere.com/account";
 const useAuth = create<AuthContextType>()(
     persist(
         (set) => ({
@@ -17,10 +15,11 @@ const useAuth = create<AuthContextType>()(
                 set({ token: null, profile: null });
             },
             setProfile: (profile: User) => {
+                const baseUrl = import.meta.env.VITE_API_BASE_URL;
                 const updatedProfile = {
                     ...profile,
                     logo: profile.profile.logo
-                        ? `${BASE_URL}${profile.profile.logo}`
+                        ? `${baseUrl}${profile.profile.logo}`
                         : null,
                 };
                 set({ profile: updatedProfile });
