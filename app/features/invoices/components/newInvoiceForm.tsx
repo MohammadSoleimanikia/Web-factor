@@ -100,6 +100,9 @@ export default function NewInvoiceForm() {
     if (isLoading) {
         return <LoadingSpinner />;
     }
+    if (products.length === 0) return <div className="">
+        کالایی برای ایجاد فاکتور ندارید لطفا ابتدا از سربرگ کالاها محصولات خود را اضافه کنید !
+    </div>;
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
