@@ -15,10 +15,11 @@ import {
 import type { InvoiceFormType } from "../../schema/invoice.schema";
 
 interface ItemsTableProps {
-    products?: any[]; // optional now
+    products?: any[]; 
+    isEdit?:boolean;
 }
 
-export default function ItemsTable({ products = [] }: ItemsTableProps) {
+export default function ItemsTable({ products = [] ,isEdit=false }: ItemsTableProps) {
     const {
         control,
         watch,
@@ -27,13 +28,9 @@ export default function ItemsTable({ products = [] }: ItemsTableProps) {
 
     if (watchedItems.length === 0) return null;
 
-    // تابع برای گرفتن نام محصول
-    // اول از products array جستجو کن، اگه نبود از product object خود آیتم استفاده کن
     const getProductName = (item: any) => {
-        // اگه آیتم product_name داره (برای نمایش در ویرایش)
         if (item.product_name) return item.product_name;
 
-        // اگه product_id داره، توی products جستجو کن
         if (item.product_id) {
             const product = products.find((p) => p.id === item.product_id);
             if (product?.name) return product.name;
@@ -64,6 +61,7 @@ export default function ItemsTable({ products = [] }: ItemsTableProps) {
                                     <Controller
                                         control={control}
                                         name={`items.${index}.quantity`}
+                                        disabled={isEdit}
                                         render={({
                                             field,
                                             fieldState: { error },
@@ -93,6 +91,7 @@ export default function ItemsTable({ products = [] }: ItemsTableProps) {
                                 <TableCell>
                                     <Controller
                                         control={control}
+                                        disabled={isEdit}
                                         name={`items.${index}.price`}
                                         render={({
                                             field,

@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormProvider } from "react-hook-form";
-import { toast } from "sonner";
 
 import { useCustomers } from "@/features/customers/hooks/useCustomers";
 import {
@@ -15,15 +14,13 @@ import { Input } from "@/features/shared/components/ui/input";
 import { Label } from "@/features/shared/components/ui/label";
 
 import LoadingSpinner from "../../shared/components/ui/loadingSpinner";
-import { useInvoice } from "../hooks/useInvoice"; 
-import { useUpdateInvoice } from "../hooks/useUpdateInvoice"; 
+import { useInvoice } from "../hooks/useInvoice";
+import { useUpdateInvoice } from "../hooks/useUpdateInvoice";
 import CustomerComboBox from "./invoiceForm/customerComboBox";
 import CustomerDetailsFields from "./invoiceForm/customerDetailsFields";
 import InvoiceStatusSelect from "./invoiceForm/invoiceStatusSelect";
 import ItemsTable from "./invoiceForm/itemsTable";
 import InvoicePaymentMethodSelect from "./invoiceForm/paymentMethodSelect";
-import ProductBarcodeInput from "./invoiceForm/productBarcodeInput";
-import ProductMultiSelect from "./invoiceForm/productMultiSelect";
 import VatAndDiscountSection from "./invoiceForm/vatAndDiscountSection";
 
 type EditInvoiceFormProps = {
@@ -114,29 +111,16 @@ export default function EditInvoiceForm({ invoiceId }: EditInvoiceFormProps) {
         setValue("added_value", Math.floor(totalPrice * 0.1)); // 10%
     }, [vatEnabled, watchedItems, setValue]);
 
-    const handleProductAdd = (product: any) => {
-        const existing = watchedItems.find((i) => i.product_id === product.id);
-        if (existing) {
-            toast("محصول قبلا اضافه شده", { icon: "⚠️" });
-            return;
-        }
-        setValue("items", [
-            ...watchedItems,
-            { product_id: product.id, quantity: 1, price: product.price },
-        ]);
-        toast.success(`${product.name} اضافه شد`);
-    };
-
     const onSubmit = async (data: InvoiceFormType) => {
-    try {
-        await updateInvoice({
-            id: invoiceId,
-            data: data,
-        });
-    } catch (error) {
-        console.error("error:", error);
-    }
-};
+        try {
+            await updateInvoice({
+                id: invoiceId,
+                data: data,
+            });
+        } catch (error) {
+            console.error("error:", error);
+        }
+    };
 
     if (isInvoiceLoading || isCustomersLoading) {
         return <LoadingSpinner />;
@@ -156,17 +140,10 @@ export default function EditInvoiceForm({ invoiceId }: EditInvoiceFormProps) {
                     )}
                 </div>
 
-                {/* انتخاب محصولات */}
-                <div className="space-y-6 grid sm:grid-cols-2 gap-4">
-                    <ProductBarcodeInput
-                        products={products}
-                        onProductAdd={handleProductAdd}
-                    />
-                    <ProductMultiSelect products={products} />
-                </div>
-
                 {/* جدول محصولات */}
-                {watchedItems.length > 0 && <ItemsTable products={products} />}
+                {watchedItems.length > 0 && (
+                    <ItemsTable isEdit={true} products={products} />
+                )}
 
                 {/* اطلاعات مشتری */}
                 <CustomerComboBox customers={customers} />
