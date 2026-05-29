@@ -14,6 +14,7 @@ export default function ProductsSkeleton() {
             <TableHeader>
                 <TableRow className="bg-muted mt-3">
                     <TableHead>نام</TableHead>
+                    <TableHead>موجودی</TableHead>
                     <TableHead>توضیحات</TableHead>
                     <TableHead>قیمت فروش</TableHead>
                     <TableHead>قیمت خرید</TableHead>

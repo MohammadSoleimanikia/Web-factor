@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { useCreateProduct } from "@/features/products/hooks/useCreateProduct";
+import type { ProductCreate } from "@/features/products/types/product";
 import {
     Dialog,
     DialogContent,
@@ -11,8 +13,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/features/shared/components/ui/dialog";
-import { useCreateProduct } from "@/features/products/hooks/useCreateProduct";
-import type { ProductCreate } from "@/features/products/types/product";
 
 import { Button } from "../../shared/components/ui/button";
 import { Input } from "../../shared/components/ui/input";
@@ -82,7 +82,18 @@ export default function AddProductModal() {
                     <p className="text-red-500 text-sm">
                         {errors.name?.message}
                     </p>
-
+                    <Input
+                        type="number"
+                        placeholder="موجودی"
+                        {...register("stock_quantity", {
+                            required: "موجودی الزامی است",
+                            min: { value: 1, message: "حداقل موجودی یک عدد میباشد" },
+                            
+                        })}
+                    />
+                    <p className="text-red-500 text-sm">
+                        {errors.stock_quantity?.message}
+                    </p>
                     <Textarea
                         placeholder="توضیحات"
                         {...register("description", {

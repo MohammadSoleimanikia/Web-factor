@@ -2,6 +2,10 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
+import ProductsSkeleton from "@/features/products/components/productsSkeleton";
+import { useDeleteProduct } from "@/features/products/hooks/useDeleteProduct";
+import { useProducts } from "@/features/products/hooks/useProducts";
+import type { Product } from "@/features/products/types/product";
 import {
     Table,
     TableBody,
@@ -10,10 +14,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/features/shared/components/ui/table";
-import ProductsSkeleton from "@/features/products/components/productsSkeleton";
-import { useDeleteProduct } from "@/features/products/hooks/useDeleteProduct";
-import { useProducts } from "@/features/products/hooks/useProducts";
-import type { Product } from "@/features/products/types/product";
 
 import DeleteConfirm from "../../shared/components/ui/deleteConfirm";
 import {
@@ -80,6 +80,7 @@ export default function ProductTable({ searchQuery }: ProductTableProps) {
                 <TableHeader className="bg-muted rounded-sm">
                     <TableRow>
                         <TableHead>نام</TableHead>
+                        <TableHead>موجودی</TableHead>
                         <TableHead>توضیحات</TableHead>
                         <TableHead>قیمت فروش</TableHead>
                         <TableHead>قیمت خرید</TableHead>
@@ -92,6 +93,9 @@ export default function ProductTable({ searchQuery }: ProductTableProps) {
                         <TableRow key={product.id}>
                             <TableCell className="text-right">
                                 {product.name}
+                            </TableCell>
+                            <TableCell className="text-right">
+                                {product.stock_quantity}
                             </TableCell>
                             <TableCell>{product.description || "-"}</TableCell>
                             <TableCell className="text-right whitespace-nowrap">

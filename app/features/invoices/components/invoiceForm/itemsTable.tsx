@@ -49,7 +49,7 @@ export default function ItemsTable({ products = [] }: ItemsTableProps) {
                 <TableHeader>
                     <TableRow className="bg-muted">
                         <TableHead>نام کالا</TableHead>
-                        <TableHead>مقدار</TableHead>
+                        <TableHead>تعداد</TableHead>
                         <TableHead>قیمت</TableHead>
                     </TableRow>
                 </TableHeader>

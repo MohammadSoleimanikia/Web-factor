@@ -33,6 +33,7 @@ export default function EditProductModal({ product }: { product: Product }) {
             description: product.description,
             price: product.price,
             buy: product.buy,
+            stock_quantity:product.stock_quantity,
         },
     });
 
@@ -49,7 +50,7 @@ export default function EditProductModal({ product }: { product: Product }) {
             await updateProduct({ id: product.id, data });
             setOpen(false);
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
     };
 
@@ -71,7 +72,24 @@ export default function EditProductModal({ product }: { product: Product }) {
                     <p className="text-primary font-semibold text-2xl">
                         {product.name}
                     </p>
-
+                    <Field>
+                        <FieldLabel htmlFor="stock_quantity">موجودی</FieldLabel>
+                        <Input
+                            type="number"
+                            id="stock_quantity"
+                            placeholder="موجودی"
+                            {...register("stock_quantity", {
+                                required: "موجودی الزامی است",
+                                min: { value: 1, message: "حداقل ۱" },
+                            })}
+                            
+                        />
+                        {errors.stock_quantity && (
+                            <p className="text-red-500 text-sm">
+                                {errors.stock_quantity.message}
+                            </p>
+                        )}
+                    </Field>
                     <Field>
                         <FieldLabel htmlFor="description">توضیحات</FieldLabel>
                         <Textarea
