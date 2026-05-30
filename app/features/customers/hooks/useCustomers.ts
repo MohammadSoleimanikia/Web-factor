@@ -7,7 +7,7 @@ type useCustomersParams = {
     page?: number;
     pageSize?: number;
 };
-export function useCustomers({ page = 1, pageSize = 10 }: useCustomersParams) {
+export function useCustomers({ page = 1, pageSize = 20 }: useCustomersParams) {
     return useQuery({
         queryKey: ["customers", {page, pageSize}],
         queryFn: async () => {

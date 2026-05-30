@@ -41,7 +41,7 @@ export default function InvoiceTable({
 }: InvoiceTableProps) {
     const navigate = useNavigate();
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 20;
 
     // 📦 Fetch data - حالا با همه پارامترها
     const { invoices, count, isLoading, error, refetch } = useInvoices({

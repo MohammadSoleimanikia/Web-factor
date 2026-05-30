@@ -12,7 +12,7 @@ type UseInvoiceParams = {
 };
 export function useInvoices({
     page = 1,
-    pageSize = 10,
+    pageSize = 20,
     searchQuery = "",
     status = "all",
 }: UseInvoiceParams) {

@@ -24,7 +24,7 @@ import { useDeleteCustomer } from "../hooks/useDeleteCustomer";
 import CustomersSkeleton from "./customersSkeleton";
 export default function CustomersTable() {
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 20;
 
     const { data, isLoading } = useCustomers({
         page,

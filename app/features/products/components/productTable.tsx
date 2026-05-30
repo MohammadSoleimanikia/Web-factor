@@ -32,7 +32,7 @@ interface ProductTableProps {
 
 export default function ProductTable({ searchQuery }: ProductTableProps) {
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 20;
 
     const { products, count, isLoading, isFetching, error, refetch } =
         useProducts({

@@ -22,7 +22,7 @@ interface UseProductsReturn {
 }
 export function useProducts({
     page = 1,
-    pageSize = 10,
+    pageSize = 20,
     search = "",
 }: UseProductParams): UseProductsReturn {
     // make params
