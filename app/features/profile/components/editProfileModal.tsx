@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import type { UserUpdate } from "@/features/auth/types/user.type";
+import type { User } from "@/features/auth/types/user.type";
 import {
     Dialog,
     DialogContent,
@@ -10,14 +12,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/features/shared/components/ui/dialog";
-import type { UserUpdate } from "@/features/auth/types/user.type";
-import type { User } from "@/features/auth/types/user.type";
 import { apiFetch } from "@/lib/api";
 
-import { Button } from "../../features/shared/components/ui/button";
-import { Input } from "../../features/shared/components/ui/input";
-import { Label } from "../../features/shared/components/ui/label";
-import { Textarea } from "../../features/shared/components/ui/textarea";
+import { Button } from "../../shared/components/ui/button";
+import { Input } from "../../shared/components/ui/input";
+import { Label } from "../../shared/components/ui/label";
+import { Textarea } from "../../shared/components/ui/textarea";
 export default function EditProfileModal({
     profile,
     setReload,
