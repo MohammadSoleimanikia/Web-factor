@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router";
 
-import ThemeToggler from "@/components/home/themeToggler";
+import ThemeToggler from "@/features/home/components/themeToggler";
 import { Button } from "@/features/shared/components/ui/button";
 
 export function Header() {

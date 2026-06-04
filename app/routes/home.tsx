@@ -1,11 +1,11 @@
 // app/routes/home.tsx
 import { motion } from "motion/react";
 
-import { CTA } from "@/components/home/cta";
-import { Features } from "@/components/home/features";
-import { Footer } from "@/components/home/footer";
-import { Header } from "@/components/home/header";
-import { Hero } from "@/components/home/hero";
+import { CTA } from "@/features/home/components/cta";
+import { Features } from "@/features/home/components/features";
+import { Footer } from "@/features/home/components/footer";
+import { Header } from "@/features/home/components/header";
+import { Hero } from "@/features/home/components/hero";
 import {
     Card,
     CardDescription,
