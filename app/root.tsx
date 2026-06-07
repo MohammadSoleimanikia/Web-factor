@@ -2,7 +2,6 @@ import "./app.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-    isRouteErrorResponse,
     Links,
     Meta,
     Outlet,
@@ -14,7 +13,6 @@ import { ThemeProvider } from "@/features/shared/components/themeProvider";
 import { DirectionProvider } from "@/features/shared/components/ui/direction";
 import { Toaster } from "@/features/shared/components/ui/sonner";
 
-import type { Route } from "./+types/root";
 import { TooltipProvider } from "./features/shared/components/ui/tooltip";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -54,8 +52,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     crossOrigin="anonymous"
                 />
 
-               
-
                 <Meta />
                 <Links />
             </head>
@@ -70,54 +66,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </html>
     );
 }
-
-export default function App() {
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                staleTime: 5 * 60 * 1000, //5 min
-                retry: 2, // 2 times after getting error
-                refetchOnWindowFocus: false,
-            },
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 5 * 60 * 1000,
+            retry: 2,
+            refetchOnWindowFocus: false,
         },
-    });
+    },
+});
+export default function App() {
     return (
         <ThemeProvider>
             <QueryClientProvider client={queryClient}>
                 <div className="font-vazir">
                     <Outlet />
                 </div>
-                
             </QueryClientProvider>
         </ThemeProvider>
     );
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-    let message = "Oops!";
-    let details = "An unexpected error occurred.";
-    let stack: string | undefined;
-
-    if (isRouteErrorResponse(error)) {
-        message = error.status === 404 ? "404" : "Error";
-        details =
-            error.status === 404
-                ? "The requested page could not be found."
-                : error.statusText || details;
-    } else if (import.meta.env.DEV && error && error instanceof Error) {
-        details = error.message;
-        stack = error.stack;
-    }
-
-    return (
-        <main className="pt-16 p-4 container mx-auto">
-            <h1>{message}</h1>
-            <p>{details}</p>
-            {stack && (
-                <pre className="w-full p-4 overflow-x-auto">
-                    <code>{stack}</code>
-                </pre>
-            )}
-        </main>
-    );
-}
+export { default as ErrorBoundary } from "./routes/ErrorPage";
