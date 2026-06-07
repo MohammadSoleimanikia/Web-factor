@@ -33,7 +33,6 @@ export default function AddProductModal() {
     const onSubmit = async (data: ProductCreate) => {
         try {
             await createProduct(data);
-            toast.success("کالا با موفقیت افزوده شد");
             reset();
             setPricePersian("");
             setBuyPersian("");
