@@ -74,7 +74,7 @@ export function Hero() {
                                         size="lg"
                                         className="w-full sm:w-auto"
                                     >
-                                        نسخه آزمایشی
+                                        ساخت رایگان فاکتور
                                     </Button>
                                 </Link>
                             </div>

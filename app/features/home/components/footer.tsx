@@ -50,7 +50,7 @@ export function Footer() {
                                     to="/demo"
                                     className="hover:text-white transition"
                                 >
-                                    نسخه آزمایشی
+                                    ساخت رایگان فاکتور
                                 </Link>
                             </li>
                         </ul>

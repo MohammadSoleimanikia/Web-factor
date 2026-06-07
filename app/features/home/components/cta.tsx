@@ -43,7 +43,7 @@ export function CTA() {
                             size="lg"
                             className="w-full sm:w-auto bg-transparent text-white border-white hover:bg-white hover:text-primary"
                         >
-                            نسخه آزمایشی
+                            ساخت رایگان فاکتور
                         </Button>
                     </Link>
                 </div>
