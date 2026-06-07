@@ -8,6 +8,7 @@ import {
 export default [
     index("routes/home.tsx"),
     route("public/:invoiceToken", "routes/invoices/publicInvoice.tsx"),
+    route("*", "routes/notFound.tsx"), // ✅ 404
     layout("routes/guestOnly.tsx", [
         route("login", "routes/logIn.tsx"),
         route("signup", "routes/signUp.tsx"),
@@ -31,6 +32,7 @@ export default [
             route("profile", "routes/profile.tsx"),
 
             route("customers", "routes/customers.tsx"),
+            
         ]),
     ]),
 ] satisfies RouteConfig;
