@@ -2,6 +2,8 @@ import { SearchIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
+import { useHasActiveSubscription } from "@/features/subscription/hooks/useSubscription";
+
 import { Button } from "../../shared/components/ui/button";
 import {
     InputGroup,
@@ -17,6 +19,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "../../shared/components/ui/select";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "../../shared/components/ui/tooltip";
 
 export default function Header({
     setSearchQuery,
@@ -26,6 +33,8 @@ export default function Header({
     setStatus: React.Dispatch<React.SetStateAction<string>>;
 }) {
     const [searchInput, setSearchInput] = useState("");
+    const { hasAccess } = useHasActiveSubscription();
+
     const handleSearch = () => setSearchQuery(searchInput);
     const handleReset = () => {
         setSearchInput("");
@@ -37,9 +46,30 @@ export default function Header({
             <h1 className="text-right text-2xl font-bold">فاکتور ها</h1>
 
             <div className="flex flex-wrap items-center justify-between gap-4">
-                <Button asChild className="whitespace-nowrap">
-                    <Link to="/invoices/new">افزودن فاکتور</Link>
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <span>
+                            <Button
+                                asChild={hasAccess}
+                                disabled={!hasAccess}
+                                className="whitespace-nowrap"
+                            >
+                                {hasAccess ? (
+                                    <Link to="/invoices/new">
+                                        افزودن فاکتور
+                                    </Link>
+                                ) : (
+                                    <span>افزودن فاکتور</span>
+                                )}
+                            </Button>
+                        </span>
+                    </TooltipTrigger>
+                    {!hasAccess && (
+                        <TooltipContent>
+                            برای ایجاد فاکتور ابتدا اشتراک تهیه کنید
+                        </TooltipContent>
+                    )}
+                </Tooltip>
 
                 <div className="flex flex-wrap items-center gap-3">
                     <Select

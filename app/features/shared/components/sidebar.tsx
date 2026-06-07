@@ -24,6 +24,7 @@ import {
     SidebarMenuItem,
     SidebarSeparator,
 } from "@/features/shared/components/ui/sidebar";
+import { SubscriptionStatusMini } from "@/features/subscription/components/SubscriptionStatusMini";
 import useAuth from "@/store/auth";
 import type { AuthContextType } from "@/types/authContext";
 
@@ -148,6 +149,9 @@ export function AppSidebar() {
             </SidebarContent>
             <SidebarFooter>
                 <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SubscriptionStatusMini />
+                    </SidebarMenuItem>
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>

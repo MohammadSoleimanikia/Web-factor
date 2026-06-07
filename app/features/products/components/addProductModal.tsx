@@ -16,8 +16,12 @@ import {
 import { Button } from "../../shared/components/ui/button";
 import { Input } from "../../shared/components/ui/input";
 import { Textarea } from "../../shared/components/ui/textarea";
-
-export default function AddProductModal() {
+interface AddProductModalProps {
+    disabled?: boolean;
+}
+export default function AddProductModal({
+    disabled = false,
+}: AddProductModalProps) {
     const [pricePersian, setPricePersian] = useState("");
     const [buyPersian, setBuyPersian] = useState("");
 
@@ -55,7 +59,7 @@ export default function AddProductModal() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>افزودن کالا</Button>
+                <Button disabled={disabled}>افزودن کالا</Button>
             </DialogTrigger>
             <DialogContent className="font-vazir">
                 <DialogHeader>
@@ -85,8 +89,10 @@ export default function AddProductModal() {
                         placeholder="موجودی"
                         {...register("stock_quantity", {
                             required: "موجودی الزامی است",
-                            min: { value: 1, message: "حداقل موجودی یک عدد میباشد" },
-                            
+                            min: {
+                                value: 1,
+                                message: "حداقل موجودی یک عدد میباشد",
+                            },
                         })}
                     />
                     <p className="text-red-500 text-sm">

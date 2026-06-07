@@ -109,7 +109,7 @@ export default function ProductTable({ searchQuery }: ProductTableProps) {
                                     </span>
                                 </div>
                             </TableCell>
-                            <TableCell >{product.description.slice(0,20) || "-"}</TableCell>
+                            <TableCell >{product.description ? product.description.slice(0, 20) : "-"}</TableCell>
                             <TableCell className="text-right whitespace-nowrap">
                                 {product.price.toLocaleString()} تومان
                             </TableCell>

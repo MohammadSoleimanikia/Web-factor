@@ -8,7 +8,6 @@ import { useDashboardStats } from "@/features/dashboard/hooks/useDashboardStats"
 import { usePendingInvoices } from "@/features/dashboard/hooks/usePendingInvoices";
 import { useRecentInvoices } from "@/features/dashboard/hooks/useRecentInvoices";
 import LoadingSpinner from "@/features/shared/components/ui/loadingSpinner";
-import { SubscriptionStatusMini } from "@/features/subscription/components/SubscriptionStatusMini";
 
 export default function Dashboard() {
     const { data: dashboardData, isLoading: statsLoading } = useDashboardStats();
@@ -23,7 +22,6 @@ export default function Dashboard() {
         <main className="text-right">
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold">داشبورد</h1>
-                <SubscriptionStatusMini />
             </div>
             
             <StatsCards dashboardData={dashboardData} />
