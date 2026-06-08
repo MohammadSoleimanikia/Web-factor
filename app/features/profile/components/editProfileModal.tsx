@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,6 +26,7 @@ export default function EditProfileModal({
     profile: User;
     setReload: React.Dispatch<React.SetStateAction<number>>;
 }) {
+     const queryClient = useQueryClient();
     // max size of logo file
     const MAX_SIZE = 25 * 1024; // 25KB
     const [loading, setLoading] = useState(false);
@@ -87,7 +89,7 @@ export default function EditProfileModal({
                 body: formData,
             });
             toast.success("پروفایل با موفقیت ویرایش شد!");
-
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
             setReload((prev) => prev + 1);
             setOpen(false);
         } catch (err: any) {

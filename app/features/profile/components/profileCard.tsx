@@ -1,4 +1,3 @@
-// features/profile/components/ProfileCard.tsx
 import { useEffect, useState } from "react";
 
 import type { User } from "@/features/auth/types/user.type";
