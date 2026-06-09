@@ -89,7 +89,7 @@ export default function AddCustomerModal() {
                     </p>
 
                     <Input
-                        type="text"
+                        type="number"
                         placeholder="شماره تلفن مشتری"
                         {...register("phone_number", {
                             required: "شماره تلفن مشتری الزامی است",
