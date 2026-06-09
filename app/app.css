@@ -3,6 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* remove up and down buttons in input */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield; /* برای مرورگرهای جدیدتر */
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
 @font-face {
     font-family: "Vazir";
     src: url("/fonts/Vazir.woff2") format("woff2");
