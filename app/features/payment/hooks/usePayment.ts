@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { apiFetch } from "@/lib/api";
 
 type PurchasePlanResponse = {
-    gateway_url: string;
+    detail: string;
 };
 
 export function usePurchasePlan() {
@@ -27,8 +27,8 @@ export function usePurchasePlan() {
             return response;
         },
         onSuccess: (data) => {
-            if (data.gateway_url) {
-                window.location.href = data.gateway_url;
+            if (data.detail) {
+                window.location.href = data.detail;
             } else {
                 toast.error("آدرس درگاه پرداخت دریافت نشد");
             }
