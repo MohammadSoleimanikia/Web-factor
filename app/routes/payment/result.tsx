@@ -31,9 +31,7 @@ export default function PaymentResultPage() {
             console.log("Authority:", authority);
             console.log("Status:", status);
 
-            // کاربر از درگاه برگشته
             if (authority) {
-                // اگر پرداخت موفق بوده
                 if (status === "OK") {
                     try {
                         const response = await verifyPayment(authority);
@@ -126,7 +124,7 @@ export default function PaymentResultPage() {
                         to={
                             result?.status === "success"
                                 ? "/dashboard"
-                                : "/pricing"
+                                : "/subscription"
                         }
                     >
                         <Button className="w-full">
