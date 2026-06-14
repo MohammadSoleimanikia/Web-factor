@@ -1,3 +1,4 @@
+// features/subscription/components/SubscriptionStatusMini.tsx
 import { NavLink } from "react-router";
 
 import { Badge } from "@/features/shared/components/ui/badge";
@@ -34,7 +35,9 @@ export function SubscriptionStatusMini() {
     const getStatusText = () => {
         if (!subscription.is_active) return "غیرفعال";
         if (subscription.plan.is_trial) return "آزمایشی";
-        return "فعال";
+        
+        // نام پلن از بک‌اند فارسی می‌آید، مستقیماً از آن استفاده می‌کنیم
+        return subscription.plan.name;
     };
 
     const getDaysColor = () => {
@@ -47,14 +50,9 @@ export function SubscriptionStatusMini() {
     return (
         <Card className="p-3">
             <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                    <Badge variant={getStatusVariant()}>
-                        {getStatusText()}
-                    </Badge>
-                    <span className="text-sm font-medium">
-                        {subscription.plan.name}
-                    </span>
-                </div>
+                <Badge  variant={getStatusVariant()}>
+                    {getStatusText()}
+                </Badge>
                 <span
                     className={`text-sm font-bold tabular-nums ${getDaysColor()}`}
                 >
