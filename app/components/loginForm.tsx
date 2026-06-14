@@ -279,7 +279,7 @@ export function LoginForm({
                         </form>
                     )}
 
-                    <div className="relative hidden bg-muted  lg:flex justify-center items-center">
+                    <div className="relative hidden bg-muted dark:bg-muted-foreground  lg:flex justify-center items-center">
                         <img
                             src="/logo.svg"
                             alt="Image"
