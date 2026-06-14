@@ -5,7 +5,6 @@ import { Cell, LabelList, Pie, PieChart } from "recharts";
 import {
     Card,
     CardContent,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/features/shared/components/ui/card";
@@ -34,6 +33,28 @@ const getFillColor = (index: number) => {
 };
 
 export function TopProductsChart({ chartData }: TopProductsChartProps) {
+    if (!chartData || chartData.length === 0) {
+        return (
+            <Card className="flex flex-col h-full">
+                <CardHeader className="items-center pb-0">
+                    <CardTitle>روند فروش</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col items-center justify-center py-12">
+                    <div className="text-center space-y-3">
+                        <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center">
+                            <TrendingUp className="w-8 h-8 text-muted-foreground" />
+                        </div>
+                        <p className="text-muted-foreground">
+                            هنوز داده‌ای برای نمایش وجود ندارد
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                            پس از ثبت فاکتورها، آمار اینجا نمایش داده می‌شود
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
     return (
         <Card className="flex flex-col">
             <CardHeader className="items-center pb-0">
