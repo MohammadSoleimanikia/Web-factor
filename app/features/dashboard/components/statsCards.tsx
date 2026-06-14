@@ -17,7 +17,7 @@ export default function StatsCards({
                 unit="تومان"
                 icon={CircleDollarSign}
                 showPersianText
-                className="border-l-4 border-teal-500 text-teal-600"
+                className="border-l-4 border-teal-500 text-teal-600 dark:border-teal-400 dark:text-teal-400"
             />
 
             {/* 📄 تعداد کل فاکتورها */}
@@ -26,7 +26,7 @@ export default function StatsCards({
                 value={dashboardData?.total_invoice || 0}
                 unit="عدد"
                 icon={Scroll}
-                className="border-l-4 border-slate-400 text-slate-600"
+                className="border-l-4 border-slate-400 text-slate-600 dark:border-slate-300 dark:text-slate-300"
             />
 
             {/* ⏳ فاکتورهای در انتظار */}
@@ -35,7 +35,7 @@ export default function StatsCards({
                 value={dashboardData?.pending_count || 0}
                 unit="عدد"
                 icon={Clock}
-                className="border-l-4 border-amber-400 text-amber-600"
+                className="border-l-4 border-amber-400 text-amber-600 dark:border-amber-400 dark:text-amber-400"
             />
 
             {/* 💸 در انتظار پرداخت */}
@@ -45,7 +45,7 @@ export default function StatsCards({
                 unit="تومان"
                 icon={CircleDollarSign}
                 showPersianText
-                className="border-l-4 border-sky-400 text-sky-600"
+                className="border-l-4 border-sky-400 text-sky-600 dark:border-sky-400 dark:text-sky-400"
             />
         </div>
     );

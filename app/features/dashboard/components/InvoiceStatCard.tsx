@@ -31,7 +31,7 @@ export default function InvoiceStatCard({
     return (
         <Card className={`flex flex-col justify-between ${className ?? ""}`}>
             <CardHeader className="flex-row items-center justify-between space-y-0">
-                <CardTitle className="text-sm text-muted-foreground">
+                <CardTitle className="text-sm text-muted-foreground ">
                     {title}
                 </CardTitle>
 
