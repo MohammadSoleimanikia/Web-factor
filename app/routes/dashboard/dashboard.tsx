@@ -1,5 +1,12 @@
 // routes/dashboard/dashboard.tsx
-import { FileText, Package,  UserCircle, Users } from "lucide-react";
+import {
+    FileText,
+    Package,
+    Sparkles,
+    Store,
+    UserCircle,
+    Users,
+} from "lucide-react";
 import { Link } from "react-router";
 
 import PendingInvoicesTable from "@/features/dashboard/components/pendingInvoicesTable";
@@ -12,8 +19,8 @@ import { usePendingInvoices } from "@/features/dashboard/hooks/usePendingInvoice
 import { useRecentInvoices } from "@/features/dashboard/hooks/useRecentInvoices";
 import { Button } from "@/features/shared/components/ui/button";
 import LoadingSpinner from "@/features/shared/components/ui/loadingSpinner";
-import { SubscriptionStatusMini } from "@/features/subscription/components/SubscriptionStatusMini";
 import { useHasActiveSubscription } from "@/features/subscription/hooks/useSubscription";
+import useAuth from "@/store/auth";
 
 export default function Dashboard() {
     const { data: dashboardData, isLoading: statsLoading } =
@@ -22,22 +29,38 @@ export default function Dashboard() {
     const { data: pendingData, isLoading: pendingLoading } =
         usePendingInvoices(5);
     const { hasAccess } = useHasActiveSubscription();
+    const profile = useAuth((state) => state.profile);
 
     const isLoading = statsLoading || recentLoading || pendingLoading;
 
     if (isLoading) return <LoadingSpinner />;
 
+    // نام کاربر برای خوش‌آمدگویی
+    console.log(profile);
+    const fullName =
+        [profile?.first_name, profile?.last_name].filter(Boolean).join(" ") ||
+        "کاربر";
+    const storeName = profile?.profile?.store_name;
+
     return (
         <main className="text-right">
-            {/* هدر با وضعیت اشتراک */}
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">داشبورد</h1>
-                <SubscriptionStatusMini />
+            {/* خوش‌آمدگویی با نام کاربر */}
+            <div className="mb-2">
+                <h1 className="text-2xl font-bold flex items-center gap-2">
+                    <Sparkles className="w-6 h-6 text-primary" />
+                    خوش آمدی، {fullName} عزیز! 👋
+                </h1>
+                {storeName && (
+                    <p className="text-xl text-muted-foreground mt-1 flex items-center gap-1">
+                        <Store className="w-6 h-6" />
+                        {storeName}
+                    </p>
+                )}
             </div>
 
-            {/* 📌 CTA Buttons - برای کاربران دارای اشتراک */}
+            {/* CTA Buttons - برای کاربران دارای اشتراک */}
             {hasAccess && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 mt-6">
                     <Link to="/invoices/new">
                         <Button className="w-full gap-2" size="lg">
                             <FileText className="w-4 h-4" />
@@ -79,7 +102,7 @@ export default function Dashboard() {
 
             {/* پیام برای کاربران بدون اشتراک */}
             {!hasAccess && (
-                <div className="bg-muted rounded-lg p-4 mb-6 text-center">
+                <div className="bg-muted rounded-lg p-4 mb-8 mt-6 text-center">
                     <p className="text-muted-foreground mb-2">
                         برای استفاده از امکانات وب‌فاکتور، ابتدا اشتراک تهیه
                         کنید.
