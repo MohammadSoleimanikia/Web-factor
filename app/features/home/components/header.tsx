@@ -1,9 +1,15 @@
+// features/home/components/header.tsx
 import { Link, NavLink } from "react-router";
 
 import ThemeToggler from "@/features/home/components/themeToggler";
 import { Button } from "@/features/shared/components/ui/button";
+import useAuth from "@/store/auth";
 
 export function Header() {
+    const token = useAuth((state) => state.token);
+    const isLoggedIn = !!token;
+
+
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,18 +29,20 @@ export function Header() {
                         <ThemeToggler />
                     </div>
                     <div className="flex gap-2">
-                        <Link to="/demo" className="flex-1">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="w-full"
-                            >
-                                ساخت رایگان فاکتور
-                            </Button>
-                        </Link>
-                        <NavLink to="/dashboard" className="flex-1">
+                        {!isLoggedIn && (
+                            <Link to="/demo" className="flex-1">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="w-full"
+                                >
+                                    ساخت رایگان فاکتور
+                                </Button>
+                            </Link>
+                        )}
+                        <NavLink to={isLoggedIn ? "/dashboard" : "/login"} className="flex-1">
                             <Button size="sm" className="w-full">
-                                ورود/عضویت
+                                {isLoggedIn ? "داشبورد" : "ورود/عضویت"}
                             </Button>
                         </NavLink>
                     </div>
@@ -54,13 +62,17 @@ export function Header() {
                     </Link>
                     <div className="flex items-center gap-3">
                         <ThemeToggler />
-                        <Link to="/demo">
-                            <Button variant="outline" size="sm">
-                                ساخت رایگان فاکتور
+                        {!isLoggedIn && (
+                            <Link to="/demo">
+                                <Button variant="outline" size="sm">
+                                    ساخت رایگان فاکتور
+                                </Button>
+                            </Link>
+                        )}
+                        <NavLink to={isLoggedIn ? "/dashboard" : "/login"}>
+                            <Button size="sm">
+                                {isLoggedIn ? "داشبورد" : "ورود/عضویت"}
                             </Button>
-                        </Link>
-                        <NavLink to="/dashboard">
-                            <Button size="sm">ورود/عضویت</Button>
                         </NavLink>
                     </div>
                 </div>
