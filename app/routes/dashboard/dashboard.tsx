@@ -1,12 +1,5 @@
 // routes/dashboard/dashboard.tsx
-import {
-    FileText,
-    Package,
-    Sparkles,
-    Store,
-    UserCircle,
-    Users,
-} from "lucide-react";
+import { FileText, Package, UserCircle, Users } from "lucide-react";
 import { Link } from "react-router";
 
 import PendingInvoicesTable from "@/features/dashboard/components/pendingInvoicesTable";
@@ -47,12 +40,10 @@ export default function Dashboard() {
             {/* خوش‌آمدگویی با نام کاربر */}
             <div className="mb-2">
                 <h1 className="text-2xl font-bold flex items-center gap-2">
-                    <Sparkles className="w-6 h-6 text-primary" />
-                    خوش آمدی، {fullName} عزیز! 👋
+                    خوش آمدی، {fullName} عزیز!
                 </h1>
                 {storeName && (
                     <p className="text-xl text-muted-foreground mt-1 flex items-center gap-1">
-                        <Store className="w-6 h-6" />
                         {storeName}
                     </p>
                 )}
