@@ -28,15 +28,18 @@ export default function EditProfileModal({
     onOpenChange,
 }: EditProfileModalProps) {
     const [logoFile, setLogoFile] = useState<File | null>(null);
+    // ✅ state برای همگام‌سازی رنگ
+    const [hexcolor, setHexcolor] = useState(profile.profile.hexcolor || "#3b82f6");
 
     const { form, mutateAsync, isPending } = useEditProfile(profile, () => {
-        onOpenChange(false); // بستن دیالوگ بعد از موفقیت
+        onOpenChange(false);
     });
 
     const {
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors },
     } = form;
 
@@ -50,8 +53,15 @@ export default function EditProfileModal({
             insta_link: profile.profile.insta_link,
             hexcolor: profile.profile.hexcolor,
         });
+        setHexcolor(profile.profile.hexcolor || "#3b82f6");
         setLogoFile(null);
     }, [profile, reset]);
+
+    // ✅ تابع همگام‌سازی رنگ
+    const handleColorChange = (color: string) => {
+        setHexcolor(color);
+        setValue("hexcolor", color);
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -178,20 +188,24 @@ export default function EditProfileModal({
                         </p>
                     </div>
 
+                    {/* ✅ رنگ برند - ساده با کالر پیکر */}
                     <div className="space-y-2">
                         <Label htmlFor="hexcolor">رنگ برند</Label>
                         <div className="flex items-center gap-2">
                             <Input
                                 type="color"
                                 id="hexcolor"
-                                {...register("hexcolor")}
-                                className="w-16 h-10 p-1"
+                                value={hexcolor}
+                                onChange={(e) => handleColorChange(e.target.value)}
+                                className="w-16 h-10 p-1 cursor-pointer"
                             />
                             <Input
                                 type="text"
                                 placeholder="#RRGGBB"
-                                {...register("hexcolor")}
-                                className="flex-1"
+                                value={hexcolor}
+                                onChange={(e) => handleColorChange(e.target.value)}
+                                className="flex-1 font-mono"
+                                dir="ltr"
                             />
                         </div>
                         <p className="text-red-500 text-sm">
@@ -210,9 +224,7 @@ export default function EditProfileModal({
                                 if (!file) return;
 
                                 if (file.size > 250 * 1024) {
-                                    toast.error(
-                                        "حجم فایل نباید بیشتر از 250 کیلوبایت باشد",
-                                    );
+                                    toast.error("حجم فایل نباید بیشتر از 250 کیلوبایت باشد");
                                     e.target.value = "";
                                     setLogoFile(null);
                                     return;
