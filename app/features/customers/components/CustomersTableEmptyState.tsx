@@ -20,7 +20,7 @@ export function CustomersTableEmptyState({
 }: CustomersTableEmptyStateProps) {
     if (!hasSearch) {
         return (
-            <div className="flex flex-col items-center justify-center py-16 text-center border rounded-lg bg-muted/20">
+            <div className="flex flex-col items-center justify-center py-16 text-center border rounded-lg ">
                 <div className="w-20 h-20 mx-auto rounded-full bg-muted flex items-center justify-center mb-4">
                     <Users className="w-10 h-10 text-muted-foreground" />
                 </div>
@@ -36,8 +36,8 @@ export function CustomersTableEmptyState({
     }
 
     return (
-        <div className="flex flex-col items-center justify-center py-12 text-center border rounded-lg bg-muted/20">
-            <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center mb-4">
+        <div className="flex flex-col items-center justify-center py-12 text-center border rounded-lg ">
+            <div className="w-16 h-16 mx-auto rounded-full  flex items-center justify-center mb-4">
                 <Users className="w-8 h-8 text-muted-foreground" />
             </div>
             <h3 className="text-lg font-semibold mb-2">مشتری‌ای یافت نشد</h3>
