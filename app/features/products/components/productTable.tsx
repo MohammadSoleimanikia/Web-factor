@@ -1,6 +1,5 @@
 // src/components/products/productTable.tsx
 import { useState } from "react";
-import { toast } from "sonner";
 
 import ProductsSkeleton from "@/features/products/components/productsSkeleton";
 import { useDeleteProduct } from "@/features/products/hooks/useDeleteProduct";
@@ -57,7 +56,6 @@ export default function ProductTable({
     const handleDelete = async (id: number) => {
         try {
             await deleteProduct(id);
-            toast.success("محصول حذف شد");
             refetch();
         } catch (err) {
             console.log(err);
