@@ -52,7 +52,6 @@ export default function ItemsTable({ products = [] ,isEdit=false }: ItemsTablePr
                 </TableHeader>
                 <TableBody>
                     {watchedItems.map((item, index) => {
-                        console.log("item:", item);
 
                         return (
                             <TableRow key={item.product_id || index}>

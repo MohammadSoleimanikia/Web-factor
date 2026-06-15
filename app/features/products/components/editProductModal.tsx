@@ -7,7 +7,6 @@ import type { Product, ProductCreate } from "@/features/products/types/product";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -64,9 +63,7 @@ export default function EditProductModal({ product }: { product: Product }) {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>ویرایش کالا</DialogTitle>
-                    <DialogDescription>
-                        جهت ویرایش کالا فرم زیر را تکمیل کنید
-                    </DialogDescription>
+                    
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
                     <p className="text-primary font-semibold text-2xl">
@@ -162,7 +159,7 @@ export default function EditProductModal({ product }: { product: Product }) {
                         disabled={isPending}
                         className="w-full"
                     >
-                        {isPending ? "در حال ارسال..." : "ویرایش کالا"}
+                        {isPending ? "در حال ارسال..." : "ثبت "}
                     </Button>
                 </form>
             </DialogContent>
