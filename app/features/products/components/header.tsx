@@ -28,7 +28,7 @@ export default function Header({
         setSearchQuery("");
     };
     return (
-        <header className="mx-5">
+        <header className="mx-5 mb-5">
             <h1 className="title">کالا ها</h1>
             <div className="flex justify-between gap-3">
                 <Tooltip>

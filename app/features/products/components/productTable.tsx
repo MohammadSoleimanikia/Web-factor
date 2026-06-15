@@ -14,6 +14,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/features/shared/components/ui/table";
+import { useHasActiveSubscription } from "@/features/subscription/hooks/useSubscription";
 
 import DeleteConfirm from "../../shared/components/ui/deleteConfirm";
 import {
@@ -25,14 +26,20 @@ import {
     PaginationPrevious,
 } from "../../shared/components/ui/pagination";
 import EditProductModal from "./editProductModal";
+import { ProductTableEmptyState } from "./ProductTableEmptyState";
 
 interface ProductTableProps {
     searchQuery: string;
+    onResetSearch?: () => void;
 }
 
-export default function ProductTable({ searchQuery }: ProductTableProps) {
+export default function ProductTable({
+    searchQuery,
+    onResetSearch,
+}: ProductTableProps) {
     const [page, setPage] = useState(1);
     const pageSize = 20;
+    const { hasAccess } = useHasActiveSubscription();
 
     const { products, count, isLoading, isFetching, error, refetch } =
         useProducts({
@@ -44,6 +51,8 @@ export default function ProductTable({ searchQuery }: ProductTableProps) {
     const { deleteProduct, isDeleting } = useDeleteProduct();
 
     const totalPages = Math.ceil(count / pageSize);
+    const hasSearch = searchQuery !== "";
+    const isEmpty = !isLoading && products.length === 0 && !error;
 
     const handleDelete = async (id: number) => {
         try {
@@ -52,7 +61,12 @@ export default function ProductTable({ searchQuery }: ProductTableProps) {
             refetch();
         } catch (err) {
             console.log(err);
-            // handled in hook
+        }
+    };
+
+    const handleResetSearch = () => {
+        if (onResetSearch) {
+            onResetSearch();
         }
     };
 
@@ -71,6 +85,17 @@ export default function ProductTable({ searchQuery }: ProductTableProps) {
                     تلاش مجدد
                 </button>
             </div>
+        );
+    }
+
+    if (isEmpty) {
+        return (
+            <ProductTableEmptyState
+                hasSearch={hasSearch}
+                searchQuery={searchQuery}
+                onReset={handleResetSearch}
+                hasAccess={hasAccess}
+            />
         );
     }
 
@@ -109,7 +134,11 @@ export default function ProductTable({ searchQuery }: ProductTableProps) {
                                     </span>
                                 </div>
                             </TableCell>
-                            <TableCell >{product.description ? product.description.slice(0, 20) : "-"}</TableCell>
+                            <TableCell>
+                                {product.description
+                                    ? product.description.slice(0, 20)
+                                    : "-"}
+                            </TableCell>
                             <TableCell className="text-right whitespace-nowrap">
                                 {product.price.toLocaleString()} تومان
                             </TableCell>
