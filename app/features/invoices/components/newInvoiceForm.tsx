@@ -1,7 +1,10 @@
+// features/invoices/components/NewInvoiceForm.tsx
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Package } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormProvider } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 import { useCustomers } from "@/features/customers/hooks/useCustomers";
@@ -26,6 +29,7 @@ import ProductMultiSelect from "./invoiceForm/productMultiSelect";
 import VatAndDiscountSection from "./invoiceForm/vatAndDiscountSection";
 
 export default function NewInvoiceForm() {
+    const navigate = useNavigate();
     const [vatEnabled, setVatEnabled] = useState(false);
 
     const methods = useForm<InvoiceFormType>({
@@ -59,8 +63,6 @@ export default function NewInvoiceForm() {
     const watchedItems = watch("items");
     const addedValue = watch("added_value");
 
-    // Fetch all data
-
     // calculate VAT
     useEffect(() => {
         if (!vatEnabled) {
@@ -74,7 +76,7 @@ export default function NewInvoiceForm() {
             return sum + price * qty;
         }, 0);
 
-        setValue("added_value", Math.floor(totalPrice * 0.1)); //10%
+        setValue("added_value", Math.floor(totalPrice * 0.1));
     }, [vatEnabled, watchedItems, setValue]);
 
     const handleProductAdd = (product: any) => {
@@ -97,12 +99,37 @@ export default function NewInvoiceForm() {
             console.error("error:", error);
         }
     };
+
     if (isLoading) {
         return <LoadingSpinner />;
     }
-    if (products.length === 0) return <div className="">
-        کالایی برای ایجاد فاکتور ندارید لطفا ابتدا از سربرگ کالاها محصولات خود را اضافه کنید !
-    </div>;
+
+    // اگر محصولی وجود نداشت، پیام مناسب با دکمه رفتن به صفحه محصولات
+    if (products.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="w-20 h-20 mx-auto rounded-full bg-muted flex items-center justify-center mb-4">
+                    <Package className="w-10 h-10 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">
+                    کالایی برای ایجاد فاکتور ندارید
+                </h3>
+                <p className="text-muted-foreground max-w-sm mb-6">
+                    لطفاً ابتدا محصولات خود را اضافه کنید، سپس فاکتور خود را ثبت
+                    نمایید
+                </p>
+                <div className="flex gap-3">
+                    <Link to="/products">
+                        <Button variant="default">رفتن به صفحه کالاها</Button>
+                    </Link>
+                    <Button variant="outline" onClick={() => navigate(-1)}>
+                        بازگشت
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
