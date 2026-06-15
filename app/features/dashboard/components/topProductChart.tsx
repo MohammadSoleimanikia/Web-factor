@@ -1,5 +1,5 @@
+// features/dashboard/components/TopProductsChart.tsx
 "use client";
-import { TrendingUp } from "lucide-react";
 import { Cell, LabelList, Pie, PieChart } from "recharts";
 
 import {
@@ -15,7 +15,7 @@ import {
     ChartTooltipContent,
 } from "@/features/shared/components/ui/chart";
 
-export const description = "A pie chart with a label list";
+import { EmptyChartState } from "./EmptyChartState";
 
 const chartConfig = {} satisfies ChartConfig;
 
@@ -35,26 +35,14 @@ const getFillColor = (index: number) => {
 export function TopProductsChart({ chartData }: TopProductsChartProps) {
     if (!chartData || chartData.length === 0) {
         return (
-            <Card className="flex flex-col h-full">
-                <CardHeader className="items-center pb-0">
-                    <CardTitle>روند فروش</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col items-center justify-center py-12">
-                    <div className="text-center space-y-3">
-                        <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center">
-                            <TrendingUp className="w-8 h-8 text-muted-foreground" />
-                        </div>
-                        <p className="text-muted-foreground">
-                            هنوز داده‌ای برای نمایش وجود ندارد
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                            پس از ثبت فاکتورها، آمار اینجا نمایش داده می‌شود
-                        </p>
-                    </div>
-                </CardContent>
-            </Card>
+            <EmptyChartState
+                title="محصولات پرفروش"
+                message="هنوز محصولی فروخته نشده است"
+                hint="پس از فروش محصولات، آمار اینجا نمایش داده می‌شود"
+            />
         );
     }
+
     return (
         <Card className="flex flex-col">
             <CardHeader className="items-center pb-0">
@@ -89,7 +77,6 @@ export function TopProductsChart({ chartData }: TopProductsChartProps) {
                                     fill={getFillColor(index)}
                                 />
                             ))}
-
                             <LabelList
                                 dataKey="product__name"
                                 className="fill-background"
