@@ -45,10 +45,8 @@ export default function SubscriptionPage() {
     };
 
     const handlePurchase = async (planId: number) => {
-        console.log("🟡 Plan ID clicked:", planId);
         try {
-            const result = await purchasePlan(planId);
-            console.log("🟢 Purchase result:", result);
+             await purchasePlan(planId);
         } catch (err) {
             console.error("🔴 Purchase error:", err);
         }

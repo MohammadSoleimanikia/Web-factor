@@ -13,7 +13,6 @@ export function usePurchasePlan() {
     
     return useMutation({
         mutationFn: async (planId: number) => {
-            console.log("🟡 Sending purchase request for plan:", planId);
 
             const response = await apiFetch<PurchasePlanResponse>(
                 "/account/purchaseplan/",
@@ -23,7 +22,6 @@ export function usePurchasePlan() {
                 },
             );
 
-            console.log("🟢 Gateway URL received:", response);
             return response;
         },
         onSuccess: (data) => {
@@ -53,14 +51,12 @@ export function useVerifyPayment() {
     
     return useMutation({
         mutationFn: async (authority: string) => {
-            console.log("🟡 Verifying payment with authority:", authority);
             
             const response = await apiFetch<VerifyPaymentResponse>("/account/verifypayment/", {
                 method: "POST",
                 body: JSON.stringify({ authority }),
             });
             
-            console.log("🟢 Verify response:", response);
             return response;
         },
         onSuccess: (data) => {

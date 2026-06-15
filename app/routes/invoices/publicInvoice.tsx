@@ -43,7 +43,6 @@ export default function PublicInvoice() {
                     `/api/public/invoices/${invoiceToken}/`,
                 );
 
-                console.log(response);
                 // Extract invoice from nested structure
                 const invoiceData = response.invoice;
 

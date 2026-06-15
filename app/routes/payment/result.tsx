@@ -28,8 +28,7 @@ export default function PaymentResultPage() {
             const authority = searchParams.get("Authority");
             const status = searchParams.get("Status");
 
-            console.log("Authority:", authority);
-            console.log("Status:", status);
+            
 
             if (authority) {
                 if (status === "OK") {

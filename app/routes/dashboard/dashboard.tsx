@@ -29,7 +29,6 @@ export default function Dashboard() {
     if (isLoading) return <LoadingSpinner />;
 
     // نام کاربر برای خوش‌آمدگویی
-    console.log(profile);
     const fullName =
         [profile?.first_name, profile?.last_name].filter(Boolean).join(" ") ||
         "کاربر";
