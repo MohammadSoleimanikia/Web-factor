@@ -1,4 +1,3 @@
-// src/components/invoices/invoiceTable.tsx
 import clsx from "clsx";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -29,6 +28,7 @@ import {
 } from "../../shared/components/ui/pagination";
 import InvoiceActions from "./invoiceActions";
 import InvoiceSkeleton from "./invoiceSkeleton";
+import { InvoiceTableEmptyState } from "./InvoiceTableEmptyState";
 
 interface InvoiceTableProps {
     searchQuery: string;
@@ -43,7 +43,6 @@ export default function InvoiceTable({
     const [page, setPage] = useState(1);
     const pageSize = 20;
 
-    // 📦 Fetch data
     const { invoices, count, isLoading, error, refetch } = useInvoices({
         page,
         pageSize,
@@ -51,15 +50,21 @@ export default function InvoiceTable({
         status,
     });
 
-    // 🗑️ Mutations
     const { mutateAsync: deleteInvoice, isPending: isDeleting } =
         useDeleteInvoice();
     const { mutateAsync: markAsPaid, isPending: isPaying } =
         useMarkInvoiceAsPaid();
 
     const totalPages = Math.ceil(count / pageSize);
+    const hasFilters = searchQuery !== "" || status !== "all";
+    const isEmpty = !isLoading && invoices.length === 0 && !error;
 
-    // 🗑️ Handle Delete
+    const handleResetFilters = () => {
+        // اینجا باید فیلترها را ریست کنید
+        // از طریق props به parent کامپوننت
+        window.location.reload(); // یا روش بهتر: فراخوانی تابع ریست از parent
+    };
+
     const handleDelete = async (
         id: string,
         invoiceStatus: string | undefined,
@@ -79,7 +84,6 @@ export default function InvoiceTable({
         }
     };
 
-    // ✏️ Handle Edit
     const handleEdit = (id: string, invoiceStatus: string | undefined) => {
         if (invoiceStatus === "paid") {
             toast.error("فاکتور پرداخت شده را نمی‌توان ویرایش کرد");
@@ -88,7 +92,6 @@ export default function InvoiceTable({
         navigate(`/invoices/edit/${id}`);
     };
 
-    // 💰 Handle Mark as Paid
     const handlePaid = async (
         id: string,
         invoiceStatus: string | undefined,
@@ -123,6 +126,17 @@ export default function InvoiceTable({
                     تلاش مجدد
                 </button>
             </div>
+        );
+    }
+
+    if (isEmpty) {
+        return (
+            <InvoiceTableEmptyState
+                hasFilters={hasFilters}
+                searchQuery={searchQuery}
+                status={status}
+                onReset={handleResetFilters}
+            />
         );
     }
 

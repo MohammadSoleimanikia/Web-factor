@@ -68,7 +68,7 @@ export default function Header({
     };
 
     return (
-        <header className="mx-5 space-y-4">
+        <header className="mx-5 mb-5 space-y-4">
             <h1 className="text-right text-2xl font-bold">فاکتور ها</h1>
 
             <div className="flex flex-wrap items-center justify-between gap-4">
