@@ -199,7 +199,6 @@ export default function CustomerReports() {
                 </Button>
                 <div>
                     <h1 className="text-3xl font-bold">گزارشات مشتری</h1>
-                    <p className="text-muted-foreground">{customer?.name}</p>
                 </div>
             </div>
 
