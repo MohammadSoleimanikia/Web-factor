@@ -1,6 +1,8 @@
+// features/products/components/AddProductModal.tsx
 import num2persian from "num2persian";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 
 import { useCreateProduct } from "@/features/products/hooks/useCreateProduct";
 import type { ProductCreate } from "@/features/products/types/product";
@@ -15,10 +17,13 @@ import {
 
 import { Button } from "../../shared/components/ui/button";
 import { Input } from "../../shared/components/ui/input";
+import { Label } from "../../shared/components/ui/label";
 import { Textarea } from "../../shared/components/ui/textarea";
+
 interface AddProductModalProps {
     disabled?: boolean;
 }
+
 export default function AddProductModal({
     disabled = false,
 }: AddProductModalProps) {
@@ -30,9 +35,18 @@ export default function AddProductModal({
         handleSubmit,
         reset,
         setError,
+        control,
         formState: { errors, isSubmitting },
-    } = useForm<ProductCreate>();
+    } = useForm<ProductCreate>({
+        defaultValues: {
+            price: 0,
+            buy: 0,
+            stock_quantity: 0,
+        },
+    });
+
     const { createProduct, isCreating } = useCreateProduct();
+
     const onSubmit = async (data: ProductCreate) => {
         try {
             await createProduct(data);
@@ -41,7 +55,6 @@ export default function AddProductModal({
             setBuyPersian("");
         } catch (err: any) {
             console.error(err);
-
             if (err?.message?.length) {
                 setError("root", {
                     type: "custom",
@@ -61,19 +74,24 @@ export default function AddProductModal({
             <DialogTrigger asChild>
                 <Button disabled={disabled}>افزودن کالا</Button>
             </DialogTrigger>
-            <DialogContent className="font-vazir">
+            <DialogContent className="font-vazir max-w-lg max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>افزودن کالا</DialogTitle>
                     <DialogDescription>
                         جهت افزودن کالای جدید فرم زیر را تکمیل کنید
                     </DialogDescription>
                 </DialogHeader>
+
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {/* Product Name */}
+                    {/* نام کالا */}
                     <div className="space-y-1.5">
+                        <Label htmlFor="name" className="text-sm font-medium">
+                            نام کالا <span className="text-red-500">*</span>
+                        </Label>
                         <Input
+                            id="name"
                             type="text"
-                            placeholder="نام کالا"
+                            placeholder="مثال: گوشی سامسونگ A54"
                             className={errors.name ? "border-red-500" : ""}
                             {...register("name", {
                                 required: "نام کالا الزامی است",
@@ -93,11 +111,19 @@ export default function AddProductModal({
                             </p>
                         )}
                     </div>
-                    {/* Stock Quantity */}
+
+                    {/* موجودی */}
                     <div className="space-y-1.5">
+                        <Label
+                            htmlFor="stock_quantity"
+                            className="text-sm font-medium"
+                        >
+                            موجودی <span className="text-red-500">*</span>
+                        </Label>
                         <Input
+                            id="stock_quantity"
                             type="number"
-                            placeholder="موجودی"
+                            placeholder="مثال: ۱۰۰"
                             className={
                                 errors.stock_quantity ? "border-red-500" : ""
                             }
@@ -115,10 +141,18 @@ export default function AddProductModal({
                             </p>
                         )}
                     </div>
-                    {/* Description */}
+
+                    {/* توضیحات */}
                     <div className="space-y-1.5">
+                        <Label
+                            htmlFor="description"
+                            className="text-sm font-medium"
+                        >
+                            توضیحات
+                        </Label>
                         <Textarea
-                            placeholder="توضیحات"
+                            id="description"
+                            placeholder="توضیحات کالا (اختیاری)"
                             className={
                                 errors.description ? "border-red-500" : ""
                             }
@@ -139,65 +173,130 @@ export default function AddProductModal({
                             </p>
                         )}
                     </div>
-                    {/* Price & Buy Price Grid */}
+
+                    {/* قیمت فروش و قیمت خرید */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Price */}
+                        {/* قیمت فروش */}
                         <div className="space-y-1.5">
-                            <Input
-                                type="number"
-                                placeholder="قیمت فروش"
-                                className={errors.price ? "border-red-500" : ""}
-                                {...register("price", {
+                            <Label
+                                htmlFor="price"
+                                className="text-sm font-medium"
+                            >
+                                قیمت فروش{" "}
+                                <span className="text-red-500">*</span>
+                            </Label>
+                            <Controller
+                                name="price"
+                                control={control}
+                                rules={{
                                     required: "قیمت الزامی است",
                                     min: { value: 1, message: "حداقل ۱" },
-                                })}
-                                onChange={(e) => {
-                                    setPricePersian(
-                                        num2persian(e.target.value),
-                                    );
                                 }}
+                                render={({ field, fieldState: { error } }) => (
+                                    <>
+                                        <NumericFormat
+                                            id="price"
+                                            value={field.value}
+                                            thousandSeparator=","
+                                            decimalSeparator="."
+                                            placeholder="مثال: 15,500,000"
+                                            className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary ${
+                                                error
+                                                    ? "border-red-500"
+                                                    : "border-input"
+                                            }`}
+                                            onValueChange={(values) => {
+                                                const rawValue =
+                                                    values.floatValue || 0;
+                                                field.onChange(rawValue);
+                                                setPricePersian(
+                                                    num2persian(
+                                                        String(rawValue),
+                                                    ),
+                                                );
+                                            }}
+                                        />
+                                        {pricePersian && (
+                                            <p className="text-green-600 text-xs font-medium">
+                                                ✓ {pricePersian} تومان
+                                            </p>
+                                        )}
+                                        {error && (
+                                            <p className="text-red-500 text-xs font-medium">
+                                                ⚠️ {error.message}
+                                            </p>
+                                        )}
+                                    </>
+                                )}
                             />
-                            {pricePersian && (
-                                <p className="text-green-600 text-xs font-medium">
-                                    ✓ {pricePersian} تومان
-                                </p>
-                            )}
-                            {errors.price && (
-                                <p className="text-red-500 text-xs font-medium">
-                                    ⚠️ {errors.price.message}
-                                </p>
-                            )}
                         </div>
 
-                        {/* Buy Price */}
+                        {/* قیمت خرید */}
                         <div className="space-y-1.5">
-                            <Input
-                                type="number"
-                                placeholder="قیمت خرید"
-                                className={errors.buy ? "border-red-500" : ""}
-                                {...register("buy", {
+                            <Label
+                                htmlFor="buy"
+                                className="text-sm font-medium"
+                            >
+                                قیمت خرید{" "}
+                                <span className="text-red-500">*</span>
+                            </Label>
+                            <Controller
+                                name="buy"
+                                control={control}
+                                rules={{
                                     required: "قیمت خرید الزامی است",
                                     min: { value: 1, message: "حداقل ۱" },
-                                })}
-                                onChange={(e) => {
-                                    setBuyPersian(num2persian(e.target.value));
                                 }}
+                                render={({ field, fieldState: { error } }) => (
+                                    <>
+                                        <NumericFormat
+                                            id="buy"
+                                            value={field.value}
+                                            thousandSeparator=","
+                                            decimalSeparator="."
+                                            placeholder="مثال: 12,000,000"
+                                            className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary ${
+                                                error
+                                                    ? "border-red-500"
+                                                    : "border-input"
+                                            }`}
+                                            onValueChange={(values) => {
+                                                const rawValue =
+                                                    values.floatValue || 0;
+                                                field.onChange(rawValue);
+                                                setBuyPersian(
+                                                    num2persian(
+                                                        String(rawValue),
+                                                    ),
+                                                );
+                                            }}
+                                        />
+                                        {buyPersian && (
+                                            <p className="text-green-600 text-xs font-medium">
+                                                ✓ {buyPersian} تومان
+                                            </p>
+                                        )}
+                                        {error && (
+                                            <p className="text-red-500 text-xs font-medium">
+                                                ⚠️ {error.message}
+                                            </p>
+                                        )}
+                                    </>
+                                )}
                             />
-                            {buyPersian && (
-                                <p className="text-green-600 text-xs font-medium">
-                                    ✓ {buyPersian} تومان
-                                </p>
-                            )}
-                            {errors.buy && (
-                                <p className="text-red-500 text-xs font-medium">
-                                    ⚠️ {errors.buy.message}
-                                </p>
-                            )}
                         </div>
                     </div>
-                    {/* Barcode */}
+
+                    {/* بارکد */}
                     <div className="space-y-1.5">
+                        <Label
+                            htmlFor="barcode"
+                            className="text-sm font-medium"
+                        >
+                            بارکد کالا
+                        </Label>
                         <Input
+                            id="barcode"
                             type="text"
                             placeholder="بارکد کالا (اختیاری)"
                             className={errors.barcode ? "border-red-500" : ""}
@@ -218,7 +317,8 @@ export default function AddProductModal({
                             </p>
                         )}
                     </div>
-                    {/* Global Error */}
+
+                    {/* خطای عمومی */}
                     {errors.root && (
                         <div className="bg-red-50 border border-red-200 rounded-md p-3">
                             <p className="text-red-700 text-sm font-medium">
@@ -227,7 +327,7 @@ export default function AddProductModal({
                         </div>
                     )}
 
-                    {/* Submit Button */}
+                    {/* دکمه ارسال */}
                     <Button
                         type="submit"
                         disabled={isCreating || isSubmitting}
