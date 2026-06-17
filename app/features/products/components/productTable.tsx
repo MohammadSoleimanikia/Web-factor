@@ -134,7 +134,9 @@ export default function ProductTable({
                             </TableCell>
                             <TableCell>
                                 {product.description
-                                    ? product.description.slice(0, 20)
+                                    ? product.description.length > 20
+                                        ? product.description.slice(0, 20) + "..."
+                                        : product.description
                                     : "-"}
                             </TableCell>
                             <TableCell className="text-right whitespace-nowrap">
