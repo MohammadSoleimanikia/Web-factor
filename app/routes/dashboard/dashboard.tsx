@@ -1,5 +1,5 @@
 // routes/dashboard/dashboard.tsx
-import { FileText, Package, UserCircle, Users } from "lucide-react";
+import { FileText, Package, Users } from "lucide-react";
 import { Link } from "react-router";
 
 import PendingInvoicesTable from "@/features/dashboard/components/pendingInvoicesTable";
@@ -10,6 +10,7 @@ import { TrendChart } from "@/features/dashboard/components/trendChart";
 import { useDashboardStats } from "@/features/dashboard/hooks/useDashboardStats";
 import { usePendingInvoices } from "@/features/dashboard/hooks/usePendingInvoices";
 import { useRecentInvoices } from "@/features/dashboard/hooks/useRecentInvoices";
+import { Alert, AlertDescription } from "@/features/shared/components/ui/alert";
 import { Button } from "@/features/shared/components/ui/button";
 import LoadingSpinner from "@/features/shared/components/ui/loadingSpinner";
 import { useHasActiveSubscription } from "@/features/subscription/hooks/useSubscription";
@@ -27,6 +28,15 @@ export default function Dashboard() {
     const isLoading = statsLoading || recentLoading || pendingLoading;
 
     if (isLoading) return <LoadingSpinner />;
+    const isProfileComplete = () => {
+        const requiredFields = [
+            profile?.first_name,
+            profile?.last_name,
+            profile?.phone_number,
+            profile?.profile?.store_name,
+        ];
+        return requiredFields.every((field) => field && field.trim() !== "");
+    };
 
     // نام کاربر برای خوش‌آمدگویی
     const fullName =
@@ -47,7 +57,22 @@ export default function Dashboard() {
                     </p>
                 )}
             </div>
-
+            {!isProfileComplete() && (
+                <Alert className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20">
+                    <AlertDescription className= " flex items-center text-yellow-800 dark:text-yellow-300">
+                        ⚠️ پروفایل شما ناقص است. لطفاً اطلاعات خود را تکمیل
+                        کنید.
+                        <Link to="/profile">
+                            <Button
+                                variant="ghost"
+                                size="lg"
+                            >
+                                تکمیل پروفایل
+                            </Button>
+                        </Link>
+                    </AlertDescription>
+                </Alert>
+            )}
             {/* CTA Buttons - برای کاربران دارای اشتراک */}
             {hasAccess && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 mt-6">
@@ -75,16 +100,6 @@ export default function Dashboard() {
                         >
                             <Users className="w-4 h-4" />
                             ثبت مشتری
-                        </Button>
-                    </Link>
-                    <Link to="/profile">
-                        <Button
-                            variant="outline"
-                            className="w-full gap-2"
-                            size="lg"
-                        >
-                            <UserCircle className="w-4 h-4" />
-                            تکمیل پروفایل
                         </Button>
                     </Link>
                 </div>
