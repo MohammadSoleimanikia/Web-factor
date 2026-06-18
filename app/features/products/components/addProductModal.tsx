@@ -123,6 +123,7 @@ export default function AddProductModal({
                         <Input
                             id="stock_quantity"
                             type="number"
+                            step="any"
                             placeholder="مثال: ۱۰۰"
                             className={
                                 errors.stock_quantity ? "border-red-500" : ""

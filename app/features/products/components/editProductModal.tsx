@@ -141,6 +141,7 @@ export default function EditProductModal({ product }: EditProductModalProps) {
                         </Label>
                         <Input
                             id="stock_quantity"
+                            step="any"
                             type="number"
                             defaultValue={product.stock_quantity}
                             placeholder="مثال: ۱۰۰"
