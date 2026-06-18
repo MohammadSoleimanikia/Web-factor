@@ -135,7 +135,8 @@ export default function ProductTable({
                             <TableCell>
                                 {product.description
                                     ? product.description.length > 20
-                                        ? product.description.slice(0, 20) + "..."
+                                        ? product.description.slice(0, 20) +
+                                          "..."
                                         : product.description
                                     : "-"}
                             </TableCell>
@@ -143,7 +144,7 @@ export default function ProductTable({
                                 {product.price.toLocaleString()} تومان
                             </TableCell>
                             <TableCell className="text-right whitespace-nowrap">
-                                {product.buy.toLocaleString()} تومان
+                                {product.last_buy_price.toLocaleString()} تومان
                             </TableCell>
                             <TableCell className="space-x-2">
                                 <DeleteConfirm
