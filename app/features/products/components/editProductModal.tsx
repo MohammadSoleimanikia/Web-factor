@@ -43,7 +43,7 @@ export default function EditProductModal({ product }: EditProductModalProps) {
             name: product.name,
             description: product.description,
             price: product.price,
-            buy: product.buy,
+            last_buy_price: product.last_buy_price,
             stock_quantity: product.stock_quantity,
             barcode: product.barcode,
         },
@@ -56,12 +56,12 @@ export default function EditProductModal({ product }: EditProductModalProps) {
             name: product.name,
             description: product.description,
             price: product.price,
-            buy: product.buy,
+            last_buy_price: product.last_buy_price,
             stock_quantity: product.stock_quantity,
             barcode: product.barcode,
         });
         setPricePersian(num2persian(String(product.price)));
-        setBuyPersian(num2persian(String(product.buy)));
+        setBuyPersian(num2persian(String(product.last_buy_price)));
     }, [product, reset]);
 
     const onSubmit = async (data: ProductCreate) => {
@@ -262,7 +262,7 @@ export default function EditProductModal({ product }: EditProductModalProps) {
                                 <span className="text-red-500">*</span>
                             </Label>
                             <Controller
-                                name="buy"
+                                name="last_buy_price"
                                 control={control}
                                 rules={{
                                     required: "قیمت خرید الزامی است",

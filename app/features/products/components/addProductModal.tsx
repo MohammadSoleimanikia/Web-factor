@@ -40,7 +40,7 @@ export default function AddProductModal({
     } = useForm<ProductCreate>({
         defaultValues: {
             price: 0,
-            buy: 0,
+            last_buy_price: 0,
             stock_quantity: 0,
         },
     });
@@ -241,7 +241,7 @@ export default function AddProductModal({
                                 <span className="text-red-500">*</span>
                             </Label>
                             <Controller
-                                name="buy"
+                                name="last_buy_price"
                                 control={control}
                                 rules={{
                                     required: "قیمت خرید الزامی است",
