@@ -1,5 +1,7 @@
 import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 
+import type { User } from "@/features/auth/types/user.type";
+import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import {
     Table,
     TableBody,
@@ -11,8 +13,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/features/shared/components/ui/tooltip";
-import type { User } from "@/features/auth/types/user.type";
-import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import { generateBrandingColors } from "@/lib/brandingColors";
 import { buildLogoUrl, phoneFormatter } from "@/lib/utils";
 import useAuth from "@/store/auth";
@@ -129,10 +129,10 @@ export default function Classic({ invoice, user }: invoiceProps) {
                                         {item.quantity}
                                     </td>
                                     <td className="border border-gray-300 p-2 text-right">
-                                        {item.unitPrice}
+                                        {item.unitPrice.toLocaleString()}
                                     </td>
                                     <td className="border border-gray-300 p-2 text-right">
-                                        {item.total}
+                                        {item.total.toLocaleString()}
                                     </td>
                                 </TableRow>
                             ))}
@@ -141,30 +141,39 @@ export default function Classic({ invoice, user }: invoiceProps) {
                 </div>
                 <div className="mt-10 space-y-2">
                     {invoice.added_value > 0 && (
-                        <p>
-                            <span className="font-semibold pl-2">
+                        <p className="flex justify-between items-center py-1">
+                            <span className="font-medium text-muted-foreground">
                                 مالیات بر ارزش افزوده (۱۰٪):
                             </span>
-                            <span>{invoice.added_value}</span>
-                        </p>
-                    )}
-                    {invoice.discount > 0 && (
-                        <p>
-                            <span className="font-semibold pl-2">تخفیف:</span>
-                            <span>{invoice.discount}</span>
+                            <span className="font-semibold">
+                                {invoice.added_value.toLocaleString()} تومان
+                            </span>
                         </p>
                     )}
 
-                    <p>
-                        <span className="font-semibold pl-2">مجموع:</span>
-                        <span>{invoice.total}</span>
+                    {invoice.discount > 0 && (
+                        <p className="flex  items-center py-1">
+                            <span className="font-medium text-muted-foreground">
+                                تخفیف:
+                            </span>
+                                {invoice.discount.toLocaleString()} تومان
+                        </p>
+                    )}
+
+                    <p className="flex  items-center py-2 border-t border-gray-200 dark:border-gray-700 mt-2 pt-3">
+                        <span className="text-lg font-bold text-primary">
+                            مجموع:
+                        </span>
+                        <span className="text-xl font-bold text-primary">
+                            {invoice.total.toLocaleString()} تومان
+                        </span>
                     </p>
                     <p>
                         <span className="font-semibold pl-2">
                             {" "}
                             مجموع به حروف:
                         </span>
-                        <span>{invoice.totalText}</span>
+                        <span>{invoice.totalText} تومان</span>
                     </p>
                     <p>
                         <span className="font-semibold">وضعیت: </span>
@@ -177,7 +186,7 @@ export default function Classic({ invoice, user }: invoiceProps) {
                     </p>
                 </div>
                 {invoice.descriptions !== "" && (
-                    <div className="mt-5 border-2 border-dashed bg-slate-200 dark:bg-slate-700 p-3">
+                    <div className="mt-5 border-2 border-dashed bg-slate-200 dark:bg-slate-700 print:dark:bg-slate-200 p-3">
                         <span className="font-semibold ">توضیحات: </span>
                         {invoice.descriptions}
                     </div>

@@ -1,5 +1,7 @@
 import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 
+import type { User } from "@/features/auth/types/user.type";
+import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import {
     Table,
     TableBody,
@@ -11,8 +13,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/features/shared/components/ui/tooltip";
-import type { User } from "@/features/auth/types/user.type";
-import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import { generateBrandingColors } from "@/lib/brandingColors";
 import { buildLogoUrl, phoneFormatter } from "@/lib/utils";
 import useAuth from "@/store/auth";
@@ -37,7 +37,7 @@ export default function Minimal({ invoice, user }: invoiceProps) {
             <header className="flex justify-between pb-8">
                 <div className="mt-3 space-y-5">
                     <div>
-                        <p className="text-2xl font-bold">
+                        <p className="text-2xl  font-bold">
                             <span className="font-semibold">شماره فاکتور:</span>
                             <span>{invoice.invoiceNumber}</span>
                         </p>
@@ -128,10 +128,10 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                                         {item.quantity}
                                     </td>
                                     <td className="p-2 text-right">
-                                        {item.unitPrice}
+                                        {item.unitPrice.toLocaleString()}
                                     </td>
                                     <td className="p-2 text-right">
-                                        {item.total}
+                                        {item.total.toLocaleString()}
                                     </td>
                                 </TableRow>
                             ))}
@@ -150,7 +150,7 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                                 <span className="font-semibold pl-2">
                                     مالیات بر ارزش افزوده (۱۰٪):
                                 </span>
-                                <span>{invoice.added_value}</span>
+                                <span>{invoice.added_value.toLocaleString()} تومان</span>
                             </p>
                         )}
                         {invoice.discount > 0 && (
@@ -158,19 +158,19 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                                 <span className="font-semibold pl-2">
                                     تخفیف:
                                 </span>
-                                <span>{invoice.discount}</span>
+                                <span>{invoice.discount.toLocaleString()} تومان</span>
                             </p>
                         )}
                         <p>
                             <span className="font-semibold pl-2">مجموع:</span>
-                            <span>{invoice.total}</span>
+                            <span>{invoice.total.toLocaleString()} تومان</span>
                         </p>
                         <p>
                             <span className="font-semibold pl-2">
                                 {" "}
                                 مجموع به حروف:
                             </span>
-                            <span>{invoice.totalText}</span>
+                            <span>{invoice.totalText} تومان</span>
                         </p>
                     </div>
                     <p>
@@ -183,7 +183,7 @@ export default function Minimal({ invoice, user }: invoiceProps) {
                         <span>{invoice.paymentText}</span>
                     </p>
                     {invoice.descriptions !== "" && (
-                        <div className="mt-5 border-2 border-dashed bg-slate-200  dark:bg-slate-700 p-3">
+                        <div className="mt-5 border-2 border-dashed bg-slate-200  dark:bg-slate-700 print:dark:bg-slate-200 p-3">
                             <span className="font-semibold ">توضیحات: </span>
                             {invoice.descriptions}
                         </div>

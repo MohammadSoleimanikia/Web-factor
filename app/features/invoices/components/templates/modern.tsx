@@ -1,5 +1,7 @@
 import { Instagram, MapPinHouse, PhoneCall } from "lucide-react";
 
+import type { User } from "@/features/auth/types/user.type";
+import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import {
     Table,
     TableBody,
@@ -11,8 +13,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/features/shared/components/ui/tooltip";
-import type { User } from "@/features/auth/types/user.type";
-import type { InvoiceViewModel } from "@/features/invoices/types/invoicePreview.type";
 import { generateBrandingColors } from "@/lib/brandingColors";
 import { buildLogoUrl, phoneFormatter } from "@/lib/utils";
 import useAuth from "@/store/auth";
@@ -34,7 +34,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
         <div className="w-[210mm] min-h-[297mm] shrink-0 mx-auto bg-white dark:bg-muted  print:dark:bg-white  flex print:page-break-inside-avoid">
             <section className=" w-9/12 p-5 flex flex-col justify-between">
                 <div>
-                    <p className="flex flex-col w-fit mb-20 ">
+                    <p className="flex gap-5 items-center w-fit mb-10 ">
                         <span className="font-semibold">شماره فاکتور:</span>
                         <span
                             className="p-1 text-center print:bg-gray-200 print:text-black"
@@ -46,7 +46,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                             {invoice.invoiceNumber}
                         </span>
                     </p>
-                    <p className="mb-10">
+                    <p className="mb-10 flex gap-5">
                         <span className="font-semibold">تاریخ ایجاد: </span>
                         <span>{invoice.createdAt}</span>
                     </p>
@@ -84,10 +84,10 @@ export default function Modern({ invoice, user }: invoiceProps) {
                                         {item.quantity}
                                     </td>
                                     <td className="border border-gray-300 p-2 text-right">
-                                        {item.unitPrice}
+                                        {item.unitPrice.toLocaleString()}
                                     </td>
                                     <td className="border border-gray-300 p-2 text-right">
-                                        {item.total}
+                                        {item.total.toLocaleString()}
                                     </td>
                                 </TableRow>
                             ))}
@@ -99,7 +99,9 @@ export default function Modern({ invoice, user }: invoiceProps) {
                                 <span className="font-semibold pl-2">
                                     مالیات بر ارزش افزوده (۱۰٪):
                                 </span>
-                                <span>{invoice.added_value}</span>
+                                <span>
+                                    {invoice.added_value.toLocaleString()} تومان
+                                </span>
                             </p>
                         )}
                         {invoice.discount > 0 && (
@@ -107,19 +109,21 @@ export default function Modern({ invoice, user }: invoiceProps) {
                                 <span className="font-semibold pl-2">
                                     تخفیف:
                                 </span>
-                                <span>{invoice.discount}</span>
+                                <span>
+                                    {invoice.discount.toLocaleString()} تومان
+                                </span>
                             </p>
                         )}
                         <p>
                             <span className="font-semibold pl-2">مجموع:</span>
-                            <span>{invoice.total}</span>
+                            <span>{invoice.total.toLocaleString()} تومان</span>
                         </p>
                         <p>
                             <span className="font-semibold pl-2">
                                 {" "}
                                 مجموع به حروف:
                             </span>
-                            <span>{invoice.totalText}</span>
+                            <span>{invoice.totalText} تومان</span>
                         </p>
                         <p className="mt-5">
                             {" "}
@@ -135,7 +139,7 @@ export default function Modern({ invoice, user }: invoiceProps) {
                         </p>
                     </div>
                     {invoice.descriptions !== "" && (
-                        <div className="mt-5 border-2 border-dashed bg-slate-200  dark:bg-slate-700 p-3">
+                        <div className="mt-5 border-2 border-dashed bg-slate-200  dark:bg-slate-700 print:dark:bg-slate-200 p-3">
                             <span className="font-semibold ">توضیحات: </span>
                             {invoice.descriptions}
                         </div>
