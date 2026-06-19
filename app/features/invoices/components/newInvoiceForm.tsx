@@ -16,6 +16,7 @@ import { useProducts } from "@/features/products/hooks/useProducts";
 import { Button } from "@/features/shared/components/ui/button";
 import { Input } from "@/features/shared/components/ui/input";
 import { Label } from "@/features/shared/components/ui/label";
+import { Separator } from "@/features/shared/components/ui/separator";
 import { Textarea } from "@/features/shared/components/ui/textarea";
 
 import LoadingSpinner from "../../shared/components/ui/loadingSpinner";
@@ -133,61 +134,154 @@ export default function NewInvoiceForm() {
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                {/* عنوان فاکتور */}
-                <div className="space-y-3">
-                    <Label htmlFor="title">عنوان فاکتور</Label>
-                    <Input {...register("title")} id="title" />
-                    {errors.title && (
-                        <span className="text-red-500">
-                            {errors.title.message}
-                        </span>
-                    )}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                {/* بخش: اطلاعات فاکتور */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-1 rounded-full bg-primary" />
+                        <h2 className="text-lg font-semibold">اطلاعات فاکتور</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="title" className="text-sm font-medium">
+                                عنوان فاکتور <span className="text-red-500">*</span>
+                            </Label>
+                            <Input
+                                id="title"
+                                {...register("title")}
+                                placeholder="مثال: فاکتور فروش فروردین"
+                            />
+                            {errors.title && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.title.message}
+                                </span>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
-                {/* انتخاب محصولات */}
-                <div className="space-y-6 grid sm:grid-cols-2 gap-4">
-                    <ProductMultiSelect products={products} />
-                    <ProductBarcodeInput
-                        products={products}
-                        onProductAdd={handleProductAdd}
+                <Separator />
+
+                {/* بخش: انتخاب کالاها */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-1 rounded-full bg-primary" />
+                        <h2 className="text-lg font-semibold">انتخاب کالاها</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <ProductMultiSelect products={products} />
+                        <ProductBarcodeInput
+                            products={products}
+                            onProductAdd={handleProductAdd}
+                        />
+                    </div>
+                </div>
+
+                {/* جدول کالاها */}
+                {watchedItems.length > 0 && (
+                    <>
+                        <Separator />
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-6 w-1 rounded-full bg-primary" />
+                                    <h2 className="text-lg font-semibold">
+                                        کالاهای انتخاب شده
+                                    </h2>
+                                </div>
+                                <span className="text-sm text-muted-foreground">
+                                    {watchedItems.length} کالا
+                                </span>
+                            </div>
+                            <ItemsTable products={products} />
+                        </div>
+                    </>
+                )}
+
+                <Separator />
+
+                {/* بخش: اطلاعات مشتری */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-1 rounded-full bg-primary" />
+                        <h2 className="text-lg font-semibold">اطلاعات مشتری</h2>
+                    </div>
+                    <CustomerComboBox customers={customers} />
+                    <CustomerDetailsFields />
+                </div>
+
+                <Separator />
+
+                {/* بخش: توضیحات */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-1 rounded-full bg-primary" />
+                        <h2 className="text-lg font-semibold">توضیحات</h2>
+                    </div>
+                    <div className="space-y-2">
+                        <Textarea
+                            {...register("descriptions")}
+                            id="descriptions"
+                            placeholder="توضیحات اضافی برای فاکتور (اختیاری)"
+                            rows={3}
+                        />
+                        {errors.descriptions && (
+                            <span className="text-red-500 text-sm">
+                                {errors.descriptions.message}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                <Separator />
+
+                {/* بخش: وضعیت و روش پرداخت */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-1 rounded-full bg-primary" />
+                        <h2 className="text-lg font-semibold">وضعیت و روش پرداخت</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <InvoiceStatusSelect />
+                        <InvoicePaymentMethodSelect />
+                    </div>
+                </div>
+
+                <Separator />
+
+                {/* بخش: ارزش افزوده و تخفیف */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-1 rounded-full bg-primary" />
+                        <h2 className="text-lg font-semibold">ارزش افزوده و تخفیف</h2>
+                    </div>
+                    <VatAndDiscountSection
+                        vatEnabled={vatEnabled}
+                        onVatToggle={setVatEnabled}
+                        addedValue={addedValue}
                     />
                 </div>
 
-                {/* جدول محصولات */}
-                {watchedItems.length > 0 && <ItemsTable products={products} />}
-
-                {/* اطلاعات مشتری */}
-                <CustomerComboBox customers={customers} />
-                <CustomerDetailsFields />
-
-                {/* توضیحات */}
-                <div className="space-y-3">
-                    <Label htmlFor="descriptions">توضیحات</Label>
-                    <Textarea {...register("descriptions")} id="descriptions" />
-                    {errors.descriptions && (
-                        <span className="text-red-500">
-                            {errors.descriptions.message}
-                        </span>
-                    )}
+                {/* دکمه ارسال */}
+                <div className="flex justify-end gap-3 pt-4 border-t">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => navigate(-1)}
+                    >
+                        انصراف
+                    </Button>
+                    <Button type="submit" disabled={isPending} className="min-w-32">
+                        {isPending ? (
+                            <>
+                                <span className="animate-spin mr-2">⏳</span>
+                                در حال ساخت...
+                            </>
+                        ) : (
+                            "ساخت فاکتور"
+                        )}
+                    </Button>
                 </div>
-
-                {/* وضعیت و روش پرداخت */}
-                <div className="flex gap-5">
-                    <InvoiceStatusSelect />
-                    <InvoicePaymentMethodSelect />
-                </div>
-
-                {/* ارزش افزوده و تخفیف */}
-                <VatAndDiscountSection
-                    vatEnabled={vatEnabled}
-                    onVatToggle={setVatEnabled}
-                    addedValue={addedValue}
-                />
-
-                <Button type="submit" disabled={isPending}>
-                    {isPending ? "در حال ساخت..." : "ساخت فاکتور"}
-                </Button>
             </form>
         </FormProvider>
     );

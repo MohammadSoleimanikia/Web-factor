@@ -1,6 +1,7 @@
+// features/shared/components/ui/combobox.tsx
 "use client";
 
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import { CheckIcon, ChevronDown } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/features/shared/components/ui/button";
@@ -57,11 +58,19 @@ export function Combobox({
                     {value
                         ? items.find((i) => i.value === value)?.label
                         : placeholder}
-                    <ChevronsUpDownIcon className="ms-2 h-4 w-4 opacity-50" />
+                    <ChevronDown className="ms-2 h-4 w-4 opacity-50" />
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="w-full p-0">
+            <PopoverContent
+                className="p-0"
+                align="start"
+                sideOffset={4}
+                style={{
+                    width: "var(--radix-popover-trigger-width)",
+                    maxWidth: "var(--radix-popover-trigger-width)",
+                }}
+            >
                 <Command>
                     <CommandInput placeholder={searchPlaceholder} />
                     <CommandList>
