@@ -87,14 +87,6 @@ export function SubscriptionStatus() {
 
                 <div className="flex justify-between text-sm">
                     <div>
-                        <p className="text-muted-foreground">تاریخ شروع</p>
-                        <p>
-                            {dayjs(subscription.started_at).format(
-                                "YYYY/MM/DD",
-                            )}
-                        </p>
-                    </div>
-                    <div>
                         <p className="text-muted-foreground">تاریخ انقضا</p>
                         <p>
                             {dayjs(subscription.expires_at).format(
@@ -102,6 +94,15 @@ export function SubscriptionStatus() {
                             )}
                         </p>
                     </div>
+                    <div>
+                        <p className="text-muted-foreground">تاریخ شروع</p>
+                        <p>
+                            {dayjs(subscription.started_at).format(
+                                "YYYY/MM/DD",
+                            )}
+                        </p>
+                    </div>
+                    
                 </div>
             </CardContent>
         </Card>
