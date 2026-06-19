@@ -1,16 +1,27 @@
-import { Check, Eye, MoreHorizontalIcon, SquarePen, Trash } from "lucide-react";
+// components/invoices/invoiceActions.tsx
+import { Check, Eye, Share2, SquarePen, Trash } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 import { Button } from "../../shared/components/ui/button";
 import DeleteConfirm from "../../shared/components/ui/deleteConfirm";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "../../shared/components/ui/dropdown-menu";
-import SharePublicLinkDialog from "./sharePublicLinkDialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "../../shared/components/ui/dialog";
+import { Input } from "../../shared/components/ui/input";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "../../shared/components/ui/tooltip";
 
 type InvoiceActionsProps = {
     invoiceId: string;
@@ -23,6 +34,101 @@ type InvoiceActionsProps = {
     isPaying: boolean;
 };
 
+// کامپوننت SharePublicLinkDialog داخل همین فایل
+function SharePublicLinkDialog({ invoiceToken }: { invoiceToken: string }) {
+    const shareLink = `${window.location.origin}/public/${invoiceToken}`;
+
+    const copyToClipboard = async () => {
+        try {
+            await navigator.clipboard.writeText(shareLink);
+            toast.success("لینک فاکتور کپی شد");
+        } catch {
+            toast.error("خطا در کپی لینک");
+        }
+    };
+
+    return (
+        <Dialog>
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <DialogTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                            >
+                                <Share2 className="h-4 w-4" />
+                            </Button>
+                        </DialogTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                        <p>اشتراک لینک فاکتور</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>لینک اشتراک فاکتور</DialogTitle>
+                    <DialogDescription>
+                        لینک زیر را برای مشتری ارسال کنید
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="flex items-center gap-2">
+                    <Input value={shareLink} readOnly className="flex-1" />
+                    <Button onClick={copyToClipboard}>کپی</Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
+// کامپوننت ConfirmDialog برای تأیید پرداخت
+function ConfirmPaidDialog({
+    open,
+    onOpenChange,
+    onConfirm,
+    isPaying,
+}: {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    onConfirm: () => void;
+    isPaying: boolean;
+}) {
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>تغییر وضعیت به پرداخت شده</DialogTitle>
+                    <DialogDescription>
+                        آیا مطمئن هستید که می‌خواهید وضعیت این فاکتور را به
+                        "پرداخت شده" تغییر دهید؟
+                        <br />
+                        <span className="text-sm text-muted-foreground mt-2 block">
+                            این عمل قابل بازگشت نیست.
+                        </span>
+                    </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="gap-2">
+                    <Button
+                        variant="outline"
+                        onClick={() => onOpenChange(false)}
+                    >
+                        انصراف
+                    </Button>
+                    <Button
+                        onClick={onConfirm}
+                        disabled={isPaying}
+                        className="bg-green-600 hover:bg-green-700"
+                    >
+                        {isPaying ? "در حال تغییر..." : "تأیید و تغییر وضعیت"}
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
 export default function InvoiceActions({
     invoiceId,
     invoiceToken,
@@ -33,56 +139,115 @@ export default function InvoiceActions({
     isDeleting,
     isPaying,
 }: InvoiceActionsProps) {
-    return (
-        <>
-            <Link to={`/invoices/${invoiceId}`}>
-                <Button variant="outline" className="rounded-r-full">
-                    <Eye className="w-4 h-4" />
-                </Button>
-            </Link>
+    const [confirmPaidOpen, setConfirmPaidOpen] = useState(false);
+    const isPaid = invoiceStatus === "paid";
 
+    const handlePaidClick = () => {
+        if (isPaid) {
+            toast.error("فاکتور از قبل پرداخت شده است");
+            return;
+        }
+        setConfirmPaidOpen(true);
+    };
+
+    const handleConfirmPaid = async () => {
+        await handlePaid(invoiceId, invoiceStatus);
+        setConfirmPaidOpen(false);
+    };
+
+    return (
+        <div className="flex items-center gap-0.5">
+            {/* مشاهده فاکتور */}
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Link to={`/invoices/${invoiceId}`}>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                            >
+                                <Eye className="h-4 w-4" />
+                            </Button>
+                        </Link>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                        <p>مشاهده فاکتور</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+
+            {/* اشتراک لینک */}
             <SharePublicLinkDialog invoiceToken={invoiceToken} />
 
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        aria-label="More Options"
-                        className="rounded-l-full rounded-r-null"
-                    >
-                        <MoreHorizontalIcon />
-                    </Button>
-                </DropdownMenuTrigger>
+            {/* ویرایش فاکتور - فقط در حالت غیرپرداخت شده */}
+            {!isPaid && (
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                                onClick={() =>
+                                    handleEdit(invoiceId, invoiceStatus)
+                                }
+                                disabled={isDeleting || isPaying}
+                            >
+                                <SquarePen className="h-4 w-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom">
+                            <p>ویرایش فاکتور</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            )}
 
-                <DropdownMenuContent align="end">
-                    <DropdownMenuGroup>
-                        {/* ویرایش */}
-                        <DropdownMenuItem
-                            onClick={() => handleEdit(invoiceId, invoiceStatus)}
-                            className="flex justify-between"
-                            disabled={isDeleting || isPaying}
-                        >
-                            <SquarePen />
-                            ویرایش فاکتور
-                        </DropdownMenuItem>
+            {/* تغییر وضعیت به پرداخت شده */}
+            {!isPaid && (
+                <>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8"
+                                    onClick={handlePaidClick}
+                                    disabled={isDeleting || isPaying}
+                                >
+                                    <Check className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="bottom">
+                                <p>تغییر به پرداخت شده</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                        {/* تغییر وضعیت به پرداخت شده */}
-                        <DropdownMenuItem
-                            disabled={isPaying || isDeleting}
-                            onClick={() => handlePaid(invoiceId, invoiceStatus)}
-                            className="flex justify-between"
-                        >
-                            <Check />
-                            تغییر حالت به پرداخت شده
-                        </DropdownMenuItem>
+                    {/* دیالوگ تأیید پرداخت */}
+                    <ConfirmPaidDialog
+                        open={confirmPaidOpen}
+                        onOpenChange={setConfirmPaidOpen}
+                        onConfirm={handleConfirmPaid}
+                        isPaying={isPaying}
+                    />
+                </>
+            )}
 
-                        {/* حذف فاکتور */}
-                        <DropdownMenuItem
-                            disabled={isDeleting || isPaying}
-                            className="p-0"
-                            onSelect={(e) => e.preventDefault()}
-                        >
+            {/* اگر پرداخت شده، یک badge نمایش بده */}
+            {isPaid && (
+                <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                    پرداخت شده
+                </span>
+            )}
+
+            {/* حذف فاکتور - فقط در حالت غیرپرداخت شده */}
+            {!isPaid && (
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
                             <DeleteConfirm
                                 title="فاکتور"
                                 disabled={isDeleting}
@@ -90,16 +255,23 @@ export default function InvoiceActions({
                                     handleDelete(invoiceId, invoiceStatus)
                                 }
                                 trigger={
-                                    <div className="flex items-center justify-between w-full px-2 py-1.5 text-red-600">
-                                        <Trash className="w-4 h-4" />
-                                        حذف فاکتور
-                                    </div>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
+                                        disabled={isDeleting || isPaying}
+                                    >
+                                        <Trash className="h-4 w-4" />
+                                    </Button>
                                 }
                             />
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom">
+                            <p>حذف فاکتور</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            )}
+        </div>
     );
 }

@@ -147,10 +147,8 @@ export default function InvoiceTable({
                     <TableRow>
                         <TableHead>شماره فاکتور</TableHead>
                         <TableHead>نام مشتری</TableHead>
-                        <TableHead>شماره تلفن</TableHead>
-                        <TableHead>وضعیت</TableHead>
-                        <TableHead>مبلغ کل</TableHead>
                         <TableHead>تاریخ ایجاد</TableHead>
+                        <TableHead>وضعیت</TableHead>
                         <TableHead>عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -164,10 +162,13 @@ export default function InvoiceTable({
                             <TableCell>
                                 {invoice.customer_name || "-"}
                             </TableCell>
+                            
+                           
+                            
                             <TableCell>
-                                {invoice.customer_phone_number || "-"}
+                                {invoice.created.split(" ")[0]}
                             </TableCell>
-                            <TableCell className="text-right">
+                             <TableCell className="text-right">
                                 {invoice.status ? (
                                     <Badge
                                         className={clsx("bg-slate-600", {
@@ -182,12 +183,6 @@ export default function InvoiceTable({
                                 ) : (
                                     "-"
                                 )}
-                            </TableCell>
-                            <TableCell className="text-right whitespace-nowrap">
-                                {invoice.total_amount.toLocaleString()} تومان
-                            </TableCell>
-                            <TableCell>
-                                {invoice.created.split(" ")[0]}
                             </TableCell>
                             <TableCell>
                                 <InvoiceActions
