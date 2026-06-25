@@ -1,15 +1,26 @@
+import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
+import {
+    invoiceStatusOptions,
+    paymentModeOptions,
+} from "@/features/invoices/constants/invoice";
 import { Button } from "@/features/shared/components/ui/button";
+import { Calendar } from "@/features/shared/components/ui/calendar";
 import {
     FormActions,
     FormSection,
 } from "@/features/shared/components/ui/form-fields";
 import { Input } from "@/features/shared/components/ui/input";
 import { Label } from "@/features/shared/components/ui/label";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/features/shared/components/ui/popover";
 import { SelectField } from "@/features/shared/components/ui/select-field";
 import {
     Table,
@@ -26,10 +37,6 @@ import {
     PLACEHOLDERS,
 } from "@/features/shared/constants/i18n";
 import {
-    invoiceStatusOptions,
-    paymentModeOptions,
-} from "@/features/invoices/constants/invoice";
-import {
     calculateInvoiceTotal,
     generateInvoiceId,
     getDefaultInvoiceFormValues,
@@ -39,6 +46,96 @@ import {
 import { useInvoiceStore } from "@/store/demoInvoice";
 import type { DemoInvoiceFormType } from "@/types/demoInvoice";
 
+function formatDateInputValue(date: Date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function parseDateInputValue(value?: string | null) {
+    if (!value) return undefined;
+
+    const [year, month, day] = value.split("-").map(Number);
+
+    if (!year || !month || !day) return undefined;
+
+    return new Date(year, month - 1, day);
+}
+
+function formatPersianDisplayDate(date?: Date) {
+    if (!date) return "تاریخ را انتخاب کنید";
+
+    return date.toLocaleDateString("fa-IR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+
+type DemoInvoiceDatePickerProps = {
+    control: ReturnType<typeof useForm<DemoInvoiceFormType>>["control"];
+};
+
+function DemoInvoiceDatePicker({ control }: DemoInvoiceDatePickerProps) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <Controller
+            control={control}
+            name="created"
+            render={({ field }) => {
+                const selectedDate = parseDateInputValue(field.value);
+
+                return (
+                    <div className="space-y-2">
+                        <Label>{LABELS.CREATED_DATE}</Label>
+
+                        <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className={`w-full justify-start text-right font-normal ${
+                                        !selectedDate
+                                            ? "text-muted-foreground"
+                                            : ""
+                                    }`}
+                                >
+                                    <CalendarIcon className="ml-2 h-4 w-4" />
+                                    {formatPersianDisplayDate(selectedDate)}
+                                </Button>
+                            </PopoverTrigger>
+
+                            <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                            >
+                                <Calendar
+                                    mode="single"
+                                    selected={selectedDate}
+                                    defaultMonth={selectedDate ?? new Date()}
+                                    onSelect={(date) => {
+                                        if (!date) return;
+
+                                        field.onChange(
+                                            formatDateInputValue(date),
+                                        );
+
+                                        setOpen(false);
+                                    }}
+                                    className="rounded-lg border"
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                );
+            }}
+        />
+    );
+}
+
 /**
  * Demo invoice form component
  * Allows users to manually create invoices without a database
@@ -46,6 +143,7 @@ import type { DemoInvoiceFormType } from "@/types/demoInvoice";
 export default function DemoInvoiceForm() {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+
     const { register, control, handleSubmit } = useForm<DemoInvoiceFormType>({
         defaultValues: getDefaultInvoiceFormValues(),
     });
@@ -129,10 +227,8 @@ export default function DemoInvoiceForm() {
                         placeholder={PLACEHOLDERS.INVOICE_NUMBER}
                     />
                 </div>
-                <div className="space-y-2">
-                    <Label>{LABELS.CREATED_DATE}</Label>
-                    <Input {...register("created")} type="date" />
-                </div>
+
+                <DemoInvoiceDatePicker control={control} />
             </div>
 
             {/* Customer Information Section */}
@@ -144,6 +240,7 @@ export default function DemoInvoiceForm() {
                         placeholder={PLACEHOLDERS.CUSTOMER_NAME}
                     />
                 </div>
+
                 <div className="space-y-2">
                     <Label>{LABELS.ADDRESS}</Label>
                     <Input
@@ -151,6 +248,7 @@ export default function DemoInvoiceForm() {
                         placeholder={PLACEHOLDERS.ADDRESS}
                     />
                 </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <Label>{LABELS.EMAIL}</Label>
@@ -160,6 +258,7 @@ export default function DemoInvoiceForm() {
                             placeholder={PLACEHOLDERS.EMAIL}
                         />
                     </div>
+
                     <div className="space-y-2">
                         <Label>{LABELS.PHONE}</Label>
                         <Input
@@ -182,6 +281,7 @@ export default function DemoInvoiceForm() {
                                 <TableHead>{LABELS.ACTIONS}</TableHead>
                             </TableRow>
                         </TableHeader>
+
                         <TableBody>
                             {fields.map((field, index) => (
                                 <TableRow key={field.id}>
@@ -195,6 +295,7 @@ export default function DemoInvoiceForm() {
                                             }
                                         />
                                     </TableCell>
+
                                     <TableCell>
                                         <Input
                                             type="number"
@@ -206,6 +307,7 @@ export default function DemoInvoiceForm() {
                                             min="1"
                                         />
                                     </TableCell>
+
                                     <TableCell>
                                         <Input
                                             type="number"
@@ -219,6 +321,7 @@ export default function DemoInvoiceForm() {
                                             min="0"
                                         />
                                     </TableCell>
+
                                     <TableCell>
                                         <Button
                                             type="button"
@@ -237,6 +340,7 @@ export default function DemoInvoiceForm() {
                         </TableBody>
                     </Table>
                 </div>
+
                 <Button
                     type="button"
                     variant="outline"
@@ -255,6 +359,7 @@ export default function DemoInvoiceForm() {
                         label={LABELS.PAYMENT_STATUS}
                         options={invoiceStatusOptions}
                     />
+
                     <SelectField
                         control={control}
                         name="payment_mode"
@@ -271,6 +376,7 @@ export default function DemoInvoiceForm() {
                         ? BUTTON_LABELS.SAVING
                         : BUTTON_LABELS.SAVE_AND_PREVIEW}
                 </Button>
+
                 <Button
                     type="button"
                     variant="outline"
