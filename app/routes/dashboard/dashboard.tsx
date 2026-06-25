@@ -1,5 +1,5 @@
 // routes/dashboard/dashboard.tsx
-import { FileText, Package, Users } from "lucide-react";
+import { FileText, Package, ShoppingCart, Users } from "lucide-react";
 import { Link } from "react-router";
 
 import PendingInvoicesTable from "@/features/dashboard/components/pendingInvoicesTable";
@@ -83,9 +83,23 @@ export default function Dashboard() {
             {hasAccess && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 mt-6">
                     <Link to="/invoices/new">
-                        <Button variant="outline" className="w-full gap-2" size="lg">
+                        <Button
+                            variant="outline"
+                            className="w-full gap-2"
+                            size="lg"
+                        >
                             <FileText className="w-4 h-4" />
                             فاکتور جدید
+                        </Button>
+                    </Link>
+                    <Link to="/purchase-invoices/new">
+                        <Button
+                            variant="outline"
+                            className="w-full gap-2"
+                            size="lg"
+                        >
+                            <ShoppingCart className="w-4 h-4" />
+                            فاکتور خرید
                         </Button>
                     </Link>
                     <Link to="/products">
@@ -127,13 +141,11 @@ export default function Dashboard() {
 
             <StatsCards dashboardData={dashboardData} />
 
-            
             <div className="mt-5 grid grid-cols-1 xl:grid-cols-2 gap-4">
                 <RecentInvoicesTable recentData={recentData} />
                 <PendingInvoicesTable pendingData={pendingData} />
             </div>
 
-            
             <div className="mt-5 grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-4">
                 {dashboardData?.trends && (
                     <TrendChart chartData={dashboardData.trends} />

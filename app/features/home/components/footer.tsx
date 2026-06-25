@@ -69,9 +69,16 @@ export function Footer() {
                         <ul className="flex gap-1.5 items-center space-y-2 text-sm">
                             <li ><a href="https://ble.ir/webfactor" target="_blank">کانال بله</a></li>
                         </ul>
+                        <ul className="flex gap-1.5 items-center space-y-2 text-sm">
+                            آدرس: فارس - گله دار - خیابان بسیج
+                        </ul>
+                        <ul className="flex gap-1.5 items-center space-y-2 text-sm">
+                            <li>تلفن: 09387051245</li>
+                        </ul>
                         </div>
                         
                     </div>
+                    
                 <a
                     referrerPolicy="origin"
                     target="_blank"
@@ -84,7 +91,9 @@ export function Footer() {
                         style={{ cursor: "pointer" }}
                     />
                 </a>
+                
                 </div>
+                
             </div>
         </footer>
     );
