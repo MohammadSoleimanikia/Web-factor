@@ -186,7 +186,7 @@ export default function AddProductModal({
                                 required: "موجودی الزامی است",
                                 min: {
                                     value: 0,
-                                    message: "حداقل موجودی صفر می‌تواند باشد",
+                                    message: "موجودی نمی‌تواند منفی باشد",
                                 },
                             })}
                         />
